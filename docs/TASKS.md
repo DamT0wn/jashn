@@ -6,7 +6,7 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
 - [x] **00 — Repository audit and handoff:** preserve specs; inspect existing code;
   add operating instructions, status, decisions, environment and verification.
   Gate: repository files identify current state and next task without chat history.
-- [ ] **01 — Scope freeze:** write PRODUCT.md; define personas, inputs, P0/exclusions,
+- [x] **01 — Scope freeze:** write PRODUCT.md; define personas, inputs, P0/exclusions,
   dynamic birthday demo and eight acceptance stories. Gate: explicit MVP and demo.
 - [ ] **02 — Architecture/contracts/skeleton:** shared schemas; API design; web/API
   health connection; root lockfile and scripts. Gate: clean install, typecheck,
@@ -39,6 +39,21 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
 - [ ] **13 — Submission:** accurate README, architecture, script/assets and checklist.
   Gate: accessible deployment and recorded evidence; human-only recording/submission
   steps remain explicit until actually done.
+
+## Phase 01 acceptance-story links
+
+Scope baseline: [PRODUCT.md](PRODUCT.md). Stories are defined, not implemented.
+
+| Story | Scheduled work | Status |
+|---|---|---|
+| [AS-01 Identity and event lifecycle](PRODUCT.md#eight-acceptance-stories) | 05, 11–12 | Not implemented |
+| [AS-02 Confirmed brief and initial draft](PRODUCT.md#eight-acceptance-stories) | 04, 07 | Not implemented |
+| [AS-03 Budget and payment arithmetic](PRODUCT.md#eight-acceptance-stories) | 06 | Not implemented |
+| [AS-04 Editable tasks, vendors and ideas](PRODUCT.md#eight-acceptance-stories) | 06, 08 | Not implemented |
+| [AS-05 Locked-budget replan](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
+| [AS-06 Conflicts and history](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
+| [AS-07 Journey and export](PRODUCT.md#eight-acceptance-stories) | 10, 12 | Not implemented |
+| [AS-08 Accessible samples and recovery](PRODUCT.md#eight-acceptance-stories) | 03–04, 07, 11–12 | Not implemented |
 
 ## Functional traceability
 

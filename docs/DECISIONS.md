@@ -22,3 +22,17 @@
   No detached background work after an HTTP success response.
 - Deadline, team capacity, cloud project/region/model and spending ceiling are
   unknown. They do not block documentation or local skeleton work.
+
+## 2026-10-21 — Phase 01 scope freeze
+
+- PRODUCT.md defines the P0 build brief and eight acceptance stories, linked from
+  TASKS. Full JFR-001–049 requirements remain mandatory and unimplemented.
+- Explicit initial draft acceptance stays in the core journey. An infeasible but
+  structurally valid draft requires acknowledgement and a persistent shortfall
+  label, following FRS BR-07; invalid structure never becomes acceptable.
+- Manual payment recording/correction is P0. Payment processing, outreach,
+  collaboration, uploads, vendor search and custom ML remain excluded.
+- The birthday fixture uses a controllable clock and event-local today plus 30
+  calendar days. Its exact budget example is synthetic, not a live-model promise.
+- No new deadline, team capacity, cloud budget or model availability assumptions.
+  Phase 02 can proceed locally; cloud verification remains a later gate.

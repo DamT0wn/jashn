@@ -3,9 +3,11 @@
 An event-planning product for weddings, birthdays and community celebrations.
 AI proposes plans; server rules validate them; the organizer approves changes.
 
-**Status:** Phase 00 complete. Specifications and resumable project records exist;
-there is no application to run yet. Phase 01 freezes scope; Phase 02 adds the
+**Status:** Phase 01 complete. MVP scope and acceptance stories are defined;
+there is no application to run yet. Phase 02 adds the
 runnable React/Fastify skeleton. Authentication, persistence and AI are not built.
+
+Read the [product build brief](docs/PRODUCT.md) for scope and demo goals.
 
 Start with [current state](docs/STATE.md), [phase checklist](docs/TASKS.md) and
 [handoff](docs/HANDOFF.md). Contributors should read [AGENTS.md](AGENTS.md).
