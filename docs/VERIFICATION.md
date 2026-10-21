@@ -103,3 +103,38 @@ Known limitations:
 Gate: Phase 02 passed (clean install, typecheck/builds, focused malformed-input
 coverage and frontend-to-health connection). Phase 03 is next. The running local
 preview is for review; no public endpoint was deployed.
+
+## Phase 03 — 2026-10-21 (Asia/Calcutta)
+
+Baseline 679ed43; no unrelated working-tree changes.
+
+- npm.cmd run typecheck: passed all workspaces and test types.
+- npm.cmd run build -w @jashn/web: passed; JS 392.22 kB / gzip 123.94 kB.
+  API/shared builds also passed before the initial web compile correction.
+- npm.cmd run lint: passed, zero warnings.
+- npm.cmd run test: 16 passed, 0 failed. New media-policy coverage checks no
+  automatic loading for reduced/unknown motion, save-data, paused/failed/offscreen
+  conditions, plus explicit play opt-in without bypassing failure.
+- Browser visually inspected 360x800, 768x1024, 1440x1000, 1920x1080. No horizontal
+  overflow or clipped wordmark/cards. Full screenshots saved in evidence/phase-03-*.
+- Mobile menu expanded; Escape collapsed it and returned focus to the menu button.
+- Pause feature video changed to Play; Play resumed. Hero pause exposed the static
+  fallback. Feature video absent before viewport approach (only hero video in DOM),
+  then loaded/played near Features. Both remote videos and all three icons loaded.
+- Primary CTA opened /app/new. Budget/timeline/ideas links opened the corresponding
+  /demo?tab= query and displayed honest unavailable sample status. Features and
+  How it works anchors navigated correctly. Navigation hrefs map to real IDs/routes.
+- Fixed Windows case-insensitive module collision (Media.tsx versus media.ts) by
+  renaming component to AmbientVideo.tsx. The console retains one historical module
+  error from before this fix; subsequent rendered navigation/build checks succeeded.
+- Fixed double-baseline scroll text and pause-control stale state after visual review.
+- React review: hooks remain unconditional; effects clean up; motion preferences
+  suppress transforms/highlight animation; media has explicit controls; no generated
+  HTML or essential scroll-dependent text. No new dependencies or lockfile changes.
+
+Limits: OS-level reduced-motion/save-data and network-failure injection were not
+browser-emulated; verified through media-policy tests/source review instead. No
+claim of a full accessibility audit. Reference asset licensing remains unverified.
+Full P0 app functionality and Phase 04 sample plans are not implemented yet.
+
+Phase 03 gate complete. Next: Phase 04 workspace/wizard and labeled fixtures.

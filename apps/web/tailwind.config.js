@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
-  theme: { extend: { colors: { primary: '#DEDBC8' } } },
+  theme: { extend: { colors: { primary: '#DEDBC8' }, fontFamily: { serif: ['Instrument Serif', 'Georgia', 'serif'] } } },
   plugins: [],
 };

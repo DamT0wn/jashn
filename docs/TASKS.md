@@ -11,7 +11,7 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
 - [x] **02 — Architecture/contracts/skeleton:** shared schemas; API design; web/API
   health connection; root lockfile and scripts. Gate: clean install, typecheck,
   builds, schema rejection tests and frontend-to-health verification pass.
-- [ ] **03 — Landing:** Hero/About/Features; routes, motion controls and fallbacks.
+- [x] **03 — Landing:** Hero/About/Features; routes, motion controls and fallbacks.
   Gate: 360/768/1440/1920 layouts and navigation verified; build/typecheck pass.
 - [ ] **04 — Workspace/wizard:** shared input validation; tabs and three synthetic
   samples. Gate: mobile/desktop navigation and honest fixture behavior verified.
@@ -63,7 +63,7 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 
 | Requirement | Status | Files / evidence | Blocker |
 |---|---|---|---|
-| JFR-001 | Not implemented | None | Await scheduled phase |
+| JFR-001 | Implemented landing | landing/Landing.tsx; Phase 03 browser evidence | None |
 | JFR-002 | Not implemented | None | Await scheduled phase |
 | JFR-003 | Not implemented | None | Await scheduled phase |
 | JFR-004 | Not implemented | None | Await scheduled phase |
@@ -110,5 +110,5 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 | JFR-045 | Not implemented | None | Await scheduled phase |
 | JFR-046 | Not implemented | None | Await scheduled phase |
 | JFR-047 | Not implemented | None | Await scheduled phase |
-| JFR-048 | Not implemented | None | Await scheduled phase |
+| JFR-048 | Landing implemented | AmbientVideo.tsx; media-policy.test.ts; DESIGN.md | Full app accessibility gate later |
 | JFR-049 | Not implemented | None | Await scheduled phase |

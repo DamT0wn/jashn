@@ -62,3 +62,16 @@
 - Synchronous generation with persisted job records, explicit draft acceptance,
   proposal apply and recovery routes is the concrete API plan. These are not yet
   implemented routes. Owner/idempotency/version enforcement lands with those phases.
+
+## 2026-10-21 — Phase 03 presentation
+
+- Implement supplied dark cinematic reference with exact centralized media URLs.
+  Browser confirmed media availability; footage is stylized, not actual events.
+  Rights remain unresolved for public release.
+- Keep readable base text beneath scroll-linked letter highlights to preserve
+  meaning without scrolling. Use larger line-height than the reference's tight
+  defaults to prevent colliding text at mobile widths.
+- Pause releases the video source and shows a local CSS scene; reduced motion or
+  save-data suppress automatic downloads. Explicit Play is an intentional opt-in.
+- Keep planning/sample destinations unavailable until their implementation phase;
+  footer discloses development status. No cloud success claims added.

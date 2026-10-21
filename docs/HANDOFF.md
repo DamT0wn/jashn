@@ -1,44 +1,28 @@
 # Latest handoff
 
-2026-10-21 (Asia/Calcutta). Phase 02 complete; Phase 03 next. Branch main.
-Previous checkpoint dcfb4c6; find this checkpoint with git log -1.
+2026-10-21. Phase 03 complete; Phase 04 next. main; previous commit 679ed43.
+Find the latest checkpoint via git log -1. Local only; no push/deployment.
 
-## Implemented
+Landing implemented in apps/web/src/landing with shared typography/responsive CSS
+and font links. DESIGN.md records components, tokens and all reference assets.
+API/contracts unchanged; landing replaces root development shell. /app/new and
+/demo still show honest pending screens. No personal data or cloud integrations.
 
-Created apps/web, apps/api, packages/contracts, packages/planning-rules,
-data/templates placeholder, root npm config/lockfile and build/dev/check scripts.
-Shared strict runtime schemas/types cover all eight requested domain objects,
-mutation envelopes, bounds, dates/timezones, provenance, safe paise and versions.
-Planning-rules explicitly reports unimplemented; full arithmetic/graph/lock checks
-belong to Phase 06. No schema-only feasibility claim.
+Checks: typecheck, web production build, lint, 16 tests passed. Browser widths
+360/768/1440/1920 inspected; no overflow. Menu/Escape, media pause/play, primary
+CTA, sample budget/timeline/ideas destinations and anchors checked. Screenshots
+in docs/evidence/phase-03-*.png. Media policy tests cover reduced motion/save-data
+and failure; OS-level emulation/network injection not performed. Asset rights
+unverified; videos/icons loaded but depict stylized reference scenes, not events.
 
-Web shell fetches health through /api proxy and shows loading/success/error/retry.
-/app, /app/new and /demo are honest pending routes, not working event features.
-API only implements GET /health, safe error responses and a 512 KiB body cap.
-Future routes, authentication, synchronous generation and explicit acceptance/apply
-are documented in API.md and ARCHITECTURE.md. Cloud calls are not stubbed.
+Dev session 52150 remains on localhost 5173/API 3001 if still available. Otherwise
+npm.cmd run dev. Root .env not needed. Use Node 24/npm 11. Keep root lockfile and
+React 18/Tailwind 3. Remaining build-time advisories unchanged. No incomplete edits.
 
-## Verification
-
-npm ci; npm run typecheck; npm run build; npm run test (15/15); npm run lint;
-npm run smoke all passed. Browser confirmed connected status, pending workspace
-and sample navigation, with no console warnings/errors. Screenshot:
-docs/evidence/phase-02-shell.png. Full details and initial corrected failures in
-VERIFICATION.md. Production audit zero; seven build-time Tailwind 3 advisories
-remain documented. No broad release/security/performance claim.
-
-## Environment and continuation
-
-Node 24/npm 11. Root .env.example is optional; no real .env/credentials. Sandbox
-registry/localhost restrictions required approved network-enabled commands.
-Local dev is running in exec session 52150 on 127.0.0.1:5173 (web), :3001 (API).
-Reuse if available; otherwise npm.cmd run dev. Stop with Ctrl+C when no longer needed.
-No incomplete code edits, user data or external deployments. Checkpoint stays local.
-
-Next: read Phase 03 in PROMPTS and relevant FRS/Product, then build cinematic
-Hero/About/Features in apps/web. Preserve React 18/Tailwind 3 and lockfile; do not
-restart scaffolding. Reference assets belong in one configuration file; availability
-and licensing are unverified. Add accessible video pause/reduced-motion/fallback
-behavior and working route/anchor links. Keep destinations honest until Phase 04.
-Verify 360/768/1440/1920 layouts, links, typecheck/build; write docs/DESIGN.md and
-update project memory. Do not spend effort on cloud integrations before their phase.
+Next exact task: read Phase 04 in PROMPTS and PRODUCT/FRS, then implement /app,
+/app/new, /app/events/:id and /demo workspace routes. Add Overview/Budget/Timeline/
+Vendors/Ideas/Replan navigation, accessible wizard with shared schemas, loading/
+empty/error/retry states, and typed adapters for three clearly labeled fixtures.
+Use dynamic event-local dates; support sample query tabs. Natural-language
+extraction must remain unavailable until Phase 07; saving must never claim cloud
+persistence before Phase 05. Update memory and checkpoint at the Phase 04 gate.

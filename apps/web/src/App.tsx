@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { HealthResponseSchema } from '@jashn/contracts';
+import { Landing } from './landing/Landing';
 
 function ConnectionStatus() {
   const [attempt, setAttempt] = useState(0);
@@ -51,7 +52,7 @@ function Pending({ sample = false }: { sample?: boolean }) {
   return <><p className="text-xs uppercase tracking-widest text-primary/60">Not available yet</p><h1 className="mt-4 text-4xl">{sample ? 'Sample plans' : 'Your celebration workspace'}</h1><p className="mt-5 max-w-xl leading-relaxed text-primary/75">{sample ? 'Clearly labeled synthetic birthday, wedding and community samples arrive in Phase 04.' : 'The event wizard arrives in Phase 04. Sign-in and persistent event storage follow in Phase 05.'}</p><Link to="/" className="mt-8 inline-block underline underline-offset-4">Back to Jashn</Link></>;
 }
 
-export function App() {
+function DevelopmentShell() {
   return <div className="min-h-screen bg-[#101010] text-primary">
     <a className="sr-only focus:not-sr-only focus:absolute focus:p-4" href="#main">Skip to content</a>
     <header className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 border-b border-white/10 px-6 py-6">
@@ -61,4 +62,8 @@ export function App() {
     <main id="main" className="mx-auto max-w-5xl px-6 py-16 sm:py-24"><Routes><Route path="/" element={<Home />} /><Route path="/app" element={<Pending />} /><Route path="/app/new" element={<Pending />} /><Route path="/demo" element={<Pending sample />} /><Route path="*" element={<><h1 className="text-3xl">Page not found</h1><Link to="/" className="mt-6 inline-block underline">Back to Jashn</Link></>} /></Routes></main>
     <footer className="mx-auto max-w-5xl px-6 pb-8 text-xs text-primary/60">Development preview. No personal events are stored.</footer>
   </div>;
+}
+
+export function App() {
+  return <Routes><Route path="/" element={<Landing />} /><Route path="*" element={<DevelopmentShell />} /></Routes>;
 }

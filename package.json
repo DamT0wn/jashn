@@ -17,7 +17,7 @@
     "build": "npm run build:shared && npm run build -w @jashn/api && npm run build -w @jashn/web",
     "typecheck": "npm run build:shared && npm run typecheck --workspaces && tsc -p tsconfig.tests.json",
     "lint": "eslint . --max-warnings 0",
-    "test": "npm run build:shared && node --import tsx --test packages/contracts/src/contracts.test.ts apps/api/src/app.test.ts",
+    "test": "npm run build:shared && node --import tsx --test packages/contracts/src/contracts.test.ts apps/api/src/app.test.ts apps/web/src/landing/media-policy.test.ts",
     "dev": "npm run build:shared && concurrently --kill-others -n contracts,rules,api,web \"npm run dev -w @jashn/contracts\" \"npm run dev -w @jashn/planning-rules\" \"npm run dev -w @jashn/api\" \"npm run dev -w @jashn/web\"",
     "start:api": "npm run start -w @jashn/api",
     "smoke": "node scripts/smoke.mjs"
