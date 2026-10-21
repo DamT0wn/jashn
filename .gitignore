@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.log
+.firebase/
+.cache/
+*.tsbuildinfo
+service-account*.json
+*-credentials.json
