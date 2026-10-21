@@ -1,35 +1,44 @@
 # Latest handoff
 
-Date: 2026-10-21 (Asia/Calcutta). Phase 01 complete; Phase 02 next.
-Repository: E:/jashan/jashn. Branch: main. Prior checkpoint: c45d1f8.
+2026-10-21 (Asia/Calcutta). Phase 02 complete; Phase 03 next. Branch main.
+Previous checkpoint dcfb4c6; find this checkpoint with git log -1.
 
-## Work completed
+## Implemented
 
-Created PRODUCT.md with problem, three personas, inputs, confirmed-brief journey,
-P0/exclusions, synthetic 20% reduction demo, eight traced acceptance stories and
-measurable demo goals. Linked stories in TASKS and marked only Phase 01 complete.
-Updated README, STATE, DECISIONS, VERIFICATION and this handoff.
-Original FRS/SRS/PROMPTS remain unchanged. All application requirements remain
-unimplemented. No new dependencies, credentials, cloud resources or servers.
+Created apps/web, apps/api, packages/contracts, packages/planning-rules,
+data/templates placeholder, root npm config/lockfile and build/dev/check scripts.
+Shared strict runtime schemas/types cover all eight requested domain objects,
+mutation envelopes, bounds, dates/timezones, provenance, safe paise and versions.
+Planning-rules explicitly reports unimplemented; full arithmetic/graph/lock checks
+belong to Phase 06. No schema-only feasibility claim.
 
-## Verification and limitations
+Web shell fetches health through /api proxy and shows loading/success/error/retry.
+/app, /app/new and /demo are honest pending routes, not working event features.
+API only implements GET /health, safe error responses and a 512 KiB body cap.
+Future routes, authentication, synchronous generation and explicit acceptance/apply
+are documented in API.md and ARCHITECTURE.md. Cloud calls are not stubbed.
 
-Documentation checks and arithmetic checks are recorded in VERIFICATION.md.
-No build/test/lint scripts exist; none were run. No incomplete edits or current
-blockers. This checkpoint is local; use git log -1 for its commit and inspect
-status before resuming. It has not been pushed.
+## Verification
 
-## Next exact task: Phase 02
+npm ci; npm run typecheck; npm run build; npm run test (15/15); npm run lint;
+npm run smoke all passed. Browser confirmed connected status, pending workspace
+and sample navigation, with no console warnings/errors. Screenshot:
+docs/evidence/phase-02-shell.png. Full details and initial corrected failures in
+VERIFICATION.md. Production audit zero; seven build-time Tailwind 3 advisories
+remain documented. No broad release/security/performance claim.
 
-Read AGENTS, STATE, TASKS, PRODUCT and Phase 02 in PROMPTS; inspect git status.
-Verify current primary package documentation/compatibility, then establish npm
-workspaces with one root lockfile: apps/web, apps/api, packages/contracts and
-packages/planning-rules. Keep React 18, Tailwind 3, Vite/TypeScript and Fastify.
-Write ARCHITECTURE.md and API.md, including generation/initial acceptance routes,
-owner authorization, versions, errors and bounded synchronous generation.
-Define shared runtime schemas/types with bounds, safe paise, timezone, stable IDs,
-provenance and locks. Add .env.example placeholders and formalize environment names.
-Implement only a web shell and API health route; verify the frontend reaches it.
-Provide real dev/build/typecheck/lint/test scripts and malformed-input tests.
-Run clean install, typecheck, builds and focused checks; record exact results.
-Do not claim cloud calls work or implement the Phase 03 landing page early.
+## Environment and continuation
+
+Node 24/npm 11. Root .env.example is optional; no real .env/credentials. Sandbox
+registry/localhost restrictions required approved network-enabled commands.
+Local dev is running in exec session 52150 on 127.0.0.1:5173 (web), :3001 (API).
+Reuse if available; otherwise npm.cmd run dev. Stop with Ctrl+C when no longer needed.
+No incomplete code edits, user data or external deployments. Checkpoint stays local.
+
+Next: read Phase 03 in PROMPTS and relevant FRS/Product, then build cinematic
+Hero/About/Features in apps/web. Preserve React 18/Tailwind 3 and lockfile; do not
+restart scaffolding. Reference assets belong in one configuration file; availability
+and licensing are unverified. Add accessible video pause/reduced-motion/fallback
+behavior and working route/anchor links. Keep destinations honest until Phase 04.
+Verify 360/768/1440/1920 layouts, links, typecheck/build; write docs/DESIGN.md and
+update project memory. Do not spend effort on cloud integrations before their phase.

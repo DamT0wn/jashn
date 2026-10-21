@@ -40,3 +40,66 @@ not independently verified technical facts or observed product capabilities.
 
 Gate result: Phase 01 scope freeze complete. All functional stories remain
 unimplemented. Phase 02 architecture/contracts/runnable skeleton is next.
+
+## Phase 02 — 2026-10-21 (Asia/Calcutta)
+
+Baseline: dcfb4c6 on main, clean before scaffolding. Node 24.16.0/npm 11.13.0.
+
+| Check | Actual result |
+|---|---|
+| npm registry version/engine/peer queries | Exact compatible direct pins selected; React 18/Tailwind 3 retained |
+| npm.cmd install --cache E:\jashan\.npm-cache | Passed; root lockfile created, then updated for patched router/supported lint tooling |
+| npm.cmd ci --cache E:\jashan\.npm-cache --fetch-retries=1 --fetch-timeout=30000 | Passed; 318 packages installed, 323 audited from root lockfile |
+| npm.cmd run typecheck | Passed all four workspaces plus tsconfig.tests.json |
+| npm.cmd run build | Passed shared packages, compiled Node API and Vite web production build; web JS 247.17 kB / gzip 76.31 kB |
+| npm.cmd run test | 15 passed, 0 failed, 0 skipped |
+| npm.cmd run lint | Passed with --max-warnings 0 |
+| npm.cmd run dev | Web 127.0.0.1:5173 and API :3001 started; both shared watchers report 0 errors |
+| npm.cmd run smoke | Passed web HTML, actual frontend-origin /api/health proxy, unimplemented events 404 |
+| npm.cmd audit --omit=dev --json --cache E:\jashan\.npm-cache | Passed: zero production-dependency advisories |
+| Browser (in-app) | Home visibly reports API connected; Workspace and Samples navigate to honest pending screens; no warning/error console entries |
+| git diff --check | Passed for edited documentation; final staged check also performed before checkpoint |
+| git diff --exit-code -- docs/FRS.md docs/SRS.md docs/PROMPTS.md | Passed; supplied source specs unchanged |
+
+Focused tests cover malformed/oversized briefs, unsupported currency/timezone,
+unsafe/nonfinite/fractional/negative money, null vs zero commitment, real calendar
+validation, local-time creation boundary, required versions, ID injection, timed
+agenda shape, dependency self-reference/duplicates, estimate provenance, range
+ordering, required output collections, repeated IDs, explicit infeasibility
+acknowledgement, proposal expiry/apply-state shape, API error redaction, generated
+request IDs, body limit, malformed JSON, health and honest missing routes.
+These are contract/basic API checks, not Phase 06 money/graph validators or live AI.
+
+Browser flow evidence:
+- UI trigger: home mount starts bounded GET /api/health.
+- Client/API: npm smoke confirms the real Vite proxy forwards to Fastify /health.
+- API response: shared HealthResponse parses status/service/schemaVersion.
+- UI result: "API connected · local service is responding."
+- Screenshot: [phase-02-shell.png](evidence/phase-02-shell.png).
+- React checklist: effect cancels on unmount and timeout; errors are recoverable;
+  status has a live region; links/buttons are semantic, focus-visible and skip link
+  present; generated HTML injection is not used. No animations require review yet.
+
+Initial issues corrected:
+- Schema text helper inferred literal 2000 instead of number; annotated number.
+- Fastify error handler receives unknown; safely narrowed statusCode.
+- Router 6 audit advisories: replaced with compatible patched Router 7.18.4.
+- Deprecated ESLint 9: replaced with compatible ESLint 10/plugin versions.
+- Sandbox registry lookup ENOTFOUND and localhost EACCES/browser timeout: approved
+  network-enabled install/dev/smoke resolved connectivity; no security setting changed.
+- One install was not executed because automatic approval review hit a usage limit;
+  user requested continuation and the later approved retry completed successfully.
+
+Known limitations:
+- Full npm audit still reports 7 build-time advisories: 5 high and 2 moderate,
+  in Tailwind 3's braces/selector-parser dependency chain. The registry offered no
+  patched braces release; proposed direct fix changes Tailwind to v4, contrary to
+  the required stack. Findings are not suppressed; revisit before Phase 11 release.
+- No Firebase/Firestore/Vertex integration, event persistence, full budget/date
+  business rules or protected resource routes yet. No cloud or release claim.
+- No multi-width layout gate, browser outage/retry simulation, cloud performance
+  test or deployment verification performed in this phase. Those remain later work.
+
+Gate: Phase 02 passed (clean install, typecheck/builds, focused malformed-input
+coverage and frontend-to-health connection). Phase 03 is next. The running local
+preview is for review; no public endpoint was deployed.

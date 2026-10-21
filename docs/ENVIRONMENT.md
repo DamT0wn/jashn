@@ -1,35 +1,46 @@
 # Environment and setup
 
-Observed 2026-10-21: Windows PowerShell; Node v24.16.0; npm 11.13.0; Git.
-Package/runtime compatibility will be checked in Phase 02. No package manifest,
-lockfile, application process or cloud configuration exists in this repository.
-No account credentials or external cloud resources were inspected in Phase 00.
+Verified 2026-10-21: Windows PowerShell, Node v24.16.0, npm 11.13.0. Root engines
+require Node 24.x/npm 11.x. Run npm ci from repository root; the sole root lockfile
+pins the workspace graph. No cloud account or credential has been configured.
 
-These are proposed variable names to formalize in Phase 02, not working config.
+Local defaults work without .env. Optional root .env is read by Vite (envDir) and
+API Node --env-file-if-exists. Copy .env.example to .env for local overrides.
+Only VITE_* variables are exposed in the browser bundle. Restart dev after changes.
 
-| Variable | Scope / purpose | Setup | Status |
-|---|---|---|---|
-| VITE_API_BASE_URL | Public browser API origin | Local API then deployed API URL | Not configured |
-| VITE_FIREBASE_API_KEY | Public Firebase client identifier | Firebase web-app config | Not configured |
-| VITE_FIREBASE_AUTH_DOMAIN | Public auth domain | Firebase web-app config | Not configured |
-| VITE_FIREBASE_PROJECT_ID | Public project identifier | Firebase web-app config | Unknown |
-| VITE_FIREBASE_APP_ID | Public app identifier | Firebase web-app config | Not configured |
-| PORT | Server listener | Local default / Cloud Run injection | Not configured |
-| GOOGLE_CLOUD_PROJECT | Server project | Select existing/authorized Google project | Unknown |
-| GOOGLE_CLOUD_LOCATION | Server Vertex region | Verify chosen model and service support | Unknown |
-| GEMINI_MODEL | Server model ID | Probe supported structured-output model in Phase 07 | Unknown |
-| CORS_ALLOWED_ORIGINS | Server browser-origin allowlist | Local then hosted frontend origins | Not configured |
-| GENERATION_ENABLED | Server generation kill switch | Default off until provider configured | Not implemented |
-| GENERATION_DAILY_LIMIT | Server usage control | Define bounded policy before live usage | Not implemented |
-| FIRESTORE_EMULATOR_HOST | Server local test database | Firebase Emulator Suite in Phase 05 | Not configured |
-| FIREBASE_AUTH_EMULATOR_HOST | Server local test identity | Firebase Emulator Suite in Phase 05 | Not configured |
+| Variable | Scope / purpose | Current behavior and setup |
+|---|---|---|
+| VITE_API_BASE_URL | Public browser API base | Implemented; defaults /api. Use same-origin Hosting rewrite later or separately configured origin |
+| API_PROXY_TARGET | Local Vite server proxy target | Implemented; defaults http://127.0.0.1:${PORT or 3001}; never browser secret config |
+| PORT | Server listen port | Implemented; defaults 3001; rejects invalid/out-of-range port |
+| HOST | Server bind host | Implemented; defaults 127.0.0.1. Cloud Run will require 0.0.0.0 in deployment phase |
+| VITE_FIREBASE_API_KEY | Public Firebase web config | Placeholder only; obtain from selected Firebase web app in Phase 05 |
+| VITE_FIREBASE_AUTH_DOMAIN | Public Firebase auth domain | Placeholder only; Phase 05 |
+| VITE_FIREBASE_PROJECT_ID | Public project ID | Unknown; Phase 05 |
+| VITE_FIREBASE_APP_ID | Public web app ID | Unknown; Phase 05 |
+| GOOGLE_CLOUD_PROJECT | Server Google project | Unknown; future integration only |
+| GOOGLE_CLOUD_LOCATION | Server Vertex region | Unknown; verify model/region support in Phase 07 |
+| GEMINI_MODEL | Server model ID | Unknown; select/probe in Phase 07 |
+| CORS_ALLOWED_ORIGINS | Server origin allowlist | Placeholder; not consumed yet. Local same-origin Vite proxy needs no CORS middleware |
+| GENERATION_ENABLED | Server kill switch | Placeholder false; no generation code exists |
+| GENERATION_DAILY_LIMIT | Server quota | Placeholder 0; distributed quota implementation deferred |
+| FIRESTORE_EMULATOR_HOST | Local server emulator | Unset; configure Firebase Emulator Suite in Phase 05 |
+| FIREBASE_AUTH_EMULATOR_HOST | Local server auth emulator | Unset; Phase 05 |
+| SMOKE_WEB_ORIGIN | Test script web origin | Implemented; defaults http://127.0.0.1:5173 |
 
-Firebase client configuration is public; it does not replace authorization.
-Keep service credentials, tokens and private provider keys server-side. Use local
-Application Default Credentials and Cloud Run service identity where appropriate;
-do not export long-lived service-account keys into this repository or chat.
-The future .env.example must contain placeholders only; real .env files are ignored.
+Cloud placeholders are intentionally unused until their integration phase; they do
+not make authentication/generation operational. Firebase client IDs/API config are
+public identifiers, not authorization. Use local ADC and Cloud Run service identity
+for private API access; do not export service-account keys or put tokens in VITE_*.
 
-Before cloud setup: establish project access, billing authorization, chosen spending
-ceiling, service locations and model availability. Check current official setup
-instructions in the relevant phase. No paid resource creation is needed now.
+Vite listens at 127.0.0.1:5173 with strictPort; a busy port causes an explicit error.
+For a different API port, set PORT; the default proxy follows it. If changing HOST
+or using a separate API, set API_PROXY_TARGET accordingly. Production static hosting
+must add an /api rewrite; vite preview does not include the dev proxy.
+
+The managed execution sandbox denied registry DNS and localhost sockets. Approved
+network-enabled execution was needed for npm install/ci/audit, dev and smoke.
+These restrictions are tooling-specific, not a requirement for normal local use.
+
+Before cloud work, resolve project access, billing authorization, a user-selected
+spending ceiling, service locations and model availability. None blocks Phase 03.

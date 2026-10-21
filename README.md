@@ -1,24 +1,57 @@
 # Jashn — Plan the joy.
 
-An event-planning product for weddings, birthdays and community celebrations.
-AI proposes plans; server rules validate them; the organizer approves changes.
+An event planner for weddings, birthdays and community celebrations. AI proposes;
+server rules validate; the organizer approves.
 
-**Status:** Phase 01 complete. MVP scope and acceptance stories are defined;
-there is no application to run yet. Phase 02 adds the
-runnable React/Fastify skeleton. Authentication, persistence and AI are not built.
+**Phase 02 complete:** runnable React/Fastify skeleton, shared validation contracts,
+local API connectivity and architecture/API documentation. Authentication, event
+persistence, planning rules and live AI are not implemented. The cinematic landing
+page is Phase 03; current screens are explicitly labeled development placeholders.
 
-Read the [product build brief](docs/PRODUCT.md) for scope and demo goals.
+## Run locally
 
-Start with [current state](docs/STATE.md), [phase checklist](docs/TASKS.md) and
-[handoff](docs/HANDOFF.md). Contributors should read [AGENTS.md](AGENTS.md).
+Use Node 24.x and npm 11.x (verified with Node 24.16.0 / npm 11.13.0).
+From this repository directory:
 
-Source specifications: [FRS](docs/FRS.md), [SRS](docs/SRS.md),
-[phased playbook](docs/PROMPTS.md). See [decisions](docs/DECISIONS.md),
-[environment prerequisites](docs/ENVIRONMENT.md) and [verification](docs/VERIFICATION.md).
+```powershell
+npm.cmd ci
+npm.cmd run dev
+```
 
-Planned stack: React 18, Vite, TypeScript, Tailwind 3, Fastify, Firebase and
-Google Cloud Vertex AI. Exact dependency versions will be verified in Phase 02.
-Design: cinematic black/charcoal surfaces and warm cream typography.
+On other shells use `npm` instead of `npm.cmd`. Open http://127.0.0.1:5173.
+API: http://127.0.0.1:3001/health. The browser uses Vite's /api proxy.
+No credentials or .env file are required. Optional settings are in .env.example;
+copy it to .env at the root when changing local ports. Ctrl+C stops the dev group.
 
-Local audit commands: `git status --short` and `git diff --check`.
-Application setup commands will be documented after they exist and pass checks.
+## Verify
+
+```powershell
+npm.cmd run typecheck
+npm.cmd run build
+npm.cmd run test
+npm.cmd run lint
+# In a second terminal while npm run dev is running:
+npm.cmd run smoke
+```
+
+`npm run start:api` runs the compiled API after build. `npm run preview -w
+@jashn/web` previews static web output but does not provide the development API
+proxy; deployment needs a same-origin rewrite or configured API origin/CORS.
+This skeleton is not a deployed or production-ready product.
+
+15 focused schema/API tests pass. Production-dependency audit reports zero
+advisories; the full tree has seven build-time advisories in Tailwind 3's dependency
+chain. See [verification and limitations](docs/VERIFICATION.md) before release.
+
+## Project guide
+
+- [Product brief](docs/PRODUCT.md), [current state](docs/STATE.md),
+  [phase checklist](docs/TASKS.md), [handoff](docs/HANDOFF.md)
+- [Architecture](docs/ARCHITECTURE.md), [API contract](docs/API.md),
+  [environment](docs/ENVIRONMENT.md), [decisions](docs/DECISIONS.md)
+- Source [FRS](docs/FRS.md), [SRS](docs/SRS.md), [playbook](docs/PROMPTS.md)
+- Contributor instructions: [AGENTS.md](AGENTS.md)
+
+Stack: React 18, Vite 7, Tailwind 3, TypeScript, Fastify 5, Zod 3 and npm
+workspaces with one root lockfile. Firebase/Firestore/Hosting, Cloud Run and
+Vertex AI remain planned integrations. Never place credentials in browser config.

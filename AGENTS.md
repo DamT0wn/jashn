@@ -20,10 +20,11 @@ Critical invariants:
   outreach, payments or deployment spending decisions.
 - Dark cinematic black/charcoal and cream design supersedes the SRS light palette.
 
-Commands available now: git status --short; git diff --check.
-No application or package scripts exist yet. Phase 02 must add and verify npm
-dev/build/typecheck/lint/test scripts and one root lockfile before documenting them
-as runnable. On this Windows machine use npm.cmd if PowerShell blocks npm.ps1.
+Commands from root: npm ci; npm run dev; npm run typecheck; npm run build;
+npm run lint; npm run test. Run npm run smoke while dev is running. Node 24/npm 11.
+One root lockfile; shared packages build before apps. Use npm.cmd on Windows if
+PowerShell blocks npm.ps1. See README and ENVIRONMENT for local proxy/setup.
+Planning rules and all private API integrations remain unimplemented after Phase 02.
 
 At each checkpoint update STATE, TASKS, HANDOFF and VERIFICATION. Keep checkpoints
 local unless pushing is authorized. Do not introduce optional features or agents.

@@ -8,7 +8,7 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
   Gate: repository files identify current state and next task without chat history.
 - [x] **01 — Scope freeze:** write PRODUCT.md; define personas, inputs, P0/exclusions,
   dynamic birthday demo and eight acceptance stories. Gate: explicit MVP and demo.
-- [ ] **02 — Architecture/contracts/skeleton:** shared schemas; API design; web/API
+- [x] **02 — Architecture/contracts/skeleton:** shared schemas; API design; web/API
   health connection; root lockfile and scripts. Gate: clean install, typecheck,
   builds, schema rejection tests and frontend-to-health verification pass.
 - [ ] **03 — Landing:** Hero/About/Features; routes, motion controls and fallbacks.
@@ -57,8 +57,8 @@ Scope baseline: [PRODUCT.md](PRODUCT.md). Stories are defined, not implemented.
 
 ## Functional traceability
 
-Every JFR-001–049 is currently **not implemented**. No app source or test evidence
-exists. Update each row with concrete files and evidence as work lands. P1 IDs
+JFR-001–049 are not yet implemented end-to-end. Phase 02 adds contract/API-shell
+foundations and 15 tests, but no full functional acceptance story has passed. Update each row with concrete files and evidence as work lands. P1 IDs
 050–055 are deferred. See FRS section 10 for AT-01–16 acceptance scenarios.
 
 | Requirement | Status | Files / evidence | Blocker |
@@ -68,7 +68,7 @@ exists. Update each row with concrete files and evidence as work lands. P1 IDs
 | JFR-003 | Not implemented | None | Await scheduled phase |
 | JFR-004 | Not implemented | None | Await scheduled phase |
 | JFR-005 | Not implemented | None | Await scheduled phase |
-| JFR-006 | Not implemented | None | Await scheduled phase |
+| JFR-006 | Contract foundation only | packages/contracts/src/index.ts; contracts.test.ts | Persistence/UI in 04–05 |
 | JFR-007 | Not implemented | None | Await scheduled phase |
 | JFR-008 | Not implemented | None | Await scheduled phase |
 | JFR-009 | Not implemented | None | Await scheduled phase |
@@ -77,7 +77,7 @@ exists. Update each row with concrete files and evidence as work lands. P1 IDs
 | JFR-012 | Not implemented | None | Await scheduled phase |
 | JFR-013 | Not implemented | None | Await scheduled phase |
 | JFR-014 | Not implemented | None | Await scheduled phase |
-| JFR-015 | Not implemented | None | Await scheduled phase |
+| JFR-015 | Shape validation only | packages/contracts/src/index.ts; contracts.test.ts | Business rules/live generation in 06–07 |
 | JFR-016 | Not implemented | None | Await scheduled phase |
 | JFR-017 | Not implemented | None | Await scheduled phase |
 | JFR-018 | Not implemented | None | Await scheduled phase |
@@ -88,7 +88,7 @@ exists. Update each row with concrete files and evidence as work lands. P1 IDs
 | JFR-023 | Not implemented | None | Await scheduled phase |
 | JFR-024 | Not implemented | None | Await scheduled phase |
 | JFR-025 | Not implemented | None | Await scheduled phase |
-| JFR-026 | Not implemented | None | Await scheduled phase |
+| JFR-026 | Schedule contract only | packages/contracts/src/index.ts; contracts.test.ts | Timeline UI and full rules in 06/08 |
 | JFR-027 | Not implemented | None | Await scheduled phase |
 | JFR-028 | Not implemented | None | Await scheduled phase |
 | JFR-029 | Not implemented | None | Await scheduled phase |

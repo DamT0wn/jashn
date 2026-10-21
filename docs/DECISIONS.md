@@ -36,3 +36,29 @@
   calendar days. Its exact budget example is synthetic, not a live-model promise.
 - No new deadline, team capacity, cloud budget or model availability assumptions.
   Phase 02 can proceed locally; cloud verification remains a later gate.
+
+## 2026-10-21 — Phase 02 architecture and executable baseline
+
+- Adopt Node 24.x/npm 11.x with four workspaces and one root lockfile; exact direct
+  pins checked against npm registry metadata. Shared packages export built ESM
+  and declarations. Dev builds them first, then watches them alongside web/API.
+- Keep required React 18 and Tailwind 3. Use Vite 7.3.7, Fastify 5.12.7 and Zod
+  3.25.76. Router 7.18.4 (React >=18 peer) replaces the initially selected 6.30.6
+  because audit reported router advisories; no existing application API migration.
+  ESLint 10.13.0 and compatible plugins replace deprecated ESLint 9 tooling.
+- Remaining seven audit findings are in Tailwind 3 build tooling (braces/selector
+  parser and dependents). Braces latest available is still 3.0.3; npm proposes
+  a Tailwind 4 major upgrade. Preserve the explicit Tailwind 3 requirement, record
+  the findings and re-evaluate before release. Production-only audit is clean.
+  Do not process untrusted glob/CSS inputs through the build tooling.
+- Shared contracts validate shapes and bounds, not full financial feasibility.
+  Full planning rules remain Phase 06. Limit requests to 512 KiB; cap collections
+  and preserve safe integer paise, explicit currency and timezone semantics.
+- Document event revision separately from current accepted version so pre-plan
+  edits and archived state can invalidate stale work. Accepted revisions are
+  immutable; initial acceptance requires no accepted plan and a matching revision.
+- Implement public /health only; all future /v1 paths return an honest 404.
+  Local Vite /api proxy uses loopback; no cloud SDK/config or auth bypass added.
+- Synchronous generation with persisted job records, explicit draft acceptance,
+  proposal apply and recovery routes is the concrete API plan. These are not yet
+  implemented routes. Owner/idempotency/version enforcement lands with those phases.
