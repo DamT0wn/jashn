@@ -169,3 +169,39 @@ Generic loading/error/retry handling exists; browser rejection/retry injection w
 not performed. No authentication, data persistence, live AI or replan verification
 is claimed. Phase 04 gate passed; production acceptance stories remain incomplete.
 Prior dependency advisories/media-rights limitations remain unchanged.
+
+## Phase 05 — 2026-10-22
+
+Story: signed-in browser confirms a brief → authenticated Fastify route →
+owner-scoped Firestore → validated response → persisted event view.
+
+| Boundary | Evidence |
+|---|---|
+| UI/account | Email login, sign-out, recovery request, protected deep link inspected; mobile recovery screenshot |
+| Browser → API | Wizard save returned generated event ID; edit changed guest count50→60 and revision0→1 |
+| API → Firestore | Real local emulators; event survives API instance restart; no fixture adapter in private routes |
+| Data → UI | Browser reload retained brief; archive revision2 persisted on reload; restore revision3 shown |
+| Isolation | B receives404 on A read/edit/archive/unarchive/delete/deletion/retry; own list empty |
+| Validation | Missing/invalid tokens401, unknown owner input400, past creation date400, limit51 rejected |
+| Concurrency | Two edits at revision0 yield200/409; accepted stale writes never overwrite |
+| Deletion | Nested subcollection removed; wrong-name delete409; injected cleanup outage persists failed status; restart then owner retry succeeds; repeated DELETE replays |
+| Rules/session | Direct authenticated Firestore REST access403; disabled Auth user token401; production/emulator mix rejected |
+
+Commands: typecheck, full build, lint, 24 standard tests; test:integration (one
+comprehensive emulator suite); smoke (web HTML, proxied health, unauthenticated401).
+Evidence: phase-05-saved-event.png (1440 width) and phase-05-mobile-recovery.png
+(360 width). Delete dialog was opened, disabled confirmation checked, and cancelled;
+API integration performed test deletion. Recovery request was accepted locally;
+no password reset or real email delivery was performed. Google popup is wired but
+not tested with a real provider. Browser session/token failure messages are generic.
+
+Local emulators are official Firebase components, not provider fakes. Verification
+covers emulator persistence across browser/API reload, not emulator process restart
+or cloud service behavior. See FIREBASE.md for required external configuration.
+
+Dependency audit on 2026-10-22: production: 4 high entries via firebase→client
+Firestore→@grpc/grpc-js1.9.16; no browser Firestore imports. Admin dependency uses
+patched 1.14.6. Full tree: 16 (10 high/6 moderate), also CLI and prior Tailwind tooling.
+A root gRPC override did not replace the workspace client subtree and was removed;
+no ineffective override or forced Firebase downgrade is claimed as remediation.
+Release must re-evaluate these dependencies. Web build warns at ~533 kB minified.

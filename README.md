@@ -3,10 +3,11 @@
 An event planner for weddings, birthdays and community celebrations. AI proposes;
 server rules validate; the organizer approves.
 
-**Phase 04 complete:** cinematic landing, responsive workspace, validated event
-brief wizard and three read-only synthetic sample plans. Local drafts disappear
-on reload. Authentication, persistent events, trusted planning rules and live AI
-are not implemented. See [design notes](docs/DESIGN.md).
+**Phase 05 local/emulator gate complete:** Firebase authentication integration and
+owner-scoped persistent event CRUD, archive/restore and recursive deletion.
+The landing, wizard and three synthetic sample plans remain available. Live Firebase
+provider/storage verification is pending; AI and trusted planning rules are next.
+See [Firebase setup and limits](docs/FIREBASE.md).
 
 ## Run locally
 
@@ -20,7 +21,8 @@ npm.cmd run dev
 
 On other shells use `npm` instead of `npm.cmd`. Open http://127.0.0.1:5173.
 API: http://127.0.0.1:3001/health. The browser uses Vite's /api proxy.
-No credentials or .env file are required. Optional settings are in .env.example;
+Landing/samples need no configuration. Accounts require Firebase; use
+.env.emulator.example for local testing (see FIREBASE.md). Other settings are in .env.example;
 copy it to .env at the root when changing local ports. Ctrl+C stops the dev group.
 
 ## Verify
@@ -39,9 +41,9 @@ npm.cmd run smoke
 proxy; deployment needs a same-origin rewrite or configured API origin/CORS.
 This skeleton is not a deployed or production-ready product.
 
-22 focused schema/API/media-policy/workspace tests pass. Production-dependency audit reports zero
-advisories; the full tree has seven build-time advisories in Tailwind 3's dependency
-chain. See [verification and limitations](docs/VERIFICATION.md) before release.
+24 standard tests plus the Firebase emulator integration suite pass. Run
+`npm.cmd run test:integration` with the emulators running. Dependency advisories
+and live-service limitations are recorded in [verification](docs/VERIFICATION.md).
 
 ## Project guide
 
@@ -53,5 +55,5 @@ chain. See [verification and limitations](docs/VERIFICATION.md) before release.
 - Contributor instructions: [AGENTS.md](AGENTS.md)
 
 Stack: React 18, Vite 7, Tailwind 3, TypeScript, Fastify 5, Zod 3 and npm
-workspaces with one root lockfile. Firebase/Firestore/Hosting, Cloud Run and
+workspaces with one root lockfile. Firebase Auth/Firestore are implemented locally; Hosting, Cloud Run and
 Vertex AI remain planned integrations. Never place credentials in browser config.

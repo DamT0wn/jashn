@@ -84,3 +84,14 @@ only; reload removes it. Explicit notices precede entry/review and follow confir
 Sample dates derive from an injectable clock and event-local calendar day; amounts
 are integer paise. Tests reconcile illustrative totals, without claiming Phase 06
 server budget rules. Replan and extraction remain explicitly unavailable.
+
+## 2026-10-22 — Phase 05 identity/storage
+
+Use the specified Firebase stack. Local verification uses official Auth/Firestore
+emulators and a demo project; deployment and live provider verification remain
+separate. Public sample routes remain accessible; private routes require Auth.
+Store events in users/{verifiedUid}/events with redundant owner checks. Use
+transactions for revision/status checks; deny browser Firestore access entirely.
+Deletion records outlive recursive cleanup for crash/retry recovery and retain a
+confirmation-name hash rather than the event brief. No detached cleanup promises.
+Use same-origin API proxy; separate-origin production CORS is deferred to deployment.

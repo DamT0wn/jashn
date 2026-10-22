@@ -15,7 +15,7 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
   Gate: 360/768/1440/1920 layouts and navigation verified; build/typecheck pass.
 - [x] **04 — Workspace/wizard:** shared input validation; tabs and three synthetic
   samples. Gate: mobile/desktop navigation and honest fixture behavior verified.
-- [ ] **05 — Identity/events:** Firebase auth/recovery; owner API; persistent CRUD,
+- [x] **05 — Identity/events (local/emulator gate; cloud verification pending):** Firebase auth/recovery; owner API; persistent CRUD,
   archive and recursive deletion. Gate: reload persistence, two-user isolation,
   unauthenticated rejection, pagination/archive/delete checks; label emulator evidence.
 - [ ] **06 — Planning rules:** paise ledger; payments, contingency, locks, dates,
@@ -46,7 +46,7 @@ Scope baseline: [PRODUCT.md](PRODUCT.md). Stories are defined, not implemented.
 
 | Story | Scheduled work | Status |
 |---|---|---|
-| [AS-01 Identity and event lifecycle](PRODUCT.md#eight-acceptance-stories) | 05, 11–12 | Not implemented |
+| [AS-01 Identity and event lifecycle](PRODUCT.md#eight-acceptance-stories) | 05, 11–12 | Emulator lifecycle/isolation verified; live gate pending |
 | [AS-02 Confirmed brief and initial draft](PRODUCT.md#eight-acceptance-stories) | 04, 07 | Brief confirmation implemented; generation pending |
 | [AS-03 Budget and payment arithmetic](PRODUCT.md#eight-acceptance-stories) | 06 | Not implemented |
 | [AS-04 Editable tasks, vendors and ideas](PRODUCT.md#eight-acceptance-stories) | 06, 08 | Not implemented |
@@ -65,10 +65,10 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 |---|---|---|---|
 | JFR-001 | Implemented landing | landing/Landing.tsx; Phase 03 browser evidence | None |
 | JFR-002 | Synthetic public samples implemented | workspace/fixtures.ts, PlanView.tsx; Phase 04 browser evidence | No live generation claimed |
-| JFR-003 | Not implemented | None | Await scheduled phase |
+| JFR-003 | Firebase Auth UI/server token verification implemented | auth/Auth.tsx; firebase.ts; FIREBASE.md | Live provider verification pending |
 | JFR-004 | Not implemented | None | Await scheduled phase |
 | JFR-005 | Not implemented | None | Await scheduled phase |
-| JFR-006 | Validated wizard and local review implemented | workspace/Wizard.tsx, form.ts, workspace.test.ts | Persistence in 05 |
+| JFR-006 | Validated wizard and persisted brief implemented | Wizard.tsx; events.ts; emulator/browser evidence | Live Firebase verification pending |
 | JFR-007 | Not implemented | None | Await scheduled phase |
 | JFR-008 | Not implemented | None | Await scheduled phase |
 | JFR-009 | Not implemented | None | Await scheduled phase |

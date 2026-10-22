@@ -1,28 +1,38 @@
 # Current state
 
-Updated 2026-10-22 (Asia/Calcutta). Phase 04 complete; Phase 05 next.
-Repository E:/jashan/jashn; main; previous checkpoint f6e08eb.
+Updated 2026-10-22 (Asia/Calcutta). Phase 05 local/emulator gate complete;
+live Firebase verification pending. Phase 06 deterministic rules is next.
+Repository E:/jashan/jashn; main; previous checkpoint 92a5195.
 
-Implemented: workspace/API health/shared contracts; cinematic landing; /app,
-/app/new, /app/events/:id and /demo. Three-step wizard validates the shared brief
-schema, exact INR paise, calendar dates and IANA timezone, then explicitly confirms
-a local draft. Six workspace sections and three clearly synthetic read-only plans.
-Typed repositories separate samples from tab-memory drafts. Query tabs supported.
+Implemented: landing and synthetic sample workspace; Firebase Auth email/password,
+Google popup integration, recovery and sign-out UI; protected /app routes; strict
+owner-scoped server Firestore event create/list/get/edit/archive/restore/delete.
+Saved briefs survive browser reload and API restart. Explicit revisions prevent
+stale/concurrent overwrites. Durable deletion records support recursive cleanup
+retries after failure/restart. Browser Firestore reads/writes denied by rules.
 
-No auth, persistence, trusted planning engine, live AI, editing, replan/history,
-export or deployment. Reload clears the local draft; no fake saves or generation.
-All /v1 routes remain 404. Samples are not evidence of production correctness.
+Verified: 24 automated tests, typecheck, full build, lint, local smoke, and a real
+Firebase emulator integration suite with two-user isolation, persisted reads,
+pagination, archive/edit restrictions, concurrent version conflicts, nested deletion,
+injected cleanup failure/retry and disabled-token rejection. Browser sign-in,
+create/review/save, reload, edit, archive/restore, sign-out and recovery request
+verified. Screenshots under docs/evidence/phase-05-*. See VERIFICATION.md.
 
-Verified: typecheck, full production build, lint, 22 automated tests, local smoke.
-Browser: complete wizard/review/confirmation, validation focus, reload loss,
-empty/missing states, all sample sections and all three samples. Layout inspected
-at 360, 768 and 1440 widths. Evidence and limits in VERIFICATION.md.
-Generic repository error/retry UI implemented; rejection/retry not browser-injected.
+Not verified live: Google provider popup, real email delivery, real Firebase cloud
+identity/storage. No project/provider/region/service identity configured. Follow
+FIREBASE.md before claiming cloud integration complete. Local .env uses demo-jashn
+emulators; no secrets. Stopping emulators resets their data/accounts by default.
 
-Stack/dependencies unchanged. Dev group session 7463 serves :5173 and API :3001
-if still active. Seven prior Tailwind build-tool advisories and unverified landing
-media rights remain. No cloud access or spending choices have been configured.
+Not implemented: trusted budget engine, live AI, editable plans, replan/history,
+export or deployment. Non-event planned API routes remain unavailable.
 
-Next: Phase 05 authentication and owner-scoped persistent events. Read PROMPTS.md
-and API.md first. Verify real identity/storage or explicitly labeled emulator
-behavior; never substitute synthetic samples on private request failure.
+Dependencies: Firebase web 13.1.0/Admin 14.5.0/CLI 15.34.1 added, root lockfile kept.
+Audit: 4 high production dependency entries from unused browser Firestore/gRPC
+subtree; full tree 16 (10 high/6 moderate), including CLI and Tailwind tooling.
+No client Firestore code is imported. This is not a production release gate pass.
+Web build warns about a ~533 kB chunk. Landing media rights remain unverified.
+
+Current local sessions: emulators 39718, dev 51222 if still active; web :5173,
+API :3001, Auth :9099, Firestore :8080. Latest checkpoint via git log -1.
+Next: Phase 06 only; preserve owner checks, revision transactions and deletion
+barriers for all new child-resource writes. No synthetic fallback for API failures.

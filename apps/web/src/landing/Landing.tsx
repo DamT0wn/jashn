@@ -65,6 +65,6 @@ export function Landing() {
         <div className="features-note"><p>You stay in charge. Every change is yours to approve.</p><Link to="/app/new">Let’s make something memorable <ArrowUpRight size={16} aria-hidden="true" /></Link></div>
       </section>
     </main>
-    <footer className="landing-footer"><Link to="/" className="footer-brand">Jashn<span>✳</span></Link><span>Plan the joy.</span><p>Development preview. Explore synthetic samples; account saving and live AI are not connected.</p><a href="#main">Back to top ↑</a></footer>
+    <footer className="landing-footer"><Link to="/" className="footer-brand">Jashn<span>✳</span></Link><span>Plan the joy.</span><p>Development preview. Explore synthetic samples or sign in to save a brief. Live AI is not connected.</p><a href="#main">Back to top ↑</a></footer>
   </div>;
 }

@@ -104,3 +104,4 @@
 .workspace-footer{padding:20px 16px}
 .sample-picker{gap:10px}
 }
+.account-control{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:11px;letter-spacing:0;overflow-wrap:anywhere}.sidebar-note .account-control{display:none}.auth-panel{max-width:680px;margin:auto}.workspace button:disabled{opacity:.55;cursor:not-allowed}.workspace button[aria-pressed=true]{background:#dedbc8;color:#141614}

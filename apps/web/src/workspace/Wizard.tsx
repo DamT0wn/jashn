@@ -1,20 +1,27 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import type { EventBrief } from '@jashn/contracts';
-import { initialForm, money, validateBrief } from './form';
+import { initialForm, money, paiseToRupees, validateBrief } from './form';
 import type { BriefForm } from './form';
 
-export function Wizard({ onConfirm }: { onConfirm: (brief: EventBrief) => void }) {
-  const [form, setForm] = useState<BriefForm>(initialForm);
+export function Wizard({ onConfirm, initialBrief }: { onConfirm: (brief: EventBrief) => Promise<void>; initialBrief?: EventBrief }) {
+  const [form, setForm] = useState<BriefForm>(() => initialBrief ? { ...initialForm, dietary: initialBrief.preferences.dietary || '', accessibility: initialBrief.preferences.accessibility || '', cultural: initialBrief.preferences.cultural || '', theme: initialBrief.preferences.theme || '', name: initialBrief.name, type: initialBrief.type, city: initialBrief.city, localDate: initialBrief.localDate, timezone: initialBrief.timezone, guests: String(initialBrief.guests), budget: paiseToRupees(initialBrief.budgetMinor), venueStatus: initialBrief.venueStatus || 'undecided', priorities: initialBrief.priorities.join(', '), hardRequirements: initialBrief.hardRequirements.join('\n') } : initialForm);
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [confirmed, setConfirmed] = useState<EventBrief | null>(null);
-  const navigate = useNavigate();
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  async function save() {
+    const result = validateBrief(form, new Date(), Boolean(initialBrief && initialBrief.localDate === form.localDate));
+    if (!result.success) { setStep(0); setErrors({ localDate: 'Review your date and details before saving.' }); return; }
+    setSaving(true); setSaveError('');
+    try { await onConfirm({ ...initialBrief, ...result.data, preferences: { ...initialBrief?.preferences, ...result.data.preferences } }); } catch (error) { setSaveError(error instanceof Error ? error.message : 'Could not save. Try again.'); } finally { setSaving(false); }
+  }
   const update = (key: keyof BriefForm, value: string) => { setForm(current => ({ ...current, [key]: value })); setErrors(current => ({ ...current, [key]: '' })); };
   function submit(event: FormEvent) {
     event.preventDefault();
-    const result = validateBrief(form);
+    const result = validateBrief(form, new Date(), Boolean(initialBrief && initialBrief.localDate === form.localDate));
     if (!result.success) {
       const next: Record<string, string> = {};
       for (const issue of result.error.issues) {
@@ -39,7 +46,7 @@ export function Wizard({ onConfirm }: { onConfirm: (brief: EventBrief) => void }
   }
   return <>
     <div className="page-heading"><p className="eyebrow">A celebration, in the making</p><h1>Start with your occasion.</h1><p>A few thoughtful details help shape a plan that feels like you.</p></div>
-    <div className="notice">Local draft only · Not saved to an account. Reloading clears it. AI generation is not connected yet.</div>
+    <div className="notice">Review your details before saving to your signed-in account. AI generation is not connected yet.</div>
     <ol className="wizard-steps" aria-label="Progress">{['The essentials', 'Your priorities', 'Review your brief'].map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined}><span>0{index + 1}</span>{label}</li>)}</ol>
     {step < 2 ? <form className="workspace-panel wizard-form" onSubmit={submit} noValidate>
       <h2>{step === 0 ? 'Tell us what you’re celebrating.' : 'Make it your kind of celebration.'}</h2>
@@ -60,6 +67,6 @@ export function Wizard({ onConfirm }: { onConfirm: (brief: EventBrief) => void }
       </>}</div>
       <div className="unavailable-note">Free-text AI brief extraction is unavailable until live generation is connected. Please use the structured fields above.</div>
       <div className="form-actions">{step === 1 ? <button type="button" className="secondary-button" onClick={() => { setStep(0); setErrors({}); }}>Back</button> : <span />}<button className="cream-button" type="submit">{step === 0 ? 'Continue to priorities' : 'Review brief'} <span aria-hidden="true">→</span></button></div>
-    </form> : confirmed ? <section className="workspace-panel"><p className="eyebrow">Nothing has been saved yet</p><h2>Does everything look right?</h2><dl className="brief-details">{Object.entries({ Event: confirmed.name, Occasion: confirmed.type, City: confirmed.city, Date: confirmed.localDate, Timezone: confirmed.timezone, Guests: confirmed.guests, Budget: money(confirmed.budgetMinor), Venue: confirmed.venueStatus, Priorities: confirmed.priorities.join(', ') || 'None specified', Requirements: confirmed.hardRequirements.join('; ') || 'None specified', ...confirmed.preferences }).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value || 'None specified'}</dd></div>)}</dl><div className="form-actions"><button className="secondary-button" onClick={() => setStep(1)}>Edit details</button><button className="cream-button" onClick={() => { const result = validateBrief(form); if (!result.success) { setStep(0); setErrors({ localDate: 'Review your date and details before confirming.' }); return; } onConfirm(result.data); navigate('/app/events/local-draft'); }}>Confirm local draft →</button></div></section> : null}
+    </form> : confirmed ? <section className="workspace-panel"><p className="eyebrow">Review before saving</p><h2>Does everything look right?</h2><dl className="brief-details">{Object.entries({ Event: confirmed.name, Occasion: confirmed.type, City: confirmed.city, Date: confirmed.localDate, Timezone: confirmed.timezone, Guests: confirmed.guests, Budget: money(confirmed.budgetMinor), Venue: confirmed.venueStatus, Priorities: confirmed.priorities.join(', ') || 'None specified', Requirements: confirmed.hardRequirements.join('; ') || 'None specified', ...confirmed.preferences }).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value || 'None specified'}</dd></div>)}</dl>{saveError ? <p role="alert" className="field-error">{saveError}</p> : null}<div className="form-actions"><button className="secondary-button" disabled={saving} onClick={() => setStep(1)}>Edit details</button><button className="cream-button" disabled={saving} onClick={() => { void save(); }}>{saving ? 'Saving…' : 'Confirm and save →'}</button></div></section> : null}
   </>;
 }

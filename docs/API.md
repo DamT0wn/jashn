@@ -1,14 +1,13 @@
 # API contract v1
 
-Only GET /health is implemented in Phase 02. Every /v1 route below is a planned
-contract, not a working endpoint. Unimplemented paths return 404, never fake data.
+GET /health and Phase 05 event lifecycle routes are implemented. Other routes remain planned; unimplemented paths return 404, never fake data.
 The local web origin uses /api as a proxy prefix; the API itself does not.
 
 ## Common rules
 
 JSON bodies only; maximum 512 KiB. Shared schemas are in packages/contracts/src.
 Reject unknown input keys. All /v1 operations require Authorization: Bearer <Firebase
-ID token>; token verification and owner checks will be installed with Phase 05.
+ID token>; token verification and owner checks are installed for event routes.
 Owner/audit fields come from server context, never submitted identity values.
 Missing and non-owned resources share a generic 404. Archive permits read/export,
 unarchive and confirmed deletion, but blocks planning mutations and generation.
@@ -36,7 +35,7 @@ duplicate returns 409 with the job reference when available, not a new provider 
 | PATCH /v1/events/:id | `{expectedVersion,brief}` | 200 `{event}`; accepted-plan-affecting changes require replan; pre-plan brief edits advance revision | 05 |
 | POST /v1/events/:id/archive | `{expectedVersion}` | 200 `{event}`; sets archived, advances revision, invalidates proposals | 05 |
 | POST /v1/events/:id/unarchive | `{expectedVersion}` | 200 `{event}`; active again, new revision | 05 |
-| DELETE /v1/events/:id | `{expectedVersion,confirmationName}` matching displayed event | 200 `{eventId,status:"deleting"}` after durable tombstone; cleanup retryable and observable | 05 |
+| DELETE /v1/events/:id | `{expectedVersion,confirmationName}` matching displayed event | 200 `{eventId,status:"deleted"|"failed"}` after durable tombstone and awaited cleanup; retryable | 05 |
 | GET /v1/events/:id/deletion | None | 200 `{eventId,status:"deleting"\|"deleted"\|"failed"}` from owner-scoped deletion record | 05 |
 | POST /v1/briefs/extract | `{text}` <=5000 chars | 200 `{draft,missingFields,uncertainties}`; absent required fields null, never invented; separately confirmed before event save | 07 |
 | POST /v1/events/:id/generations | GeneratePlanRequest `{expectedVersion}` | 201 `{jobId,draft}` after bounded synchronous validation/persistence; no accepted-plan mutation | 07 |
@@ -71,6 +70,11 @@ Mutation field allowlists and additional request/response runtime schemas must b
 implemented together with each route. Phase 02 already exports core domain types,
 create/generate/accept/replan/apply envelopes and safe errors. Do not pass a trusted
 PlanVersion or ReplanProposal schema directly to an untrusted write endpoint.
+
+Phase 05 additionally implements POST /v1/events/:id/deletion/retry (no body),
+requiring an owned deletion tombstone from an already-confirmed DELETE. It returns
+{eventId,status} and never starts a new deletion. Events are scoped under
+users/{uid}/events; deletion records under users/{uid}/deletions.
 
 ## Generation lifecycle and concurrency
 

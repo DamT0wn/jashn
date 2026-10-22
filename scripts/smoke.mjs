@@ -10,5 +10,5 @@ const response = await fetch(`${origin}/api/health`, { signal: AbortSignal.timeo
 assert.equal(response.status, 200);
 HealthResponseSchema.parse(await response.json());
 const missing = await fetch(`${origin}/api/v1/events`, { signal: AbortSignal.timeout(5000) });
-assert.equal(missing.status, 404);
-console.log('PASS: web HTML, frontend-origin proxy to API health, and honest 404 for unimplemented events.');
+assert.equal(missing.status, 401);
+console.log('PASS: web HTML, frontend-origin proxy to API health, and 401 for unauthenticated events.');

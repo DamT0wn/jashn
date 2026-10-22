@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createEventBriefSchema } from '@jashn/contracts';
 import { createSample, localDateAfter, sampleIds } from './fixtures';
-import { initialForm, rupeesToPaise, validateBrief } from './form';
+import { initialForm, paiseToRupees, rupeesToPaise, validateBrief } from './form';
 import { draftRepository, fixtureRepository } from './repository';
 
 const now = new Date('2030-01-01T20:00:00Z');
@@ -30,6 +30,7 @@ test('sample dates use event-local today and a controllable clock', () => {
 test('INR conversion uses exact paise and rejects ambiguous or unsafe amounts', () => {
   assert.equal(rupeesToPaise('50000.50'), 5000050);
   assert.equal(rupeesToPaise('0.01'), 1);
+  assert.equal(rupeesToPaise(paiseToRupees(Number.MAX_SAFE_INTEGER)), Number.MAX_SAFE_INTEGER);
   for (const input of ['', '-1', '1e3', '1,000', '1.001', '9007199254740992']) assert.equal(rupeesToPaise(input), null);
 });
 test('wizard rejects missing details, past dates, invalid zones and counts', () => {

@@ -151,3 +151,23 @@ export type PlanVersion = z.infer<typeof PlanVersionSchema>;
 export type ReplanProposal = z.infer<typeof ReplanProposalSchema>;
 export type ApiError = z.infer<typeof ApiErrorSchema>;
 export type HealthResponse = z.infer<typeof HealthResponseSchema>;
+
+// Phase 05: server-owned event records and strict lifecycle envelopes.
+export const EventRecordSchema = z.object({
+  id: IdSchema, ownerId: IdSchema, brief: EventBriefSchema,
+  status: z.enum(['active', 'archived', 'deleting']), revision: VersionSchema,
+  currentVersion: VersionSchema.nullable(), createdAt: TimestampSchema, updatedAt: TimestampSchema,
+}).strict();
+export type EventRecord = z.infer<typeof EventRecordSchema>;
+export const EditEventRequestSchema = z.object({ expectedVersion: VersionSchema, brief: EventBriefSchema }).strict();
+export const EventVersionRequestSchema = z.object({ expectedVersion: VersionSchema }).strict();
+export const DeleteEventRequestSchema = z.object({ expectedVersion: VersionSchema, confirmationName: text(120) }).strict();
+export const EventListQuerySchema = z.object({
+  status: z.enum(['active', 'archived']).default('active'),
+  limit: z.string().regex(/^[1-9]\d?$/).transform(Number).refine(value => value <= 50).default('20'),
+  cursor: z.string().min(1).max(2048).optional(),
+}).strict();
+export const EventListResponseSchema = z.object({ events: z.array(EventRecordSchema), nextCursor: z.string().nullable() }).strict();
+export const EventResponseSchema = z.object({ event: EventRecordSchema }).strict();
+export const EventDetailResponseSchema = z.object({ event: EventRecordSchema, plan: PlanSnapshotSchema.nullable() }).strict();
+export const DeletionResponseSchema = z.object({ eventId: IdSchema, status: z.enum(['deleting', 'deleted', 'failed']) }).strict();

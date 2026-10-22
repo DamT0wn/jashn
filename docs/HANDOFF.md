@@ -1,30 +1,37 @@
 # Latest handoff
 
-2026-10-22. Phase 04 complete; Phase 05 next. main; previous commit f6e08eb.
-Find the latest local checkpoint with git log -1. No push or deployment.
+2026-10-22. Phase 05 local/emulator gate complete, cloud verification pending.
+Previous checkpoint 92a5195; find latest with git log -1. Local only; no deployment.
 
-Workspace code is apps/web/src/workspace: Workspace.tsx owns layouts/routes and
-async loading/error/retry/missing states; Wizard.tsx collects and reviews a shared
-schema-validated brief; form.ts converts INR to safe integer paise; fixtures.ts
-creates clock-controlled synthetic plans; repository.ts separates fixtures and
-local drafts; PlanView.tsx renders six sections. App.tsx holds the temporary draft.
-No localStorage, cloud persistence, auth or AI calls. Confirming a second brief
-replaces the first; reloading clears it. Source specs and dependencies unchanged.
+Read FIREBASE.md for exact setup and missing external steps. Local .env (ignored)
+contains demo-jashn emulator settings, not credentials. npm.cmd run emulators needs
+Java 21+ (installed Java26); npm.cmd run dev serves web/API. Emulator data resets
+on emulator restart; browser reload/API restart retain records while it runs.
+Current sessions: emulators 39718, dev 51222, if still active.
 
-Checks: typecheck, full build, lint, 22 tests and local smoke passed. Browser flow
-confirmed invalid required fields focus the first error, valid details/preferences
-reach review, confirmation opens the local draft and reload makes it unavailable.
-Three samples and six sections checked; 360/768/1440 layouts; no horizontal
-page overflow in measured mobile/tablet views. Screenshots docs/evidence/phase-04-*.
-Generic repository rejection/retry is implemented but not fault-injected in browser.
-Tests cover fixture arithmetic/dates, form rejection and adapter cancellation.
+Server: firebase.ts verifies Admin ID tokens with revocation checks, rejects unsafe
+emulator configurations. events.ts owns strict request parsing, owner-specific
+Firestore paths plus owner checks, transaction revision/status checks, paginated
+lists, and durable deletion with awaited recursive cleanup/retry endpoint. Shared
+EventRecord and lifecycle schemas added. Direct client Firestore denied by rules.
 
-Dev group session 7463 runs localhost:5173 and API:3001 if still alive. The previous
-browser tab had an obsolete page and failed connection; verification used a fresh
-tab with the restarted server. npm.cmd run dev restarts both. No .env required yet.
+Client: auth/Auth.tsx and firebase.ts provide auth/configuration/route guards.
+workspace/api.ts sends/refreshed Firebase ID tokens and validates responses.
+SavedEvents.tsx implements list/detail/edit/archive/restore and named deletion
+confirmation, plus recovery for an already-confirmed failed deletion after reload.
+Wizard accepts initial brief and async confirmation; preserves inputs on errors.
+Account changes remount private views; responses from a previous account rejected.
+Old draft fixture helpers remain unused by private routes. /demo stays public.
 
-Next exact task: Phase 05 in PROMPTS: Firebase Google/email auth, sign-out/recovery,
-server token verification and owner-scoped Firestore CRUD with pagination/archive/
-recursive deletion. Deny direct browser DB access. Test two-user isolation, reload
-persistence, unauthenticated rejection and lifecycle. Identify cloud prerequisites;
-keep emulator evidence distinct from live behavior. Do not advance to Phase 06.
+Checks passed: typecheck/build/lint, 24 tests, emulator integration and local smoke.
+Browser: email sign-in,save/reload/edit,archive/reload/restore,sign-out,recovery request,
+delete dialog guard/cancel. Actual recursive deletion and retry verified by API
+integration, not the browser destructive-confirm button. Evidence in VERIFICATION.
+Google popup implemented but not provider-verified; real email/cloud unverified.
+Audit: 4 high production entries via unused client Firestore/gRPC subtree; full tree: 16.
+Build has a 533 kB chunk warning. Address dependencies before release; no forced downgrade.
+
+Next Phase06 deterministic money/date/dependency rules. Read PROMPTS/API/PRODUCT.
+All new mutations must enforce owner/status/revision and deletion barriers. Existing
+accepted-plan brief edits are rejected so future changes must use proposals.
+Do not claim Phase05 cloud gate passed or proceed to live deployment without setup.

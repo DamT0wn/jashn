@@ -66,3 +66,11 @@ controls have explicit labels, hints and field errors, with focus on first inval
 input. Three steps separate essentials, optional preferences and explicit review.
 Budget rows avoid a wide table; cards and form columns collapse on small screens.
 No new media, packages or automatic motion were added. See phase-04 screenshots.
+
+## Phase 05 account and lifecycle UI
+
+Auth screens use labeled email/password controls, loading states and generic
+recovery/error messages. Private views remount when the account changes. Saved
+briefs show status/revision and offer edit/archive/restore. Deletion requires the
+exact event name; already-confirmed interrupted deletions have a separate retry
+view. Emulator badges distinguish local persistence from live cloud storage.
