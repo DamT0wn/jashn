@@ -3,10 +3,10 @@
 An event planner for weddings, birthdays and community celebrations. AI proposes;
 server rules validate; the organizer approves.
 
-**Phase 03 complete:** runnable React/Fastify skeleton, shared validation contracts,
-local API connectivity and architecture/API documentation. Authentication, event
-persistence, planning rules and live AI are not implemented. The cinematic landing page is implemented; planning/sample destinations remain
-explicitly labeled placeholders until Phase 04. See [design notes](docs/DESIGN.md).
+**Phase 04 complete:** cinematic landing, responsive workspace, validated event
+brief wizard and three read-only synthetic sample plans. Local drafts disappear
+on reload. Authentication, persistent events, trusted planning rules and live AI
+are not implemented. See [design notes](docs/DESIGN.md).
 
 ## Run locally
 
@@ -39,7 +39,7 @@ npm.cmd run smoke
 proxy; deployment needs a same-origin rewrite or configured API origin/CORS.
 This skeleton is not a deployed or production-ready product.
 
-16 focused schema/API/media-policy tests pass. Production-dependency audit reports zero
+22 focused schema/API/media-policy/workspace tests pass. Production-dependency audit reports zero
 advisories; the full tree has seven build-time advisories in Tailwind 3's dependency
 chain. See [verification and limitations](docs/VERIFICATION.md) before release.
 

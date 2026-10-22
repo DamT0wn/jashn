@@ -75,3 +75,12 @@
   save-data suppress automatic downloads. Explicit Play is an intentional opt-in.
 - Keep planning/sample destinations unavailable until their implementation phase;
   footer discloses development status. No cloud success claims added.
+
+## 2026-10-22 — Phase 04 data boundaries
+
+Keep synthetic sample and local-draft repositories separate. No fixture fallback
+for a missing private resource. A confirmed brief is held in React tab memory
+only; reload removes it. Explicit notices precede entry/review and follow confirmation.
+Sample dates derive from an injectable clock and event-local calendar day; amounts
+are integer paise. Tests reconcile illustrative totals, without claiming Phase 06
+server budget rules. Replan and extraction remain explicitly unavailable.

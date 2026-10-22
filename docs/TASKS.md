@@ -1,6 +1,6 @@
 # Phase backlog
 
-Updated 2026-10-21. Complete gates in order; checked planning work is not evidence
+Updated 2026-10-22. Complete gates in order; checked planning work is not evidence
 of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.md).
 
 - [x] **00 — Repository audit and handoff:** preserve specs; inspect existing code;
@@ -13,7 +13,7 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
   builds, schema rejection tests and frontend-to-health verification pass.
 - [x] **03 — Landing:** Hero/About/Features; routes, motion controls and fallbacks.
   Gate: 360/768/1440/1920 layouts and navigation verified; build/typecheck pass.
-- [ ] **04 — Workspace/wizard:** shared input validation; tabs and three synthetic
+- [x] **04 — Workspace/wizard:** shared input validation; tabs and three synthetic
   samples. Gate: mobile/desktop navigation and honest fixture behavior verified.
 - [ ] **05 — Identity/events:** Firebase auth/recovery; owner API; persistent CRUD,
   archive and recursive deletion. Gate: reload persistence, two-user isolation,
@@ -47,13 +47,13 @@ Scope baseline: [PRODUCT.md](PRODUCT.md). Stories are defined, not implemented.
 | Story | Scheduled work | Status |
 |---|---|---|
 | [AS-01 Identity and event lifecycle](PRODUCT.md#eight-acceptance-stories) | 05, 11–12 | Not implemented |
-| [AS-02 Confirmed brief and initial draft](PRODUCT.md#eight-acceptance-stories) | 04, 07 | Not implemented |
+| [AS-02 Confirmed brief and initial draft](PRODUCT.md#eight-acceptance-stories) | 04, 07 | Brief confirmation implemented; generation pending |
 | [AS-03 Budget and payment arithmetic](PRODUCT.md#eight-acceptance-stories) | 06 | Not implemented |
 | [AS-04 Editable tasks, vendors and ideas](PRODUCT.md#eight-acceptance-stories) | 06, 08 | Not implemented |
 | [AS-05 Locked-budget replan](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
 | [AS-06 Conflicts and history](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
 | [AS-07 Journey and export](PRODUCT.md#eight-acceptance-stories) | 10, 12 | Not implemented |
-| [AS-08 Accessible samples and recovery](PRODUCT.md#eight-acceptance-stories) | 03–04, 07, 11–12 | Not implemented |
+| [AS-08 Accessible samples and recovery](PRODUCT.md#eight-acceptance-stories) | 03–04, 07, 11–12 | Samples and form recovery implemented; full gate pending |
 
 ## Functional traceability
 
@@ -64,11 +64,11 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 | Requirement | Status | Files / evidence | Blocker |
 |---|---|---|---|
 | JFR-001 | Implemented landing | landing/Landing.tsx; Phase 03 browser evidence | None |
-| JFR-002 | Not implemented | None | Await scheduled phase |
+| JFR-002 | Synthetic public samples implemented | workspace/fixtures.ts, PlanView.tsx; Phase 04 browser evidence | No live generation claimed |
 | JFR-003 | Not implemented | None | Await scheduled phase |
 | JFR-004 | Not implemented | None | Await scheduled phase |
 | JFR-005 | Not implemented | None | Await scheduled phase |
-| JFR-006 | Contract foundation only | packages/contracts/src/index.ts; contracts.test.ts | Persistence/UI in 04–05 |
+| JFR-006 | Validated wizard and local review implemented | workspace/Wizard.tsx, form.ts, workspace.test.ts | Persistence in 05 |
 | JFR-007 | Not implemented | None | Await scheduled phase |
 | JFR-008 | Not implemented | None | Await scheduled phase |
 | JFR-009 | Not implemented | None | Await scheduled phase |

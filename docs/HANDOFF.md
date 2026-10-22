@@ -1,28 +1,30 @@
 # Latest handoff
 
-2026-10-21. Phase 03 complete; Phase 04 next. main; previous commit 679ed43.
-Find the latest checkpoint via git log -1. Local only; no push/deployment.
+2026-10-22. Phase 04 complete; Phase 05 next. main; previous commit f6e08eb.
+Find the latest local checkpoint with git log -1. No push or deployment.
 
-Landing implemented in apps/web/src/landing with shared typography/responsive CSS
-and font links. DESIGN.md records components, tokens and all reference assets.
-API/contracts unchanged; landing replaces root development shell. /app/new and
-/demo still show honest pending screens. No personal data or cloud integrations.
+Workspace code is apps/web/src/workspace: Workspace.tsx owns layouts/routes and
+async loading/error/retry/missing states; Wizard.tsx collects and reviews a shared
+schema-validated brief; form.ts converts INR to safe integer paise; fixtures.ts
+creates clock-controlled synthetic plans; repository.ts separates fixtures and
+local drafts; PlanView.tsx renders six sections. App.tsx holds the temporary draft.
+No localStorage, cloud persistence, auth or AI calls. Confirming a second brief
+replaces the first; reloading clears it. Source specs and dependencies unchanged.
 
-Checks: typecheck, web production build, lint, 16 tests passed. Browser widths
-360/768/1440/1920 inspected; no overflow. Menu/Escape, media pause/play, primary
-CTA, sample budget/timeline/ideas destinations and anchors checked. Screenshots
-in docs/evidence/phase-03-*.png. Media policy tests cover reduced motion/save-data
-and failure; OS-level emulation/network injection not performed. Asset rights
-unverified; videos/icons loaded but depict stylized reference scenes, not events.
+Checks: typecheck, full build, lint, 22 tests and local smoke passed. Browser flow
+confirmed invalid required fields focus the first error, valid details/preferences
+reach review, confirmation opens the local draft and reload makes it unavailable.
+Three samples and six sections checked; 360/768/1440 layouts; no horizontal
+page overflow in measured mobile/tablet views. Screenshots docs/evidence/phase-04-*.
+Generic repository rejection/retry is implemented but not fault-injected in browser.
+Tests cover fixture arithmetic/dates, form rejection and adapter cancellation.
 
-Dev session 52150 remains on localhost 5173/API 3001 if still available. Otherwise
-npm.cmd run dev. Root .env not needed. Use Node 24/npm 11. Keep root lockfile and
-React 18/Tailwind 3. Remaining build-time advisories unchanged. No incomplete edits.
+Dev group session 7463 runs localhost:5173 and API:3001 if still alive. The previous
+browser tab had an obsolete page and failed connection; verification used a fresh
+tab with the restarted server. npm.cmd run dev restarts both. No .env required yet.
 
-Next exact task: read Phase 04 in PROMPTS and PRODUCT/FRS, then implement /app,
-/app/new, /app/events/:id and /demo workspace routes. Add Overview/Budget/Timeline/
-Vendors/Ideas/Replan navigation, accessible wizard with shared schemas, loading/
-empty/error/retry states, and typed adapters for three clearly labeled fixtures.
-Use dynamic event-local dates; support sample query tabs. Natural-language
-extraction must remain unavailable until Phase 07; saving must never claim cloud
-persistence before Phase 05. Update memory and checkpoint at the Phase 04 gate.
+Next exact task: Phase 05 in PROMPTS: Firebase Google/email auth, sign-out/recovery,
+server token verification and owner-scoped Firestore CRUD with pagination/archive/
+recursive deletion. Deny direct browser DB access. Test two-user isolation, reload
+persistence, unauthenticated rejection and lifecycle. Identify cloud prerequisites;
+keep emulator evidence distinct from live behavior. Do not advance to Phase 06.

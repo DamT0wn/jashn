@@ -138,3 +138,34 @@ claim of a full accessibility audit. Reference asset licensing remains unverifie
 Full P0 app functionality and Phase 04 sample plans are not implemented yet.
 
 Phase 03 gate complete. Next: Phase 04 workspace/wizard and labeled fixtures.
+
+## Phase 04 — 2026-10-22
+
+Passed npm.cmd run typecheck, full build (API/shared/web), lint, 22 tests and smoke.
+Six new workspace tests verify synthetic provenance and exact fixture totals,
+event-local dates across day/leap boundaries, safe INR conversion, invalid briefs,
+explicit preference preservation, repository isolation and abort behavior.
+
+Browser verification used localhost development servers (session 7463), without
+credentials. At desktop width 1440: empty submit showed errors and focused name;
+valid Noida birthday brief (2030-02-01, 50 guests, INR 50000.50), priorities and
+vegetarian requirement reached review and explicit confirmation. The local draft
+appeared in occasions; reload cleared it and showed missing state. No plan was
+invented. Birthday/wedding/community selectors and Overview/Budget/Timeline/
+Vendors/Ideas/Replan were inspected. Replan accurately states unavailable.
+
+At width 360, mobile navigation, community timeline and wizard errors were
+inspected; document scroll width matched viewport (360). At width 768, budget
+rows/navigation were inspected; document/client width both 753 (scrollbar).
+Unknown sample/section URLs show recovery content; empty occasions returns after
+reload. Query tab links select the matching section. Screenshots:
+- evidence/phase-04-desktop.png
+- evidence/phase-04-mobile-timeline.png
+- evidence/phase-04-mobile-wizard.png
+- evidence/phase-04-tablet-budget.png
+
+Limits: fixtures are read-only examples, not trusted engine or real quotes.
+Generic loading/error/retry handling exists; browser rejection/retry injection was
+not performed. No authentication, data persistence, live AI or replan verification
+is claimed. Phase 04 gate passed; production acceptance stories remain incomplete.
+Prior dependency advisories/media-rights limitations remain unchanged.
