@@ -116,3 +116,26 @@ recovery; extend ApiErrorSchema with that route implementation.
 Acknowledged infeasible plans may be retained with a persistent shortfall label
 only if structurally valid (FRS BR-07). They cannot be labeled feasible. Business
 validation and these protected routes remain future work, not Phase 02 claims.
+
+## Phase 06 implementation adjustment
+
+To support real manual costs before Phase07 initial-plan acceptance, use an empty
+or populated standalone BudgetLedger, not an incomplete/fake PlanSnapshot. Store at
+users/{uid}/events/{id}/planning/budget. GET /v1/events/:id/budget returns
+{event,ledger,totals}; PUT same URL accepts strict {expectedVersion,ledger,
+confirmCorrections,reason,acknowledgeShortfall} and returns the same response.
+This atomic full-ledger replacement supersedes the planned per-line/payment/
+contingency mutation endpoints for pre-plan manual editing; those endpoints remain
+unimplemented. Bounds: 100 unique lines, integer paise, existing payload cap.
+
+One transaction reads owner event and ledger, rejects stale/archived/deleting or
+accepted-plan state, checks corrections/sums/shortfall acknowledgement, writes both
+ledger and incremented event revision, and writes budgetHistory/{revision} with
+before/after, actor/time and explicit confirmations. GET uses a transaction so
+ledger and revision cannot disagree. Client cannot supply totals/audit/owner fields.
+Deleting protected lines requires an earlier explicit correction/unlock save.
+Overpayments remain visible credit, never negative outstanding or extra forecast.
+
+Phase07 must reconcile manual records into acceptance atomically. Do not enable
+accepted-plan budget mutations until snapshot and ledger have one canonical write
+path. Vendor-linked removal must be checked when vendor editing is introduced.

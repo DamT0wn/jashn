@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createEventBriefSchema } from '@jashn/contracts';
 import { createSample, localDateAfter, sampleIds } from './fixtures';
-import { initialForm, paiseToRupees, rupeesToPaise, validateBrief } from './form';
+import { initialForm, money, paiseToRupees, rupeesToPaise, validateBrief } from './form';
 import { draftRepository, fixtureRepository } from './repository';
 
 const now = new Date('2030-01-01T20:00:00Z');
@@ -60,4 +60,9 @@ test('repositories keep local drafts separate and honor cancellation', async () 
   const controller = new AbortController(); controller.abort();
   await assert.rejects(samples.get('birthday', controller.signal));
   await assert.rejects(draft.list(controller.signal));
+});
+
+test('money display preserves safe integer paise and signed shortfalls', () => {
+  assert.equal(money(Number.MAX_SAFE_INTEGER), '₹9,00,71,99,25,47,409.91');
+  assert.equal(money(-100001), '-₹1,000.01');
 });

@@ -171,3 +171,12 @@ export const EventListResponseSchema = z.object({ events: z.array(EventRecordSch
 export const EventResponseSchema = z.object({ event: EventRecordSchema }).strict();
 export const EventDetailResponseSchema = z.object({ event: EventRecordSchema, plan: PlanSnapshotSchema.nullable() }).strict();
 export const DeletionResponseSchema = z.object({ eventId: IdSchema, status: z.enum(['deleting', 'deleted', 'failed']) }).strict();
+
+// A manual ledger is not an accepted AI plan. Empty ledgers are valid.
+export const BudgetLedgerSchema = z.object({ lines: z.array(BudgetLineSchema).max(LIMITS.budgetLines), contingencyMinor: MoneyMinorSchema }).strict().refine(value => new Set(value.lines.map(line => line.id)).size === value.lines.length, 'Duplicate budget IDs');
+export const SaveBudgetRequestSchema = z.object({ expectedVersion: VersionSchema, ledger: BudgetLedgerSchema, confirmCorrections: z.boolean(), reason: z.string().trim().max(500), acknowledgeShortfall: z.boolean() }).strict();
+export const BudgetTotalsSchema = z.object({ projectedMinor: MoneyMinorSchema, paidMinor: MoneyMinorSchema, outstandingMinor: MoneyMinorSchema, creditMinor: MoneyMinorSchema, protectedMinor: MoneyMinorSchema, minimumShortfallMinor: MoneyMinorSchema, remainingMinor: z.number().int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER), shortfallMinor: MoneyMinorSchema }).strict();
+export const BudgetResponseSchema = z.object({ event: EventRecordSchema, ledger: BudgetLedgerSchema, totals: BudgetTotalsSchema }).strict();
+export type BudgetLedger = z.infer<typeof BudgetLedgerSchema>;
+export type BudgetResponse = z.infer<typeof BudgetResponseSchema>;
+export type SaveBudgetRequest = z.infer<typeof SaveBudgetRequestSchema>;

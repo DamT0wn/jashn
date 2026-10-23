@@ -205,3 +205,41 @@ patched 1.14.6. Full tree: 16 (10 high/6 moderate), also CLI and prior Tailwind 
 A root gRPC override did not replace the workspace client subtree and was removed;
 no ineffective override or forced Firebase downgrade is claimed as remediation.
 Release must re-evaluate these dependencies. Web build warns at ~533 kB minified.
+
+## Phase 06 — Deterministic rules and manual ledger (2026-10-22)
+
+PASS local/emulator gate. 33 automated tests cover integer/aggregate bounds, exact
+rupee conversion and display, null versus zero commitments, partial payments,
+contingency once, overpayment credit, protected minimum shortfalls, corrections,
+AI protection, missing/cyclic/later prerequisites, blocked completion, event-local
+midnight, timed instants, event-relative phases and locked tasks.
+
+Real Firebase emulator integration verifies owner isolation, stale revision refusal,
+server totals, correction confirmation/reason and before/after audit, acknowledged
+shortfall, persisted reload/API restart, archived write denial and recursive removal
+of ledger/audit children. Existing identity/deletion tests still pass. This is not
+cloud/provider evidence. Typecheck, lint, build and local smoke passed.
+
+Browser: disposable local account, INR18,000 commitment + INR1,000 reserve projects
+INR19,000; INR5,000 paid leaves INR13,000 outstanding after reload. Reduction without
+confirmation rejected; reason + confirmation saves INR4,000 paid / INR14,000 due.
+INR40,000 reserve gives INR58,000 forecast and INR8,000 acknowledged shortfall,
+persisting after reload. Checkbox keyboard interaction and corrected pointer hit
+area checked. 360px controls fit; desktop summary inspected. No console errors.
+Evidence: evidence/phase-06-budget-desktop.png and phase-06-budget-mobile.png.
+Transient development rebuild request failure recovered after reload; full-page
+mobile capture unavailable, so captured the mobile controls viewport instead.
+
+React checklist applied: labeled inputs/fieldsets, keyboard controls, bounded rows,
+abortable reads, account-remount isolation, explicit error states and retained edits
+on failed save. No new UI dependency. Prior security audit remains unresolved;
+offline npm lock update reporting zero is not treated as a security audit.
+
+Boundary: full accepted-plan feasibility/AI integration, proposal staleness at apply,
+user-facing history and persisted task editing remain Phase07–09. The ledger is
+manual pre-plan state, not a fake accepted draft. Build chunk warning remains.
+
+Checkpoint resumed 2026-10-23: final typecheck/lint/build rerun after interruption.
+The desktop image shows saved-event context; the mobile image shows ledger controls.
+Numerical save/reload evidence above was observed in browser accessibility state,
+not inferred from these screenshots. The previous browser tab closed on interruption.

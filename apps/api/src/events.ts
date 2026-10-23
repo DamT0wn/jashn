@@ -4,6 +4,8 @@ import { FieldPath } from 'firebase-admin/firestore';
 import type { Firestore } from 'firebase-admin/firestore';
 import { CreateEventRequestSchema, createEventBriefSchema, DeleteEventRequestSchema, EditEventRequestSchema, EventListQuerySchema, EventRecordSchema, EventVersionRequestSchema, IdSchema } from '@jashn/contracts';
 import type { EventRecord } from '@jashn/contracts';
+import { BudgetLedgerSchema, SaveBudgetRequestSchema } from '@jashn/contracts';
+import { budgetTotals, validateManualBudget, RuleError } from '@jashn/planning-rules';
 
 export class ApiFailure extends Error {
   constructor(public statusCode: number, public code: 'UNAUTHENTICATED' | 'NOT_FOUND' | 'VERSION_CONFLICT' | 'PROVIDER_UNAVAILABLE' | 'INVALID_INPUT', message: string) { super(message); }
@@ -63,6 +65,34 @@ export function eventRoutes(app: FastifyInstance, services: EventServices | null
       const { uid, events } = context(request);
       const event = owned((await events.doc(eventId(request)).get()).data(), uid);
       return { event, plan: null };
+    });
+    routes.get('/v1/events/:id/budget', async request => {
+      const { uid, events } = context(request); const ref = events.doc(eventId(request));
+      return services!.db.runTransaction(async transaction => {
+        const event = owned((await transaction.get(ref)).data(), uid);
+        const ledger = BudgetLedgerSchema.parse((await transaction.get(ref.collection('planning').doc('budget'))).data() || { lines: [], contingencyMinor: 0 });
+        return { event, ledger, totals: budgetTotals(ledger, event.brief.budgetMinor) };
+      });
+    });
+    routes.put('/v1/events/:id/budget', async request => {
+      const body = SaveBudgetRequestSchema.parse(request.body);
+      const { uid, events } = context(request); const ref = events.doc(eventId(request));
+      return services!.db.runTransaction(async transaction => {
+        const current = owned((await transaction.get(ref)).data(), uid);
+        if (current.status !== 'active' || current.currentVersion !== null || current.revision !== body.expectedVersion || current.revision === Number.MAX_SAFE_INTEGER) throw conflict();
+        const ledgerRef = ref.collection('planning').doc('budget');
+        const before = BudgetLedgerSchema.parse((await transaction.get(ledgerRef)).data() || { lines: [], contingencyMinor: 0 });
+        try {
+          validateManualBudget(before, body.ledger, body.confirmCorrections, body.reason);
+          const totals = budgetTotals(body.ledger, current.brief.budgetMinor);
+          if (totals.shortfallMinor && !body.acknowledgeShortfall) throw new RuleError('Acknowledge the budget shortfall before saving.');
+          const event = EventRecordSchema.parse({ ...current, revision: current.revision + 1, updatedAt: new Date().toISOString() });
+          transaction.set(ledgerRef, body.ledger);
+          transaction.set(ref.collection('budgetHistory').doc(String(event.revision)), { before, after: body.ledger, actor: uid, recordedAt: event.updatedAt, reason: body.reason, confirmCorrections: body.confirmCorrections, acknowledgeShortfall: body.acknowledgeShortfall });
+          transaction.set(ref, event);
+          return { event, ledger: body.ledger, totals };
+        } catch (error) { if (error instanceof RuleError) throw new ApiFailure(400, 'INVALID_INPUT', error.message); throw error; }
+      });
     });
     for (const operation of ['edit', 'archive', 'unarchive'] as const) {
       routes.route({ method: operation === 'edit' ? 'PATCH' : 'POST', url: `/v1/events/:id${operation === 'edit' ? '' : `/${operation}`}`, handler: async request => {

@@ -23,4 +23,7 @@ export function validateBrief(form: BriefForm, now = new Date(), allowHistorical
     preferences: { dietary: optional(form.dietary), accessibility: optional(form.accessibility), cultural: optional(form.cultural), theme: optional(form.theme) },
   });
 }
-export const money = (minor: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: minor % 100 ? 2 : 0 }).format(minor / 100);
+export function money(minor: number) {
+  const value = BigInt(minor); const absolute = value < 0n ? -value : value;
+  return (value < 0n ? '-' : '') + '₹' + new Intl.NumberFormat('en-IN').format(absolute / 100n) + (absolute % 100n ? '.' + String(absolute % 100n).padStart(2, '0') : '');
+}

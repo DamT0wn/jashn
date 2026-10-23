@@ -18,7 +18,7 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
 - [x] **05 — Identity/events (local/emulator gate; cloud verification pending):** Firebase auth/recovery; owner API; persistent CRUD,
   archive and recursive deletion. Gate: reload persistence, two-user isolation,
   unauthenticated rejection, pagination/archive/delete checks; label emulator evidence.
-- [ ] **06 — Planning rules:** paise ledger; payments, contingency, locks, dates,
+- [x] **06 — Planning rules (local/emulator gate):** paise ledger; payments, contingency, locks, dates,
   dependencies and versioned edits. Gate: meaningful invariant tests and server totals.
 - [ ] **07 — Live AI:** extraction; validated draft; explicit acceptance; bounded
   requests, jobs and distributed quotas. Gate: live outputs plus failure checks;
@@ -48,7 +48,7 @@ Scope baseline: [PRODUCT.md](PRODUCT.md). Stories are defined, not implemented.
 |---|---|---|
 | [AS-01 Identity and event lifecycle](PRODUCT.md#eight-acceptance-stories) | 05, 11–12 | Emulator lifecycle/isolation verified; live gate pending |
 | [AS-02 Confirmed brief and initial draft](PRODUCT.md#eight-acceptance-stories) | 04, 07 | Brief confirmation implemented; generation pending |
-| [AS-03 Budget and payment arithmetic](PRODUCT.md#eight-acceptance-stories) | 06 | Not implemented |
+| [AS-03 Budget and payment arithmetic](PRODUCT.md#eight-acceptance-stories) | 06 | Manual ledger and deterministic rules verified locally |
 | [AS-04 Editable tasks, vendors and ideas](PRODUCT.md#eight-acceptance-stories) | 06, 08 | Not implemented |
 | [AS-05 Locked-budget replan](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
 | [AS-06 Conflicts and history](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
@@ -81,14 +81,14 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 | JFR-016 | Not implemented | None | Await scheduled phase |
 | JFR-017 | Not implemented | None | Await scheduled phase |
 | JFR-018 | Not implemented | None | Await scheduled phase |
-| JFR-019 | Not implemented | None | Await scheduled phase |
-| JFR-020 | Not implemented | None | Await scheduled phase |
-| JFR-021 | Not implemented | None | Await scheduled phase |
-| JFR-022 | Not implemented | None | Await scheduled phase |
-| JFR-023 | Not implemented | None | Await scheduled phase |
-| JFR-024 | Not implemented | None | Await scheduled phase |
+| JFR-019 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
+| JFR-020 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
+| JFR-021 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
+| JFR-022 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
+| JFR-023 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
+| JFR-024 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
 | JFR-025 | Not implemented | None | Await scheduled phase |
-| JFR-026 | Schedule contract only | packages/contracts/src/index.ts; contracts.test.ts | Timeline UI and full rules in 06/08 |
+| JFR-026 | Schedule validators implemented | planning-rules/src/index.ts; rules.test.ts | Persisted timeline UI in Phase08 |
 | JFR-027 | Not implemented | None | Await scheduled phase |
 | JFR-028 | Not implemented | None | Await scheduled phase |
 | JFR-029 | Not implemented | None | Await scheduled phase |

@@ -95,3 +95,13 @@ transactions for revision/status checks; deny browser Firestore access entirely.
 Deletion records outlive recursive cleanup for crash/retry recovery and retain a
 confirmation-name hash rather than the event brief. No detached cleanup promises.
 Use same-origin API proxy; separate-origin production CORS is deferred to deployment.
+
+## 2026-10-22 — Manual ledger before initial AI acceptance
+
+Phase06 stores a distinct manual ledger and exposes atomic GET/PUT /budget instead
+of inventing an accepted PlanSnapshot or scattering pre-plan per-line operations.
+This enables server totals and real persistence now. Every save increments the
+same event revision and records an audit. Accepted-plan mutations fail closed until
+Phase07/08 reconcile snapshot/ledger atomically. Financial correction history is
+persisted now; its owner-facing browser is later history work. No live AI or full
+plan feasibility claim is inferred from a budget being within its cap.

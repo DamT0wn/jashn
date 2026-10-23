@@ -1,38 +1,33 @@
 # Current state
 
-Updated 2026-10-22 (Asia/Calcutta). Phase 05 local/emulator gate complete;
-live Firebase verification pending. Phase 06 deterministic rules is next.
-Repository E:/jashan/jashn; main; previous checkpoint 92a5195.
+Updated 2026-10-23. Phase 06 local/emulator gate complete. Next: Phase 07 live AI.
+Repository E:/jashan/jashn; previous checkpoint 56c81f2; latest via git log -1.
 
-Implemented: landing and synthetic sample workspace; Firebase Auth email/password,
-Google popup integration, recovery and sign-out UI; protected /app routes; strict
-owner-scoped server Firestore event create/list/get/edit/archive/restore/delete.
-Saved briefs survive browser reload and API restart. Explicit revisions prevent
-stale/concurrent overwrites. Durable deletion records support recursive cleanup
-retries after failure/restart. Browser Firestore reads/writes denied by rules.
+Implemented: landing, synthetic samples, Firebase identity and owner-isolated event
+lifecycle, plus persisted manual budget ledgers. GET/PUT /v1/events/:id/budget uses
+strict schemas and transactions checking owner, active status and canonical revision.
+Server computes exact paise totals, contingency once, outstanding, credit, protected
+minimum and shortfalls. Confirmed corrections require a reason; all ledger saves
+retain before/after audit records. Child writes respect deletion barriers.
 
-Verified: 24 automated tests, typecheck, full build, lint, local smoke, and a real
-Firebase emulator integration suite with two-user isolation, persisted reads,
-pagination, archive/edit restrictions, concurrent version conflicts, nested deletion,
-injected cleanup failure/retry and disabled-token rejection. Browser sign-in,
-create/review/save, reload, edit, archive/restore, sign-out and recovery request
-verified. Screenshots under docs/evidence/phase-05-*. See VERIFICATION.md.
+The budget editor creates/edits/removes eligible items, records payments and locks,
+shows saved server totals, and requires acknowledgement of budget overruns. No
+payment is transferred. A manual ledger does not create an accepted plan. Accepted
+plan budget writes are deliberately blocked until canonical integration in Phase 07/08.
 
-Not verified live: Google provider popup, real email delivery, real Firebase cloud
-identity/storage. No project/provider/region/service identity configured. Follow
-FIREBASE.md before claiming cloud integration complete. Local .env uses demo-jashn
-emulators; no secrets. Stopping emulators resets their data/accounts by default.
+Planning-rules includes safe sums, financial/lock preservation, dependency DAG and
+completion checks, timed/date-only ordering, event-relative phases, explicit clock,
+overdue/blocked IDs, and locked-task preservation. Task persistence/UI is Phase 08.
 
-Not implemented: trusted budget engine, live AI, editable plans, replan/history,
-export or deployment. Non-event planned API routes remain unavailable.
+Verified: 33 unit/contract tests; emulator suite covering two-account isolation,
+versions, correction audit, budget persistence/restart, shortfall acknowledgement,
+archive protection and recursive ledger/history deletion. Browser save/reload,
+correction rejection/confirmation, shortfall, keyboard checkbox and 360px layout.
+Typecheck, lint, build and local smoke pass; evidence under docs/evidence/phase-06-*.
 
-Dependencies: Firebase web 13.1.0/Admin 14.5.0/CLI 15.34.1 added, root lockfile kept.
-Audit: 4 high production dependency entries from unused browser Firestore/gRPC
-subtree; full tree 16 (10 high/6 moderate), including CLI and Tailwind tooling.
-No client Firestore code is imported. This is not a production release gate pass.
-Web build warns about a ~533 kB chunk. Landing media rights remain unverified.
-
-Current local sessions: emulators 39718, dev 51222 if still active; web :5173,
-API :3001, Auth :9099, Firestore :8080. Latest checkpoint via git log -1.
-Next: Phase 06 only; preserve owner checks, revision transactions and deletion
-barriers for all new child-resource writes. No synthetic fallback for API failures.
+Live Firebase Google/recovery delivery and cloud storage remain unverified. Local
+.env uses demo-jashn emulators; stopping them resets accounts/data by default.
+No live AI, replan/history UI, export or deployment. No secrets or cloud spend added.
+Prior dependency audit remains unresolved (4 high production entries in unused
+client Firestore/gRPC tree); offline lock update is not a fresh security audit.
+Build retains ~540 kB chunk warning. Landing media rights remain unverified.
