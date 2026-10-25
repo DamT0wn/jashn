@@ -37,3 +37,8 @@ User requested commit/push first. planning.ts and PlanEditor.tsx contain initial
 Phase08 implementation. Next: test new CRUD authorization/version/dependencies,
 locks, quote corrections, retained budgets and reload persistence; verify UI and
 fix any defects. Do not treat compile/lint checks as completed functional gate.
+
+## Static appearance handoff
+Do not reintroduce motion: user explicitly requested a fully static experience.
+Landing uses StaticScene.tsx and Typography.tsx; framer-motion was uninstalled.
+Phase08 functional verification remains pending from the prior checkpoint.

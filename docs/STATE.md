@@ -37,3 +37,8 @@ vendors and ideas. Revision/owner checks, task unlock reason, quote correction
 reason and immutable version writes are wired. Phase08 is NOT complete: targeted
 integration tests, browser verification, review of edge cases and final gate remain.
 Resume that work before declaring editing ready. Live AI stays deferred/mock-only.
+
+## Static UI preference - 2026-10-25
+User requested all motion removed. Landing now uses static scenes and typography;
+no videos, playback buttons, reveal effects, hover movement or smooth scrolling.
+Phase08 remains in progress; this design update does not complete its gate.

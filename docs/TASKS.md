@@ -129,3 +129,6 @@ User explicitly requested mock placeholders now and deferred live AI until later
 ## Phase08 in progress - 2026-10-25
 Initial accepted-plan CRUD and editor UI implemented; functional gate remains open.
 User requested an intermediate GitHub checkpoint before more implementation.
+
+- [x] 2026-10-25 user request: remove motion throughout the interface and retain
+  a static, flowing festive layout. Phase08 remains open.

@@ -81,3 +81,9 @@ marigold CTAs, terracotta and sage cards now extend across landing and workspace
 A static, aria-hidden SVG garland adds a celebration motif without extra motion.
 This updates the earlier strictly black/cream direction. Phase07 work remains in
 progress in the working tree; this visual change does not complete its live gate.
+
+## 2026-10-25 static design update
+User explicitly requested no motion. Removed video elements and playback controls,
+Framer Motion dependency, entrance/scroll reveals and hover transforms. StaticScene
+and Typography replace the motion components. Global CSS disables animations and
+transitions; anchors scroll immediately. Festive palette and garland remain static.

@@ -272,3 +272,9 @@ not inferred from these screenshots. The previous browser tab closed on interrup
 Typecheck and lint pass after fixing initial editor wiring and optional prop types.
 No Phase08 integration/browser gate claimed yet. User requested commit/push now;
 CRUD, lock/dependency, quote correction and persistence tests remain next work.
+
+## 2026-10-25 static UI verification
+Browser checked at 1440px and 360px. DOM/style inspection: zero video elements,
+zero elements with CSS animation or nonzero transition duration; scroll behavior
+is auto. Hero, text and CTA remain legible. Evidence: evidence/static-desktop.png.
+- Build and lint pass. Web bundle is now 432.62 kB; previous >500 kB warning no longer appears.
