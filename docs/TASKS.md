@@ -112,3 +112,16 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 | JFR-047 | Not implemented | None | Await scheduled phase |
 | JFR-048 | Landing implemented | AmbientVideo.tsx; media-policy.test.ts; DESIGN.md | Full app accessibility gate later |
 | JFR-049 | Not implemented | None | Await scheduled phase |
+
+## User-requested visual refinement — 2026-10-25
+- [x] Warm festive palette, welcoming hero copy, static garland and consistent workspace accents.
+- Phase07 remains open; no live Gemini verification claimed.
+
+## 2026-10-25 scope decision and Phase07 checkpoint
+User explicitly requested mock placeholders now and deferred live AI until later.
+- [x] Phase07 local/mock: extraction contract, validated drafts, server totals,
+  review/accept/discard, durable jobs, quotas, timeout/repair, owner/version safety.
+- [x] Explicit local mock provider; synthetic provenance; production guard;
+  mock extraction disabled in UI to avoid implying language understanding.
+- [ ] Deferred live gate: Vertex project/model availability and three-event live smoke.
+- Next: Phase08 editing, using accepted snapshots and canonical revision transactions.

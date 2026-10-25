@@ -243,3 +243,27 @@ Checkpoint resumed 2026-10-23: final typecheck/lint/build rerun after interrupti
 The desktop image shows saved-event context; the mobile image shows ledger controls.
 Numerical save/reload evidence above was observed in browser accessibility state,
 not inferred from these screenshots. The previous browser tab closed on interruption.
+
+## 2026-10-25 — Festive visual refresh
+- npm run build: PASS (existing >500 kB bundle-size warning remains).
+- npm run lint: PASS.
+- No financial, authorization or persistence behavior changed by this visual work.
+- Browser: desktop hero and 360px landing/sample workspace inspected; mobile menu opens and sample navigation works. Decorative garland does not enter accessibility tree. Screenshot: evidence/festive-desktop.png.
+
+## 2026-10-25 — Phase07 local/mock verification
+- User explicitly deferred live testing; live requests: 0/3 attempted.
+- 41 unit/contract tests pass, including emulator-only mock configuration guards.
+- Emulator suite: 10 pass (8 provider unit cases repeated by imports, 2 integration
+  scenarios). Added exact draft totals, synthetic provenance and expired acceptance.
+- Integration also verifies owner isolation, generation vs acceptance separation,
+  duplicate acceptance, canonical budget/version persistence, stale discard,
+  invalid output, timeout, distributed quota, crash expiry and delete-in-flight.
+- Lint, application build, local web/API smoke pass. Bundle >500 kB warning remains.
+- Initial integration attempt failed because Oracle Java shim exited; direct JDK
+  restart resolved it. No live provider or cloud persistence inference.
+- Browser: generated a fresh local mock through the normal API, confirmed synthetic
+  provenance and server total INR 1,100 (including INR 100 reserve), reviewed both
+  acknowledgement checkboxes, accepted revision 1, and reloaded. Accepted plan,
+  synthetic ledger source and INR 48,900 remaining persisted without errors.
+  Evidence: docs/evidence/phase-07-mock-accepted.png. Local data only.
+- Final application build and test TypeScript check pass. No live calls made.

@@ -180,3 +180,21 @@ export const BudgetResponseSchema = z.object({ event: EventRecordSchema, ledger:
 export type BudgetLedger = z.infer<typeof BudgetLedgerSchema>;
 export type BudgetResponse = z.infer<typeof BudgetResponseSchema>;
 export type SaveBudgetRequest = z.infer<typeof SaveBudgetRequestSchema>;
+
+// Phase 07: generated candidates are separate from accepted versions.
+export const ExtractBriefRequestSchema = z.object({ text: text(5000) }).strict();
+export const ExtractedBriefSchema = z.object({
+  name: text(120).nullable(), type: z.enum(['birthday','wedding','community']).nullable(), city: text(100).nullable(),
+  localDate: LocalDateSchema.nullable(), timezone: TimezoneSchema.nullable(), guests: z.number().int().min(1).max(100000).nullable(), budgetMinor: MoneyMinorSchema.nullable(),
+}).strict();
+export const ExtractionResponseSchema = z.object({ draft: ExtractedBriefSchema, missingFields: z.array(z.string()).max(7), uncertainties: z.array(text()).max(20) }).strict();
+export const PlanDraftSchema = z.object({ id: IdSchema, baseVersion: VersionSchema, snapshot: PlanSnapshotSchema, totals: BudgetTotalsSchema.optional(), generation: GenerationMetadataSchema, status: z.enum(['draft','accepted','discarded']), createdAt: TimestampSchema, expiresAt: TimestampSchema, acceptedVersion: VersionSchema.nullable() }).strict();
+export const DraftResponseSchema = z.object({ draft: PlanDraftSchema }).strict();
+export const DraftListResponseSchema = z.object({ drafts: z.array(PlanDraftSchema).max(10) }).strict();
+export const GenerationResponseSchema = z.object({ jobId: IdSchema, draft: PlanDraftSchema }).strict();
+export const AiStatusSchema = z.object({ enabled: z.boolean(), model: z.string().nullable() }).strict();
+export type PlanDraft = z.infer<typeof PlanDraftSchema>;
+export type ExtractionResponse = z.infer<typeof ExtractionResponseSchema>;
+
+export const GenerationJobSchema = z.object({ id:IdSchema,status:z.enum(['pending','running','succeeded','failed']),deadline:z.number().int(),draftId:IdSchema.nullable() }).strict();
+export const GenerationJobsResponseSchema = z.object({jobs:z.array(GenerationJobSchema).max(5)}).strict();

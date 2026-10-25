@@ -103,3 +103,37 @@ html { scroll-behavior: smooth; scroll-padding-top: 24px; }
   .feature-film { min-height: 420px; } .film-caption { min-height: 420px; } .landing-footer { padding: 24px; gap: 20px; } .landing-footer p { flex-basis: 100%; margin-left: 0; line-height: 1.7; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; } }
+
+/* Festive warmth, with quiet surfaces for reading and planning. */
+.landing { background: #17120f; color: #fff0d7; }
+.hero-inner { background: #422b25; border: 1px solid #efc47e38; }
+.hero .static-scene { background: radial-gradient(ellipse at 75% 10%, #ad6444 0, #694434 30%, #323b2c 65%, #211b18 100%); }
+.hero .video-shade { background: linear-gradient(180deg, #40241d42, #29191225 30%, #211710e8 100%); }
+.celebration-garland { position: absolute; top: 26px; right: -3%; width: 76%; max-width: 1100px; height: auto; pointer-events: none; z-index: 1; }
+.hero-nav { background: #211914; border: 1px solid #efc47e24; border-top: 0; }
+.hero-kicker { z-index: 2; color: #ffe7bb; }
+.tiny-star, .word-asterisk, .about-star, .film-caption > span:last-child { color: #efb553; }
+.hero-brand h1 { color: #fff0d7; }
+.hero-tagline { font-size: clamp(24px, 2.6vw, 38px); color: #ffd5b5; }
+.primary-cta { background: #efb553; color: #2a1c14; box-shadow: 0 6px 28px #efb55318; }
+.primary-cta > span { background: #39271e; color: #ffe4b3; }
+.primary-cta:hover { background: #f8c775; }
+.about-card { background: #28201b; border-color: #efc47e30; }
+.about-card .font-serif { color: #eeb3a1; }
+.steps > div { border-left: 2px solid #efb553; padding-left: 18px; }
+.steps > div:nth-child(2) { border-color: #df927e; }
+.steps > div:nth-child(3) { border-color: #a9ba98; }
+.steps p, .features-note, .features-heading > p { color: #c6bbae; }
+.feature-grid { gap: 14px; }
+.feature-card { background: #30251e; border: 1px solid #efc47e30; }
+.feature-card:nth-child(3) { background: #332523; border-color: #df927e40; }
+.feature-card:nth-child(4) { background: #26312a; border-color: #a9ba9840; }
+.feature-icon { background: #efb55316; border-color: #efb55340; }
+.feature-card li { color: #d5c9b9; }
+.feature-card li svg, .feature-link { color: #f5d2a0; }
+.landing-footer { background: #211914; }
+@media (max-width: 767px) {
+  .celebration-garland { top: 158px; width: 110%; right: -10%; opacity: .85; }
+  .hero-tagline { font-size: 23px; }
+  .hero-content { padding-top: 300px; }
+}

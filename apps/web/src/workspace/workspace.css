@@ -109,3 +109,32 @@
 .budget-editor label{display:block;margin:12px 0;font-size:14px}
 .budget-editor input[type="checkbox"]{width:20px;min-height:20px;height:20px;margin-right:10px;vertical-align:middle;accent-color:#dedbc8}
 .budget-editor .brief-details dd{overflow-wrap:anywhere}
+
+/* Celebration accents stay outside dense financial and form content. */
+.workspace { background: radial-gradient(ellipse at 85% 0%, #52352645, transparent 48%), #181512; color: #f2e7d5; }
+.workspace-sidebar { background: #211c17; border-color: #efc47e29; }
+.workspace-logo { color: #f1bf6a; }
+.workspace-sidebar nav a.active { background: #efb55320; color: #ffda9e; box-shadow: inset 3px 0 #efb553; }
+.sidebar-note { color: #eab5a1; }
+.workspace-topbar { background: #211c175e; border-color: #efc47e29; }
+.workspace .eyebrow { color: #dbc093; }
+.workspace .subtle, .workspace-footer { color: #bfb5a6; }
+.page-heading { position: relative; padding: 24px 28px; border: 1px solid #efc47e30; border-radius: 20px; background: radial-gradient(circle at 100% 0, #df927e20, transparent 55%), #29231c; border-left: 3px solid #efb553; }
+.workspace-panel { background: #25211c; border-color: #e5c59730; }
+a.workspace-panel:hover { border-color: #efb553; background: #30271f; }
+.cream-button, .workspace button[aria-pressed=true] { background: #efb553; color: #2a1c14; }
+.cream-button:hover { background: #f8c775; }
+.secondary-button { border-color: #d9bc8c80; }
+.badge { border-color: #d8bb8d60; color: #f2d5a8; }
+.stat-grid > div { background: #30291f; border-top: 2px solid #efb553; }
+.stat-grid > div:nth-child(2) { border-color: #df927e; }
+.stat-grid > div:nth-child(3) { border-color: #a9ba98; }
+.workspace select, .workspace input, .workspace textarea { background: #191713; border-color: #b8a78d80; color: #f2e7d5; }
+.wizard-steps [aria-current] span { background: #efb553; color: #2a1c14; }
+.plan-nav a[aria-current] { border-color: #efb553; color: #ffda9e; }
+.sample-tile { background: #3c3020; border-color: #efb55350; }
+.sample-tile.wedding { background: #3c2927; border-color: #df927e50; }
+.sample-tile.community { background: #27372d; border-color: #a9ba9850; }
+.idea-number { color: #efb553; }
+@media(max-width:767px) { .page-heading { padding: 20px; } }
+.workspace-topbar > .cream-button { flex-shrink: 0; white-space: nowrap; }

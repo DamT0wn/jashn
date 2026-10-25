@@ -6,14 +6,17 @@ import { CreateEventRequestSchema, createEventBriefSchema, DeleteEventRequestSch
 import type { EventRecord } from '@jashn/contracts';
 import { BudgetLedgerSchema, SaveBudgetRequestSchema } from '@jashn/contracts';
 import { budgetTotals, validateManualBudget, RuleError } from '@jashn/planning-rules';
+import { PlanSnapshotSchema, PlanVersionSchema } from '@jashn/contracts';
+import { aiRoutes } from './ai/routes.js';
+import type { AiConfig } from './ai/provider.js';
 
 export class ApiFailure extends Error {
-  constructor(public statusCode: number, public code: 'UNAUTHENTICATED' | 'NOT_FOUND' | 'VERSION_CONFLICT' | 'PROVIDER_UNAVAILABLE' | 'INVALID_INPUT', message: string) { super(message); }
+  constructor(public statusCode: number, public code: 'UNAUTHENTICATED' | 'NOT_FOUND' | 'VERSION_CONFLICT' | 'PROVIDER_UNAVAILABLE' | 'INVALID_INPUT' | 'USAGE_LIMIT' | 'INFEASIBLE', message: string) { super(message); }
 }
 export interface EventServices { db: Firestore; verify(token: string): Promise<string> }
 const missing = () => new ApiFailure(404, 'NOT_FOUND', 'Occasion not found.');
 const conflict = () => new ApiFailure(409, 'VERSION_CONFLICT', 'This occasion changed or cannot be edited. Reload before trying again.');
-export function eventRoutes(app: FastifyInstance, services: EventServices | null) {
+export function eventRoutes(app: FastifyInstance, services: EventServices | null, ai: AiConfig | null = null) {
   const identities = new WeakMap<FastifyRequest, string>();
   app.register(async routes => {
     routes.addHook('preHandler', async request => {
@@ -29,6 +32,7 @@ export function eventRoutes(app: FastifyInstance, services: EventServices | null
       return { uid, events: user.collection('events'), deletions: user.collection('deletions') };
     };
     const eventId = (request: FastifyRequest) => IdSchema.parse((request.params as { id: string }).id);
+    aiRoutes(routes, () => services!.db, context, ai);
     const owned = (data: unknown, uid: string): EventRecord => {
       if (!data) throw missing();
       const event = EventRecordSchema.parse(data);
@@ -63,8 +67,12 @@ export function eventRoutes(app: FastifyInstance, services: EventServices | null
     });
     routes.get('/v1/events/:id', async request => {
       const { uid, events } = context(request);
-      const event = owned((await events.doc(eventId(request)).get()).data(), uid);
-      return { event, plan: null };
+      const ref = events.doc(eventId(request));
+      return services!.db.runTransaction(async tx => {
+        const event = owned((await tx.get(ref)).data(), uid);
+        const plan = event.currentVersion === null ? null : PlanSnapshotSchema.parse((await tx.get(ref.collection('planning').doc('current'))).data());
+        return { event, plan };
+      });
     });
     routes.get('/v1/events/:id/budget', async request => {
       const { uid, events } = context(request); const ref = events.doc(eventId(request));
@@ -79,14 +87,23 @@ export function eventRoutes(app: FastifyInstance, services: EventServices | null
       const { uid, events } = context(request); const ref = events.doc(eventId(request));
       return services!.db.runTransaction(async transaction => {
         const current = owned((await transaction.get(ref)).data(), uid);
-        if (current.status !== 'active' || current.currentVersion !== null || current.revision !== body.expectedVersion || current.revision === Number.MAX_SAFE_INTEGER) throw conflict();
+        if (current.status !== 'active' || current.revision !== body.expectedVersion || current.revision === Number.MAX_SAFE_INTEGER) throw conflict();
         const ledgerRef = ref.collection('planning').doc('budget');
         const before = BudgetLedgerSchema.parse((await transaction.get(ledgerRef)).data() || { lines: [], contingencyMinor: 0 });
+        const accepted = current.currentVersion === null ? null : PlanSnapshotSchema.parse((await transaction.get(ref.collection('planning').doc('current'))).data());
         try {
           validateManualBudget(before, body.ledger, body.confirmCorrections, body.reason);
           const totals = budgetTotals(body.ledger, current.brief.budgetMinor);
           if (totals.shortfallMinor && !body.acknowledgeShortfall) throw new RuleError('Acknowledge the budget shortfall before saving.');
-          const event = EventRecordSchema.parse({ ...current, revision: current.revision + 1, updatedAt: new Date().toISOString() });
+          if (accepted?.vendorChecklist.some(vendor => vendor.linkedBudgetLineId && !body.ledger.lines.some(line => line.id === vendor.linkedBudgetLineId))) throw new RuleError('Resolve vendor links before removing budget lines.');
+          const event = EventRecordSchema.parse({ ...current, revision: current.revision + 1, currentVersion: accepted ? current.revision + 1 : null, updatedAt: new Date().toISOString() });
+          if (accepted) {
+            const reasons = accepted.feasibility.reasons.filter(reason => reason !== 'Projected costs exceed the budget cap.');
+            if (totals.shortfallMinor) reasons.push('Projected costs exceed the budget cap.');
+            const plan = PlanSnapshotSchema.parse({ ...accepted, budgetLines: body.ledger.lines, contingencyMinor: body.ledger.contingencyMinor, feasibility: reasons.length ? { status:'infeasible',shortfallMinor:totals.shortfallMinor,reasons:reasons.slice(0,20) } : { status:'feasible',shortfallMinor:0,reasons:[] } });
+            transaction.set(ref.collection('planning').doc('current'),plan);
+            transaction.create(ref.collection('versions').doc(String(event.revision)),PlanVersionSchema.parse({id:String(event.revision),eventId:event.id,schemaVersion:1,version:event.revision,snapshot:plan,acceptedAt:event.updatedAt,acceptedBy:uid,generation:{source:'manual',modelId:null,promptVersion:null,latencyMs:0,inputTokens:0,outputTokens:0},acknowledgedInfeasible:plan.feasibility.status==='infeasible'}));
+          }
           transaction.set(ledgerRef, body.ledger);
           transaction.set(ref.collection('budgetHistory').doc(String(event.revision)), { before, after: body.ledger, actor: uid, recordedAt: event.updatedAt, reason: body.reason, confirmCorrections: body.confirmCorrections, acknowledgeShortfall: body.acknowledgeShortfall });
           transaction.set(ref, event);

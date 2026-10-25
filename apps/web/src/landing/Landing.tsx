@@ -5,6 +5,7 @@ import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { WordsPullUp, WordsPullUpMultiStyle, ScrollText } from './Animation';
 import { AmbientVideo } from './AmbientVideo';
 import { media } from './media';
+import { CelebrationGarland } from './CelebrationGarland';
 
 const features = [
   { title: 'A budget that adds up.', items: ['Track estimates and confirmed costs.', 'Keep your priorities protected.', 'See your remaining budget clearly.', 'Review changes before applying them.'], link: 'Explore a sample budget', tab: 'budget', icon: CircleDollarSign },
@@ -34,17 +35,18 @@ export function Landing() {
       <section className="hero" aria-label="Jashn — Plan the joy">
         <div className="hero-inner">
           <AmbientVideo src={media.hero} label="hero" eager />
+          <CelebrationGarland />
           <header className="hero-nav" onKeyDown={event => { if (event.key === 'Escape') { setMenuOpen(false); document.getElementById('menu-toggle')?.focus(); } }}>
             <button id="menu-toggle" className="menu-toggle" aria-expanded={menuOpen} aria-controls="landing-links" onClick={() => setMenuOpen(!menuOpen)}>Jashn <span>{menuOpen ? <X size={18} /> : <Menu size={18} />}<span className="sr-only">Menu</span></span></button>
             <nav id="landing-links" aria-label="Main" className={menuOpen ? 'nav-links is-open' : 'nav-links'} onClick={() => setMenuOpen(false)}>
               <a href="#story">Our story</a><a href="#how-it-works">How it works</a><a href="#features">Features</a><Link to="/demo">Sample plan</Link><Link to="/app/new">Start planning <ArrowUpRight size={12} aria-hidden="true" /></Link>
             </nav>
           </header>
-          <div className="hero-kicker"><span className="tiny-star">✳</span><span>Good company.<br />Great celebrations.</span></div>
+          <div className="hero-kicker"><span className="tiny-star" aria-hidden="true">✳</span><span>Come together.<br />Make a little magic.</span></div>
           <div className="hero-content">
-            <div className="hero-brand"><p className="eyebrow">A little less planning. A lot more joy.</p><h1 style={{ color: '#E1E0CC' }}><WordsPullUp text="Jashn" showAsterisk /></h1><p className="hero-tagline">Plan the joy.</p></div>
+            <div className="hero-brand"><p className="eyebrow">A little less planning. A lot more joy.</p><h1><WordsPullUp text="Jashn" showAsterisk /></h1><p className="hero-tagline font-serif">Big days. Little moments. Your kind of joy.</p></div>
             <motion.div className="hero-description" initial={reduced ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .65, delay: reduced ? 0 : .5, ease: [.16, 1, .3, 1] }}>
-              <p>From birthdays to weddings and community gatherings, Jashn turns your ideas into a clear budget, thoughtful timeline and celebration that feels like you.</p>
+              <p>Bring your people. Bring your ideas. From birthdays to wedding days, we’ll help you bring the details together — and leave room for the joy.</p>
               <Link to="/app/new" className="primary-cta">Plan your celebration<span><ArrowRight size={19} aria-hidden="true" /></span></Link>
               <Link to="/demo" className="sample-link">Explore a sample plan <ArrowUpRight size={14} aria-hidden="true" /></Link>
             </motion.div>

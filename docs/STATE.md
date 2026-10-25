@@ -1,33 +1,31 @@
 # Current state
 
-Updated 2026-10-23. Phase 06 local/emulator gate complete. Next: Phase 07 live AI.
-Repository E:/jashan/jashn; previous checkpoint 56c81f2; latest via git log -1.
+Updated 2026-10-25. Phase07 local/mock scope complete; browser acceptance and reload verified.
+User explicitly deferred live AI and requested mock placeholders until the app is
+more mature. Next implementation phase: 08 editing. Live AI is not a completed gate.
 
-Implemented: landing, synthetic samples, Firebase identity and owner-isolated event
-lifecycle, plus persisted manual budget ledgers. GET/PUT /v1/events/:id/budget uses
-strict schemas and transactions checking owner, active status and canonical revision.
-Server computes exact paise totals, contingency once, outstanding, credit, protected
-minimum and shortfalls. Confirmed corrections require a reason; all ledger saves
-retain before/after audit records. Child writes respect deletion barriers.
+Implemented: festive landing/workspace, synthetic samples, Firebase auth and
+owner-isolated event lifecycle, manual budgets, deterministic money/timeline rules,
+validated generation drafts, explicit transactional acceptance and immutable plan
+versions. Accepted budget edits keep the canonical plan and ledger synchronized.
 
-The budget editor creates/edits/removes eligible items, records payments and locks,
-shows saved server totals, and requires acknowledgement of budget overruns. No
-payment is transferred. A manual ledger does not create an accepted plan. Accepted
-plan budget writes are deliberately blocked until canonical integration in Phase 07/08.
+AI pipeline: real Vertex adapter prepared (not live verified), explicit emulator-only
+mock provider, null-preserving extraction, curated checklists, schema/rule validation,
+one repair, bounded timeout/output, durable jobs and atomic distributed quotas.
+Draft review includes all five outputs, server totals, expiry and acknowledgement.
+Failures and stale revisions cannot replace accepted work. No automatic booking,
+payment, outreach, acceptance or replacement occurs.
 
-Planning-rules includes safe sums, financial/lock preservation, dependency DAG and
-completion checks, timed/date-only ordering, event-relative phases, explicit clock,
-overdue/blocked IDs, and locked-task preservation. Task persistence/UI is Phase 08.
+Local .env uses demo-jashn emulators and MOCK_GENERATION_ENABLED=true. Mock plans are
+marked synthetic and deliberately flag unevaluated requirements. Text extraction
+is disabled in the mock UI; use structured fields. No live model calls or spending.
+Emulator records are local and reset when emulators restart unless exported.
 
-Verified: 33 unit/contract tests; emulator suite covering two-account isolation,
-versions, correction audit, budget persistence/restart, shortfall acknowledgement,
-archive protection and recursive ledger/history deletion. Browser save/reload,
-correction rejection/confirmation, shortfall, keyboard checkbox and 360px layout.
-Typecheck, lint, build and local smoke pass; evidence under docs/evidence/phase-06-*.
+Verification: 41 unit/contract tests; 10 emulator-run tests (8 repeated provider
+unit tests plus 2 end-to-end integration scenarios); lint and build pass. Application and test TypeScript checks pass.
+Existing >500 kB web bundle warning remains. See VERIFICATION and AI.md.
 
-Live Firebase Google/recovery delivery and cloud storage remain unverified. Local
-.env uses demo-jashn emulators; stopping them resets accounts/data by default.
-No live AI, replan/history UI, export or deployment. No secrets or cloud spend added.
-Prior dependency audit remains unresolved (4 high production entries in unused
-client Firestore/gRPC tree); offline lock update is not a fresh security audit.
-Build retains ~540 kB chunk warning. Landing media rights remain unverified.
+Deferred: live Firebase provider/recovery/cloud checks, live Gemini (0/3 attempted),
+task/vendor/idea editing (08), replan/history UI (09), export and deployment.
+Model pin gemini-3.8-flash is provisional until live project verification. Previously
+recorded dependency advisories and landing media rights still require release review.

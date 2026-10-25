@@ -74,3 +74,10 @@ recovery/error messages. Private views remount when the account changes. Saved
 briefs show status/revision and offer edit/archive/restore. Deletion requires the
 exact event name; already-confirmed interrupted deletions have a separate retry
 view. Emulator badges distinguish local persistence from live cloud storage.
+
+## 2026-10-25 — Festive visual direction
+User requested professional polish with more joy and welcome. Warm charcoal,
+marigold CTAs, terracotta and sage cards now extend across landing and workspace.
+A static, aria-hidden SVG garland adds a celebration motif without extra motion.
+This updates the earlier strictly black/cream direction. Phase07 work remains in
+progress in the working tree; this visual change does not complete its live gate.

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
+import { BriefExtraction } from './BriefExtraction';
 
 import type { EventBrief } from '@jashn/contracts';
 import { initialForm, money, paiseToRupees, validateBrief } from './form';
@@ -46,15 +47,15 @@ export function Wizard({ onConfirm, initialBrief }: { onConfirm: (brief: EventBr
   }
   return <>
     <div className="page-heading"><p className="eyebrow">A celebration, in the making</p><h1>Start with your occasion.</h1><p>A few thoughtful details help shape a plan that feels like you.</p></div>
-    <div className="notice">Review your details before saving to your signed-in account. AI generation is not connected yet.</div>
-    <ol className="wizard-steps" aria-label="Progress">{['The essentials', 'Your priorities', 'Review your brief'].map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined}><span>0{index + 1}</span>{label}</li>)}</ol>
+    <div className="notice">Review your details before saving to your signed-in account. Generation requires separate draft review and acceptance.</div>
+    <BriefExtraction onExtract={result => { const draft=result.draft; setForm(current => ({ ...current,name:draft.name || "",type:draft.type || "",city:draft.city || "",localDate:draft.localDate || "",timezone:draft.timezone || "",guests:draft.guests === null ? "" : String(draft.guests),budget:draft.budgetMinor === null ? "" : paiseToRupees(draft.budgetMinor) })); setStep(0); setSaveError(""); setErrors({}); }} /><ol className="wizard-steps" aria-label="Progress">{['The essentials', 'Your priorities', 'Review your brief'].map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined}><span>0{index + 1}</span>{label}</li>)}</ol>
     {step < 2 ? <form className="workspace-panel wizard-form" onSubmit={submit} noValidate>
       <h2>{step === 0 ? 'Tell us what you’re celebrating.' : 'Make it your kind of celebration.'}</h2>
       <p className="subtle">{step === 0 ? 'Fields marked * are required. Dates are interpreted in your chosen timezone.' : 'These details are optional. Hard requirements below must be preserved in future plans.'}</p>
       {Object.values(errors).some(Boolean) ? <p role="alert" className="field-error">Please correct the highlighted fields. Your entries have been kept.</p> : null}
       <div className="form-grid">{step === 0 ? <>
         {field('name', 'Event name', { required: true, maxLength: 120, hint: 'For example, Aanya’s birthday' })}
-        <div className="form-field"><label htmlFor="field-type">Occasion *</label><select id="field-type" value={form.type} onChange={event => update('type', event.target.value)}><option value="birthday">Birthday</option><option value="wedding">Wedding</option><option value="community">Community gathering</option></select></div>
+        <div className="form-field"><label htmlFor="field-type">Occasion *</label><select id="field-type" value={form.type} onChange={event => update('type', event.target.value)}><option value="">Choose occasion</option><option value="birthday">Birthday</option><option value="wedding">Wedding</option><option value="community">Community gathering</option></select></div>
         {field('city', 'City', { required: true, maxLength: 100 })}{field('localDate', 'Event date', { type: 'date', required: true })}
         {field('timezone', 'Timezone', { required: true, maxLength: 100, hint: 'Suggested: Asia/Kolkata. Confirm or enter another IANA timezone.' })}
         {field('guests', 'Guest count', { required: true, maxLength: 6 })}
@@ -65,7 +66,7 @@ export function Wizard({ onConfirm, initialBrief }: { onConfirm: (brief: EventBr
         {field('theme', 'Theme or atmosphere')}{field('dietary', 'Dietary preferences')}{field('accessibility', 'Accessibility needs')}{field('cultural', 'Cultural preferences', { hint: 'Only what you choose to share; nothing is inferred.' })}
         {field('hardRequirements', 'Requirements to preserve', { multiline: true, hint: 'One per line, e.g. Fully vegetarian menu. Up to 20.' })}
       </>}</div>
-      <div className="unavailable-note">Free-text AI brief extraction is unavailable until live generation is connected. Please use the structured fields above.</div>
+      <div className="unavailable-note">Confirm every extracted detail. Missing or uncertain information must be filled in before saving.</div>
       <div className="form-actions">{step === 1 ? <button type="button" className="secondary-button" onClick={() => { setStep(0); setErrors({}); }}>Back</button> : <span />}<button className="cream-button" type="submit">{step === 0 ? 'Continue to priorities' : 'Review brief'} <span aria-hidden="true">→</span></button></div>
     </form> : confirmed ? <section className="workspace-panel"><p className="eyebrow">Review before saving</p><h2>Does everything look right?</h2><dl className="brief-details">{Object.entries({ Event: confirmed.name, Occasion: confirmed.type, City: confirmed.city, Date: confirmed.localDate, Timezone: confirmed.timezone, Guests: confirmed.guests, Budget: money(confirmed.budgetMinor), Venue: confirmed.venueStatus, Priorities: confirmed.priorities.join(', ') || 'None specified', Requirements: confirmed.hardRequirements.join('; ') || 'None specified', ...confirmed.preferences }).map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value || 'None specified'}</dd></div>)}</dl>{saveError ? <p role="alert" className="field-error">{saveError}</p> : null}<div className="form-actions"><button className="secondary-button" disabled={saving} onClick={() => setStep(1)}>Edit details</button><button className="cream-button" disabled={saving} onClick={() => { void save(); }}>{saving ? 'Saving…' : 'Confirm and save →'}</button></div></section> : null}
   </>;

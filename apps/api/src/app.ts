@@ -1,14 +1,15 @@
 import { eventRoutes, ApiFailure } from './events.js';
 import type { EventServices } from './events.js';
+import type { AiConfig } from './ai/provider.js';
 import Fastify from 'fastify';
 import { randomUUID } from 'node:crypto';
 import { ApiErrorSchema, HealthResponseSchema, LIMITS } from '@jashn/contracts';
 import type { ApiError } from '@jashn/contracts';
 
-export function buildApp(services: EventServices | null = null) {
+export function buildApp(services: EventServices | null = null, ai: AiConfig | null = null) {
   const app = Fastify({ bodyLimit: LIMITS.bodyBytes, genReqId: () => randomUUID(), logger: false });
   app.get('/health', async () => HealthResponseSchema.parse({ status: 'ok', service: 'jashn-api', schemaVersion: 1 }));
-  eventRoutes(app, services);
+  eventRoutes(app, services, ai);
   app.setNotFoundHandler((request, reply) => reply.code(404).send(ApiErrorSchema.parse({ error: { code: 'NOT_FOUND', message: 'Route not found.', requestId: request.id } })));
   app.setErrorHandler((error, request, reply) => {
     if (error instanceof ApiFailure) return reply.code(error.statusCode).send(ApiErrorSchema.parse({ error: { code: error.code, message: error.message, requestId: request.id } }));
