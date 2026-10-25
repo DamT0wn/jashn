@@ -38,3 +38,9 @@ export const aiApi = {
   async accept(id:string,draftId:string,expectedVersion:number,acknowledgeInfeasible:boolean,key:string) { return EventDetailResponseSchema.parse(await request(`/${encodeURIComponent(id)}/drafts/${encodeURIComponent(draftId)}/accept`,'POST',{expectedVersion,acknowledgeInfeasible},undefined,'/v1/events',key)); },
   async discard(id:string,draftId:string,expectedVersion:number) { return request(`/${encodeURIComponent(id)}/drafts/${encodeURIComponent(draftId)}/discard`,'POST',{expectedVersion}); },
 };
+
+export const planningApi = {
+  async save(id:string,section:'tasks'|'vendors'|'ideas',method:'POST'|'PUT'|'DELETE',itemId:string,expectedVersion:number,item:unknown,reason:string) {
+    return EventDetailResponseSchema.parse(await request(`/${encodeURIComponent(id)}/plan/${section}${method==='POST'?'':'/'+encodeURIComponent(itemId)}`,method,{expectedVersion,...(method==='DELETE'?{}:{item}),reason}));
+  },
+};

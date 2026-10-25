@@ -29,3 +29,11 @@ Deferred: live Firebase provider/recovery/cloud checks, live Gemini (0/3 attempt
 task/vendor/idea editing (08), replan/history UI (09), export and deployment.
 Model pin gemini-3.8-flash is provisional until live project verification. Previously
 recorded dependency advisories and landing media rights still require release review.
+
+## Phase08 work-in-progress checkpoint - 2026-10-25
+User requested committing and pushing all work before continuing. Added manual
+accepted-plan item create/update/delete routes and a tabbed PlanEditor for tasks,
+vendors and ideas. Revision/owner checks, task unlock reason, quote correction
+reason and immutable version writes are wired. Phase08 is NOT complete: targeted
+integration tests, browser verification, review of edge cases and final gate remain.
+Resume that work before declaring editing ready. Live AI stays deferred/mock-only.

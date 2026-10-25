@@ -125,3 +125,7 @@ User explicitly requested mock placeholders now and deferred live AI until later
   mock extraction disabled in UI to avoid implying language understanding.
 - [ ] Deferred live gate: Vertex project/model availability and three-event live smoke.
 - Next: Phase08 editing, using accepted snapshots and canonical revision transactions.
+
+## Phase08 in progress - 2026-10-25
+Initial accepted-plan CRUD and editor UI implemented; functional gate remains open.
+User requested an intermediate GitHub checkpoint before more implementation.

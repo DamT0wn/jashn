@@ -31,3 +31,9 @@ then reload browser before acceptance verification. Local test accounts are disp
 Still deferred: actual live output quality, semantic requirements evaluation,
 provider/schema compatibility in the selected cloud project, release audit, chunk
 splitting, media rights, hosted verification. Do not treat mock evidence as live proof.
+
+## Phase08 interrupted checkpoint
+User requested commit/push first. planning.ts and PlanEditor.tsx contain initial
+Phase08 implementation. Next: test new CRUD authorization/version/dependencies,
+locks, quote corrections, retained budgets and reload persistence; verify UI and
+fix any defects. Do not treat compile/lint checks as completed functional gate.

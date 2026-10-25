@@ -138,3 +138,9 @@ a.workspace-panel:hover { border-color: #efb553; background: #30271f; }
 .idea-number { color: #efb553; }
 @media(max-width:767px) { .page-heading { padding: 20px; } }
 .workspace-topbar > .cream-button { flex-shrink: 0; white-space: nowrap; }
+.plan-item-editor fieldset { min-width: 0; }
+.plan-item-editor label { display: block; margin: 12px 0; font-size: 13px; }
+.plan-item-editor input[type=checkbox] { width: 20px; min-height: 20px; height: 20px; margin-right: 8px; vertical-align: middle; accent-color: #efb553; }
+.plan-item-editor fieldset:disabled { opacity: .65; }
+.accepted-plan .plan-nav { gap: 10px; }
+.accepted-plan .workspace-panel { overflow-wrap: anywhere; }

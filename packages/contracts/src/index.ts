@@ -198,3 +198,9 @@ export type ExtractionResponse = z.infer<typeof ExtractionResponseSchema>;
 
 export const GenerationJobSchema = z.object({ id:IdSchema,status:z.enum(['pending','running','succeeded','failed']),deadline:z.number().int(),draftId:IdSchema.nullable() }).strict();
 export const GenerationJobsResponseSchema = z.object({jobs:z.array(GenerationJobSchema).max(5)}).strict();
+
+// Phase08 manual accepted-plan editing; server controls owner, revision and budget.
+export const SaveTaskRequestSchema = z.object({expectedVersion:VersionSchema,item:TaskSchema,reason:z.string().trim().max(500).default('')}).strict();
+export const SaveVendorRequestSchema = z.object({expectedVersion:VersionSchema,item:VendorChecklistItemSchema,reason:z.string().trim().max(500).default('')}).strict();
+export const SaveIdeaRequestSchema = z.object({expectedVersion:VersionSchema,item:IdeaSchema,reason:z.string().trim().max(500).default('')}).strict();
+export const DeletePlanItemRequestSchema = z.object({expectedVersion:VersionSchema,reason:z.string().trim().max(500).default('')}).strict();

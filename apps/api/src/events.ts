@@ -7,6 +7,7 @@ import type { EventRecord } from '@jashn/contracts';
 import { BudgetLedgerSchema, SaveBudgetRequestSchema } from '@jashn/contracts';
 import { budgetTotals, validateManualBudget, RuleError } from '@jashn/planning-rules';
 import { PlanSnapshotSchema, PlanVersionSchema } from '@jashn/contracts';
+import { planningRoutes } from './planning.js';
 import { aiRoutes } from './ai/routes.js';
 import type { AiConfig } from './ai/provider.js';
 
@@ -33,6 +34,7 @@ export function eventRoutes(app: FastifyInstance, services: EventServices | null
     };
     const eventId = (request: FastifyRequest) => IdSchema.parse((request.params as { id: string }).id);
     aiRoutes(routes, () => services!.db, context, ai);
+    planningRoutes(routes, () => services!.db, context);
     const owned = (data: unknown, uid: string): EventRecord => {
       if (!data) throw missing();
       const event = EventRecordSchema.parse(data);

@@ -267,3 +267,8 @@ not inferred from these screenshots. The previous browser tab closed on interrup
   synthetic ledger source and INR 48,900 remaining persisted without errors.
   Evidence: docs/evidence/phase-07-mock-accepted.png. Local data only.
 - Final application build and test TypeScript check pass. No live calls made.
+
+## Phase08 intermediate checkpoint - 2026-10-25
+Typecheck and lint pass after fixing initial editor wiring and optional prop types.
+No Phase08 integration/browser gate claimed yet. User requested commit/push now;
+CRUD, lock/dependency, quote correction and persistence tests remain next work.
