@@ -66,3 +66,14 @@ test('money display preserves safe integer paise and signed shortfalls', () => {
   assert.equal(money(Number.MAX_SAFE_INTEGER), '₹9,00,71,99,25,47,409.91');
   assert.equal(money(-100001), '-₹1,000.01');
 });
+
+// Display-only checks complement the server's authoritative timeline rules.
+import { taskOverdue, taskLocalDate, taskScheduleLabel } from './plan-display';
+test('timed tasks display the event timezone and become overdue within the same day',()=>{
+  const task = {id:'display',title:'Welcome',kind:'agenda' as const,schedule:{kind:'timed' as const,startsAt:'2026-10-25T09:00:00+05:30',endsAt:'2026-10-25T10:00:00+05:30'},timezone:'Asia/Kolkata',dependencyIds:[],priority:'high' as const,status:'todo' as const,locked:false,rationale:'Test'};
+  assert.equal(taskLocalDate(task,task.timezone),'2026-10-25');
+  assert.equal(taskOverdue(task,task.timezone,new Date('2026-10-25T05:00:00Z')),true);
+  assert.equal(taskOverdue({...task,status:'done'},task.timezone,new Date('2026-10-25T05:00:00Z')),false);
+  assert.match(taskScheduleLabel(task),/Asia\/Kolkata/);
+  assert.equal(taskOverdue({...task,schedule:{kind:'date',localDate:'2026-10-25'}},task.timezone,new Date('2026-10-25T05:00:00Z')),false);
+});

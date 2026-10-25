@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { firebaseServices } from '../firebase.js';
 import { buildApp } from '../app.js';
-import { FakeProvider, brief, candidate, fakeConfig } from './pipeline.test.js';
+import { FakeProvider, brief, candidate, fakeConfig } from './test-fixtures.js';
 if(process.env.GOOGLE_CLOUD_PROJECT!=='demo-jashn'||process.env.FIRESTORE_EMULATOR_HOST!=='127.0.0.1:8080'||process.env.FIREBASE_AUTH_EMULATOR_HOST!=='127.0.0.1:9099') throw new Error('Only run against local emulators.');
 const services=firebaseServices()!;
 test('emulator + explicit fake: drafts, ownership, idempotency, acceptance, quotas and failures',async t=>{

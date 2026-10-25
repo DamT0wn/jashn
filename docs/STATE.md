@@ -1,44 +1,30 @@
 # Current state
 
-Updated 2026-10-25. Phase07 local/mock scope complete; browser acceptance and reload verified.
-User explicitly deferred live AI and requested mock placeholders until the app is
-more mature. Next implementation phase: 08 editing. Live AI is not a completed gate.
+Updated 2026-10-25. Phase08 editing complete for local/mock scope. Next: Phase09
+replanning, proposal diff and version history. Live AI remains explicitly deferred.
 
-Implemented: festive landing/workspace, synthetic samples, Firebase auth and
-owner-isolated event lifecycle, manual budgets, deterministic money/timeline rules,
-validated generation drafts, explicit transactional acceptance and immutable plan
-versions. Accepted budget edits keep the canonical plan and ledger synchronized.
+Implemented: static festive landing/workspace, synthetic samples, Firebase auth,
+owner-isolated events, manual budgets, deterministic money/timeline rules,
+validated mock drafts and explicit acceptance, immutable accepted revisions.
+Overview, Budget, Timeline, Vendors and Ideas now use the accepted plan. Owners can
+create/edit/delete eligible tasks/vendors/ideas; locks, dependency validation,
+quote correction reasons and optimistic revision checks protect saved records.
+Vendor quotes require a separate confirmed action to update an existing budget
+line. Saving ideas never changes spending. Every edit advances the canonical
+revision; Phase09 must reject proposals based on older revisions at apply time.
 
-AI pipeline: real Vertex adapter prepared (not live verified), explicit emulator-only
-mock provider, null-preserving extraction, curated checklists, schema/rule validation,
-one repair, bounded timeout/output, durable jobs and atomic distributed quotas.
-Draft review includes all five outputs, server totals, expiry and acknowledgement.
-Failures and stale revisions cannot replace accepted work. No automatic booking,
-payment, outreach, acceptance or replacement occurs.
+Verified: 42 unit/contract tests, 3 distinct emulator integration scenarios,
+typecheck, lint, build and web/API smoke pass. Browser task/vendor/idea edits and
+reload persistence pass; quote application preserves payments and avoids duplicate
+costs. Mobile editor checked at 360px. See VERIFICATION.md for evidence.
 
-Local .env uses demo-jashn emulators and MOCK_GENERATION_ENABLED=true. Mock plans are
-marked synthetic and deliberately flag unevaluated requirements. Text extraction
-is disabled in the mock UI; use structured fields. No live model calls or spending.
-Emulator records are local and reset when emulators restart unless exported.
+User preferences: mock placeholders only; no live AI calls/spend. Fully static UI:
+no video, animations, hover movement or smooth scrolling. Keep warm festive style.
+Local .env uses demo-jashn emulators and MOCK_GENERATION_ENABLED=true. Mock output
+is synthetic and does not evaluate requirements. Emulator data resets on restart
+unless exported. Production/live/emulator-mismatch configurations fail closed.
 
-Verification: 41 unit/contract tests; 10 emulator-run tests (8 repeated provider
-unit tests plus 2 end-to-end integration scenarios); lint and build pass. Application and test TypeScript checks pass.
-Existing >500 kB web bundle warning remains. See VERIFICATION and AI.md.
-
-Deferred: live Firebase provider/recovery/cloud checks, live Gemini (0/3 attempted),
-task/vendor/idea editing (08), replan/history UI (09), export and deployment.
-Model pin gemini-3.8-flash is provisional until live project verification. Previously
-recorded dependency advisories and landing media rights still require release review.
-
-## Phase08 work-in-progress checkpoint - 2026-10-25
-User requested committing and pushing all work before continuing. Added manual
-accepted-plan item create/update/delete routes and a tabbed PlanEditor for tasks,
-vendors and ideas. Revision/owner checks, task unlock reason, quote correction
-reason and immutable version writes are wired. Phase08 is NOT complete: targeted
-integration tests, browser verification, review of edge cases and final gate remain.
-Resume that work before declaring editing ready. Live AI stays deferred/mock-only.
-
-## Static UI preference - 2026-10-25
-User requested all motion removed. Landing now uses static scenes and typography;
-no videos, playback buttons, reveal effects, hover movement or smooth scrolling.
-Phase08 remains in progress; this design update does not complete its gate.
+Deferred: live Firebase/cloud checks, live Gemini (0/3 attempted), proposal apply
+and history (09), export and deployment. Model pin remains provisional. Release
+dependency audit and asset rights review remain pending. Current web bundle is
+436.14 kB, with no previous >500 kB warning.

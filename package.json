@@ -23,7 +23,7 @@
     "smoke": "node scripts/smoke.mjs",
     "smoke:ai:live": "node scripts/live-ai-smoke.mjs",
     "emulators": "firebase emulators:start --only auth,firestore --project demo-jashn",
-    "test:integration": "npm run build:shared && node --env-file=.env.emulator.example --import tsx --test apps/api/src/events.integration.test.ts apps/api/src/ai/ai.integration.test.ts"
+    "test:integration": "npm run build:shared && node --env-file=.env.emulator.example --import tsx --test apps/api/src/events.integration.test.ts apps/api/src/ai/ai.integration.test.ts apps/api/src/planning.integration.test.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

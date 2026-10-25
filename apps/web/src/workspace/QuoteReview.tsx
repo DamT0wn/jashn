@@ -1,0 +1,16 @@
+import { useEffect, useState } from 'react';
+import type { BudgetResponse, EventRecord, PlanSnapshot, VendorChecklistItem } from '@jashn/contracts';
+import { eventsApi } from './api';
+import { money } from './form';
+export function QuoteReview({event,vendor,onSaved,close}:{event:EventRecord;vendor:VendorChecklistItem;onSaved:(event:EventRecord,plan:PlanSnapshot)=>void;close:()=>void}) {
+  const [budget,setBudget]=useState<BudgetResponse|null>(null);const [error,setError]=useState('');const [busy,setBusy]=useState(false);const [confirmed,setConfirmed]=useState(false);const [shortfall,setShortfall]=useState(false);const [reason,setReason]=useState('');
+  useEffect(()=>{const abort=new AbortController();void eventsApi.budget(event.id,abort.signal).then(value=>{if(!abort.signal.aborted){if(value.event.revision!==event.revision)setError('The plan changed. Reload the occasion before applying this quote.');else setBudget(value);}}).catch(error=>{if(!abort.signal.aborted)setError(error.message);});return()=>abort.abort();},[event.id,event.revision]);
+  const line=budget?.ledger.lines.find(line=>line.id===vendor.linkedBudgetLineId);
+  async function apply() {
+    if(!budget||!line||!vendor.quote)return;
+    setBusy(true);setError('');
+    try {await eventsApi.saveBudget(event.id,{expectedVersion:event.revision,ledger:{...budget.ledger,lines:budget.ledger.lines.map(value=>value.id===line.id?{...value,committedCostMinor:vendor.quote!.amountMinor,provenance:{sourceType:'confirmed_quote',note:'Organizer applied the recorded vendor quote.'}}:value)},confirmCorrections:confirmed,reason,acknowledgeShortfall:shortfall});const result=await eventsApi.get(event.id);onSaved(result.event,result.plan!);}
+    catch(error){setError((error as Error).message);}finally{setBusy(false);}
+  }
+  return <section className="workspace-panel budget-editor mt-6"><h3>Review quote before changing the budget</h3><p>{vendor.category}: organizer-recorded quote {vendor.quote?money(vendor.quote.amountMinor):'not available'}. No payment or booking will be made.</p>{line?<p>Replace the commitment on {line.category}: {line.committedCostMinor===null?'not recorded':money(line.committedCostMinor)} → {money(vendor.quote!.amountMinor)}. Paid amount {money(line.paidMinor)} stays unchanged. This updates the existing line once; it does not add another expense.</p>:<p>Loading linked budget record…</p>}{error?<p role="alert">{error}</p>:null}<label><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/> I confirm applying this quote, including any reduction to the recorded commitment.</label><label>Correction reason (required for reductions)<input value={reason} maxLength={500} onChange={e=>setReason(e.target.value)}/></label><label><input type="checkbox" checked={shortfall} onChange={e=>setShortfall(e.target.checked)}/> I acknowledge any budget shortfall caused by this change.</label><div className="form-actions"><button className="secondary-button" disabled={busy} onClick={close}>Cancel quote review</button><button className="cream-button" disabled={busy||!line||!confirmed||event.status!=='active'} onClick={()=>{void apply();}}>Apply quote to linked budget item</button></div></section>;
+}

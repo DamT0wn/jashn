@@ -1,44 +1,31 @@
 # Latest handoff
 
-2026-10-25: Phase07 local/mock implementation complete; live AI explicitly deferred
-by the user. Continue with Phase08 editing next. Do not enable cloud generation or
-claim live Gemini passed. See AI.md for eventual setup and smoke instructions.
+2026-10-25: Phase08 local/mock editing completed. Next authorized phase when asked:
+09 replanning, diff, discard, atomic/idempotent apply, safe restore and history.
+Do not enable live AI: user explicitly chose mock placeholders until later.
+Do not reintroduce motion: static scenes, typography and festive palette remain.
 
-Current local preview uses MOCK_GENERATION_ENABLED=true and demo-jashn emulators.
-This is an explicit provider, not a fallback. Production/live/emulator-mismatch
-configuration fails closed. Mock output is synthetic with fixed costs and warnings;
-structured forms remain the input route. All mock drafts still pass real schema,
-financial, timeline, quota, owner, revision and acceptance rules.
+Phase08: planning.ts implements owner-checked accepted-plan CRUD transactions,
+canonical revision increments, immutable versions and planEdits audit records.
+PlanEditor.tsx exposes all five plan sections; QuoteReview.tsx explicitly confirms
+updating a linked existing budget commitment through the established budget API.
+Task locks require separate unlock with reason. Dependencies/cycles/completion,
+quoted/booked corrections, archive read-only and stale writes are validated.
+At least one item per collection remains required by the existing snapshot schema.
+Timed task entry accepts ISO timestamps with offsets; displayed schedules use the
+event timezone. Ideas are saved/dismissed separately from explicit budget edits.
 
-Acceptance writes event revision, immutable version, canonical current snapshot,
-budget ledger, draft status and idempotent action result in one transaction. Budget
-saves after acceptance update the same canonical plan/version and ledger. Phase08
-must use that same transactional version discipline for task/vendor/idea mutations.
-Never recreate event children after deletion. Keep owner checks on every resource.
+Verification: 42 unit/contract tests, 3 emulator integration scenarios (duplicate
+provider test imports removed), typecheck, lint, build and smoke pass. Browser
+edits survived reload; INR 1,200 quote applied to one line + INR 100 reserve gave
+INR 1,300, and saving an idea did not change it. Desktop/mobile screenshots are
+in docs/evidence/phase-08-*.png. See VERIFICATION.md.
 
-AI source: apps/api/src/ai/{provider,mock,pipeline,routes}. UI: AiPlanning,
-BriefExtraction, BudgetEditor, SavedEvents. Contracts include drafts, jobs, extraction.
-Draft totals are calculated server-side at generation and read, including old drafts
-without stored totals. Manual budget provenance stays untouched when mock outputs
-are labeled synthetic. No replacement generation once an accepted plan exists.
+Phase09 must enforce proposal baseVersion at apply time; Phase08 proves edits
+advance revision and stale manual writes fail, not a completed proposal workflow.
+Preserve current commitments/payments/locks during restore; never restore an old
+financial ledger wholesale. Live checks remain separate from emulator evidence.
 
-Tests: npm run test (41); npm run test:integration (10 including 8 repeated provider
-unit cases); npm run lint; npm run build; npm run smoke. Direct JDK path is needed
-for reliable local emulator launch: C:/Program Files/Java/jdk-26.0.1/bin before the
-Oracle shim in PATH. Build during dev can restart API mid-request: finish builds,
-then reload browser before acceptance verification. Local test accounts are disposable.
-
-Still deferred: actual live output quality, semantic requirements evaluation,
-provider/schema compatibility in the selected cloud project, release audit, chunk
-splitting, media rights, hosted verification. Do not treat mock evidence as live proof.
-
-## Phase08 interrupted checkpoint
-User requested commit/push first. planning.ts and PlanEditor.tsx contain initial
-Phase08 implementation. Next: test new CRUD authorization/version/dependencies,
-locks, quote corrections, retained budgets and reload persistence; verify UI and
-fix any defects. Do not treat compile/lint checks as completed functional gate.
-
-## Static appearance handoff
-Do not reintroduce motion: user explicitly requested a fully static experience.
-Landing uses StaticScene.tsx and Typography.tsx; framer-motion was uninstalled.
-Phase08 functional verification remains pending from the prior checkpoint.
+Dev: npm.cmd run dev; emulators require direct JDK bin in PATH before Oracle shim
+(C:/Program Files/Java/jdk-26.0.1/bin). Finish builds before browser writes because
+shared builds can restart the API. Local synthetic test records are not real events.

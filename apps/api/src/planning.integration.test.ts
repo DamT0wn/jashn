@@ -1,0 +1,67 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { buildApp } from './app.js';
+import { firebaseServices } from './firebase.js';
+import { FakeProvider, brief, fakeConfig } from './ai/test-fixtures.js';
+import type { PlanSnapshot } from '@jashn/contracts';
+if(process.env.GOOGLE_CLOUD_PROJECT!=='demo-jashn'||process.env.FIRESTORE_EMULATOR_HOST!=='127.0.0.1:8080'||process.env.FIREBASE_AUTH_EMULATOR_HOST!=='127.0.0.1:9099')throw new Error('Local emulators only');
+const services=firebaseServices()!;
+test('phase08 emulator: task/vendor/idea CRUD, locks, dependencies, stale revisions and budgets',async t=>{
+  const user=async()=>{const r=await fetch('http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:signUp?key=demo-key',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:`edit-${randomUUID()}@example.test`,password:randomUUID(),returnSecureToken:true})});assert.equal(r.status,200);return await r.json() as {idToken:string;localId:string};};
+  const [a,b]=await Promise.all([user(),user()]);let app=buildApp(services,fakeConfig(new FakeProvider()));
+  t.after(async()=>{await app.close();await services.db.recursiveDelete(services.db.collection('users').doc(a.localId));await services.db.recursiveDelete(services.db.collection('users').doc(b.localId));});
+  const call=(method:'GET'|'POST'|'PUT'|'DELETE',url:string,payload?:unknown,token=a.idToken)=>app.inject({method,url,headers:{authorization:`Bearer ${token}`,'idempotency-key':randomUUID()},...(payload?{payload}:{})});
+  const created=await call('POST','/v1/events',{brief:{...brief,hardRequirements:['Vegetarian menu']}});assert.equal(created.statusCode,201);
+  const path=`/v1/events/${created.json().event.id}`;
+  const generated=await call('POST',`${path}/generations`,{expectedVersion:0});assert.equal(generated.statusCode,201,generated.body);
+  const accepted=await call('POST',`${path}/drafts/${generated.json().draft.id}/accept`,{expectedVersion:0,acknowledgeInfeasible:false});assert.equal(accepted.statusCode,200);
+  let revision=1;let plan=accepted.json().plan as PlanSnapshot;
+  const mutate=async(section:string,method:'POST'|'PUT'|'DELETE',id:string,item?:unknown,reason='')=>{
+    const r=await call(method,`${path}/plan/${section}${method==='POST'?'':'/'+id}`,{expectedVersion:revision,...(item?{item}:{}),reason});
+    assert.equal(r.statusCode,200,r.body);revision++;assert.equal(r.json().event.revision,revision);plan=r.json().plan;return r;
+  };
+  const budget=(await call('GET',`${path}/budget`)).json().ledger;
+  for(const section of ['tasks','vendors','ideas'])for(const method of ['POST','PUT','DELETE'] as const){
+    const item=section==='tasks'?plan.tasks[0]:section==='vendors'?plan.vendorChecklist[0]:plan.ideas[0];
+    const payload={expectedVersion:revision,...(method==='DELETE'?{}:{item}),reason:''};
+    const url=`${path}/plan/${section}${method==='POST'?'':'/'+item!.id}`;
+    assert.equal((await call(method,url,payload,b.idToken)).statusCode,404);
+    assert.equal((await app.inject({method,url,payload})).statusCode,401);
+  }
+  const original=plan.tasks[0]!;const dependent={...original,id:'dependent',title:'Set up tables',dependencyIds:[original.id]};
+  await mutate('tasks','POST',dependent.id,dependent);
+  assert.equal((await call('PUT',`${path}/plan/tasks/${dependent.id}`,{expectedVersion:revision,item:{...dependent,status:'done'}})).statusCode,400);
+  assert.equal((await call('DELETE',`${path}/plan/tasks/${original.id}`,{expectedVersion:revision})).statusCode,400);
+  assert.equal((await call('PUT',`${path}/plan/tasks/${original.id}`,{expectedVersion:revision,item:{...original,dependencyIds:[dependent.id]}})).statusCode,400);
+  await mutate('tasks','PUT',original.id,{...original,status:'done'});
+  await mutate('tasks','PUT',dependent.id,{...dependent,status:'done',locked:true});
+  const locked=plan.tasks.find(task=>task.id===dependent.id)!;
+  assert.equal((await call('PUT',`${path}/plan/tasks/${locked.id}`,{expectedVersion:revision,item:{...locked,title:'Moved'}})).statusCode,400);
+  assert.equal((await call('DELETE',`${path}/plan/tasks/${locked.id}`,{expectedVersion:revision})).statusCode,400);
+  await mutate('tasks','PUT',locked.id,{...locked,locked:false},'Organizer unlocks the task');
+  const staleRevision=revision;await mutate('tasks','DELETE',locked.id);
+  assert.equal((await call('PUT',`${path}/plan/tasks/${original.id}`,{expectedVersion:staleRevision,item:original})).statusCode,409);
+  const vendor={...plan.vendorChecklist[0]!,id:'manual-vendor',manuallyEnteredName:'Test Catering',contactNotes:'Local fixture contact notes',status:'booked',quote:{amountMinor:125000,currency:'INR',provenance:{sourceType:'confirmed_quote'}},linkedBudgetLineId:plan.budgetLines[0]!.id};
+  await mutate('vendors','POST',vendor.id,vendor);
+  assert.equal((await call('PUT',`${path}/plan/vendors/${vendor.id}`,{expectedVersion:revision,item:{...vendor,quote:null}})).statusCode,400);
+  await mutate('vendors','PUT',vendor.id,{...vendor,quote:{...vendor.quote,amountMinor:120000}},'Corrected recorded quote');
+  assert.deepEqual((await call('GET',`${path}/budget`)).json().ledger,budget,'vendor record never adds a cost');
+  const idea={...plan.ideas[0]!,id:'manual-idea',title:'Memory wall',status:'saved'};
+  await mutate('ideas','POST',idea.id,idea);await mutate('ideas','PUT',idea.id,{...idea,status:'dismissed'});
+  assert.deepEqual((await call('GET',`${path}/budget`)).json().ledger,budget,'idea status never changes spend');
+  assert.deepEqual(plan.brief.hardRequirements,['Vegetarian menu']);
+  await app.close();app=buildApp(services,fakeConfig(new FakeProvider()));
+  const persisted=(await call('GET',path)).json();assert.equal(persisted.event.revision,revision);assert.equal(persisted.plan.ideas.find((item:{id:string})=>item.id===idea.id).status,'dismissed');assert.equal(persisted.plan.vendorChecklist.find((item:{id:string})=>item.id===vendor.id).quote.amountMinor,120000);
+  // Explicit quote application uses the budget mutation path and replaces one commitment.
+  const withQuote={...budget,lines:budget.lines.map((line:{id:string})=>line.id===vendor.linkedBudgetLineId?{...line,committedCostMinor:120000}:line)};
+  const applied=await call('PUT',`${path}/budget`,{expectedVersion:revision,ledger:withQuote,confirmCorrections:true,reason:'Apply organizer quote',acknowledgeShortfall:false});assert.equal(applied.statusCode,200,applied.body);revision++;
+  assert.equal(applied.json().totals.projectedMinor,130000);assert.equal(applied.json().ledger.lines.length,budget.lines.length);
+  await mutate('vendors','DELETE',vendor.id,undefined,'Remove obsolete contact record; budget obligation retained');
+  await mutate('ideas','DELETE',idea.id);
+  assert.equal((await call('GET',`${path}/budget`)).json().ledger.lines[0].committedCostMinor,120000);
+  const ref=services.db.collection('users').doc(a.localId).collection('events').doc(created.json().event.id);
+  assert.equal((await ref.collection('versions').get()).size,revision);
+  const archived=await call('POST',`${path}/archive`,{expectedVersion:revision});assert.equal(archived.statusCode,200);revision++;
+  assert.equal((await call('PUT',`${path}/plan/tasks/${original.id}`,{expectedVersion:revision,item:original})).statusCode,409);
+});

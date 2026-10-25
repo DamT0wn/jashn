@@ -1,0 +1,10 @@
+import { EventBriefSchema } from '@jashn/contracts';
+import type { AiConfig, AiProvider, ProviderInput } from './provider.js';
+export const brief=EventBriefSchema.parse({name:'Test occasion',type:'birthday',city:'Noida',localDate:'2099-02-01',timezone:'Asia/Kolkata',guests:50,currency:'INR',budgetMinor:5000000,priorities:[],hardRequirements:[],preferences:{}});
+export const candidate={overview:'Test provider candidate, not live AI.',assumptions:['Organizer reviews estimates'],budgetLines:[{id:'new-food',category:'Food',currency:'INR',allocationMinor:100000,estimatedCostMinor:100000,committedCostMinor:null,paidMinor:0,locked:false,provenance:{sourceType:'ai_estimate'},rationale:'Test estimate'}],contingencyMinor:10000,tasks:[{id:'prep',title:'Confirm menu',kind:'preparation',schedule:{kind:'date',localDate:'2099-01-30'},timezone:'Asia/Kolkata',dependencyIds:[],priority:'high',status:'todo',locked:false,rationale:'Review menu'}],vendorChecklist:[{id:'vendor',category:'Catering',requiredBy:'2099-01-30',questions:['Can you meet dietary needs?'],documentsToRequest:['Quote'],estimatedRange:{minMinor:10000,maxMinor:100000,currency:'INR',provenance:{sourceType:'ai_estimate'}},status:'researching',quote:null,linkedBudgetLineId:null}],ideas:[{id:'idea',title:'Shared games',description:'Group games',preferenceMatch:'Small gathering',estimatedCostImpact:{direction:'increase',amountMinor:10000,currency:'INR',provenance:{sourceType:'ai_estimate'}},status:'suggested'}],warnings:[],feasibility:{status:'feasible',shortfallMinor:0,reasons:[]}};
+export class FakeProvider implements AiProvider {
+  readonly model='explicit-test-fake'; readonly source='synthetic' as const; calls=0;
+  constructor(public respond:(input:ProviderInput)=>Promise<string>=async()=>JSON.stringify(candidate)){}
+  async generate(input:ProviderInput) {this.calls++;return {text:await this.respond(input),inputTokens:10,outputTokens:20};}
+}
+export const fakeConfig=(provider:AiProvider,timeoutMs=500):AiConfig=>({provider,timeoutMs,userDailyLimit:100,globalDailyLimit:1000,concurrency:4});

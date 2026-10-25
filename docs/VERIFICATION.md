@@ -278,3 +278,25 @@ Browser checked at 1440px and 360px. DOM/style inspection: zero video elements,
 zero elements with CSS animation or nonzero transition duration; scroll behavior
 is auto. Hero, text and CTA remain legible. Evidence: evidence/static-desktop.png.
 - Build and lint pass. Web bundle is now 432.62 kB; previous >500 kB warning no longer appears.
+
+## 2026-10-25 - Phase08 local/mock gate
+- PASS: 42 unit/contract tests, including timezone display and same-day overdue work.
+- PASS: 3 distinct emulator integration scenarios. Shared AI fixtures now live in
+  test-fixtures.ts so integration no longer re-runs 8 imported unit cases.
+- Phase08 scenario covers all nine CRUD routes for unauthenticated/nonowner denial,
+  task cycles/referenced deletion/blocked completion, separate reasoned unlock,
+  stale revision rejection, vendor quote reductions, idea saved/dismissed states,
+  hard-requirement preservation, API restart persistence, immutable revision count,
+  archive rejection and explicit quote application without duplicate budget lines.
+- PASS: typecheck, lint, production build (436.14 kB web JS), web/API smoke.
+  Smoke needed local-network sandbox permission after EACCES; retry passed.
+- Browser: changed task title/status and reloaded (revision 2); saved a shortlisted
+  synthetic vendor with INR 1,200 quote and budget link, reloaded (revision 3).
+  Confirmed quote application updated the existing line (revision 4), paid stayed
+  zero, projected cost INR 1,300 including INR 100 reserve. Saved idea (revision 5),
+  reloaded and verified saved status and unchanged INR 1,300 total.
+- Mobile 360px: editor fields fit, document width 345px, no horizontal overflow.
+  DOM/style inspection found zero videos, CSS animations or nonzero transitions.
+- Evidence: evidence/phase-08-desktop.png and evidence/phase-08-mobile.png.
+- Scope: localhost Firebase emulators/mock provider only; zero live model calls.
+  Stale manual edits are rejected; future proposal apply tests belong to Phase09.

@@ -23,8 +23,8 @@ of implemented functionality. Detailed phase requirements: [PROMPTS.md](PROMPTS.
 - [ ] **07 — Live AI:** extraction; validated draft; explicit acceptance; bounded
   requests, jobs and distributed quotas. Gate: live outputs plus failure checks;
   provider fakes cannot satisfy live verification.
-- [ ] **08 — Editing:** persisted task/vendor/idea workflows and all plan outputs.
-  Gate: refresh retains edits; authorization and stale-proposal behavior verified.
+- [x] **08 — Editing (local/mock):** persisted task/vendor/idea workflows and all plan outputs.
+  Gate: refresh retains edits; authorization and stale writes verified. Proposal apply checks follow in 09.
 - [ ] **09 — Replan/history:** proposal diff, discard, atomic/idempotent apply and
   safe restore. Gate: 50,000-to-40,000 INR demo preserves locks; impossible cap,
   stale apply and duplicate requests tested.
@@ -49,7 +49,7 @@ Scope baseline: [PRODUCT.md](PRODUCT.md). Stories are defined, not implemented.
 | [AS-01 Identity and event lifecycle](PRODUCT.md#eight-acceptance-stories) | 05, 11–12 | Emulator lifecycle/isolation verified; live gate pending |
 | [AS-02 Confirmed brief and initial draft](PRODUCT.md#eight-acceptance-stories) | 04, 07 | Brief confirmation implemented; generation pending |
 | [AS-03 Budget and payment arithmetic](PRODUCT.md#eight-acceptance-stories) | 06 | Manual ledger and deterministic rules verified locally |
-| [AS-04 Editable tasks, vendors and ideas](PRODUCT.md#eight-acceptance-stories) | 06, 08 | Not implemented |
+| [AS-04 Editable tasks, vendors and ideas](PRODUCT.md#eight-acceptance-stories) | 06, 08 | Local editing and reload verified; Phase08 integration/browser evidence |
 | [AS-05 Locked-budget replan](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
 | [AS-06 Conflicts and history](PRODUCT.md#eight-acceptance-stories) | 09 | Not implemented |
 | [AS-07 Journey and export](PRODUCT.md#eight-acceptance-stories) | 10, 12 | Not implemented |
@@ -87,14 +87,14 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 | JFR-022 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
 | JFR-023 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
 | JFR-024 | Manual ledger implemented | BudgetEditor.tsx; events.ts; rules.test.ts; Phase06 evidence | Accepted-plan/history UI integration later |
-| JFR-025 | Not implemented | None | Await scheduled phase |
-| JFR-026 | Schedule validators implemented | planning-rules/src/index.ts; rules.test.ts | Persisted timeline UI in Phase08 |
-| JFR-027 | Not implemented | None | Await scheduled phase |
-| JFR-028 | Not implemented | None | Await scheduled phase |
-| JFR-029 | Not implemented | None | Await scheduled phase |
-| JFR-030 | Not implemented | None | Await scheduled phase |
-| JFR-031 | Not implemented | None | Await scheduled phase |
-| JFR-032 | Not implemented | None | Await scheduled phase |
+| JFR-025 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
+| JFR-026 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
+| JFR-027 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
+| JFR-028 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
+| JFR-029 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
+| JFR-030 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
+| JFR-031 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
+| JFR-032 | Implemented locally | PlanEditor.tsx, QuoteReview.tsx, planning.ts; Phase08 integration/browser evidence | Replanning guarantees verified in Phase09 |
 | JFR-033 | Not implemented | None | Await scheduled phase |
 | JFR-034 | Not implemented | None | Await scheduled phase |
 | JFR-035 | Not implemented | None | Await scheduled phase |
@@ -132,3 +132,11 @@ User requested an intermediate GitHub checkpoint before more implementation.
 
 - [x] 2026-10-25 user request: remove motion throughout the interface and retain
   a static, flowing festive layout. Phase08 remains open.
+
+## Phase08 completed - 2026-10-25
+- [x] Owner-checked CRUD for accepted tasks, vendors and ideas, immutable revisions.
+- [x] Dependencies, locks, correction reasons, archive and stale-write protection.
+- [x] Explicit quote-to-budget confirmation; ideas never silently alter costs.
+- [x] Task/vendor/idea reload persistence and static 360px editor checked.
+- [x] 42 unit tests; 3 distinct emulator integration scenarios; build/lint/typecheck/smoke.
+- Next: Phase09 proposal lifecycle/history; live AI remains deferred.
