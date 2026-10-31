@@ -63,3 +63,8 @@ Added Enter mock workspace on the local emulator login screen. Creates the local
 demo account if absent, otherwise signs into it; uses normal emulator tokens and
 owner checks. Hidden outside guarded development emulator mode. Browser verified
 sign-out then one-click login, with existing demo occasion retained.
+
+## Vercel services configuration
+Added root vercel.json for api/web, explicit workspace builds, API prefix stripping
+and SPA deep links. No bindings: static browser calls only. See VERCEL.md. User
+confirmation of names/public paths/bindings pending; no deployment performed.
