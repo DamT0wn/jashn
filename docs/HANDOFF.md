@@ -58,3 +58,9 @@ Mock scaling no longer inflates flexible estimates to exhaust available budget.
 Local prototype checkpoint only: full release matrix, actual print pagination,
 hosted deployment, video and submission remain unverified/incomplete. No live
 model requests, external booking, payments, social post or submission performed.
+
+## One-click mock login
+Added Enter mock workspace on the local emulator login screen. Creates the local
+demo account if absent, otherwise signs into it; uses normal emulator tokens and
+owner checks. Hidden outside guarded development emulator mode. Browser verified
+sign-out then one-click login, with existing demo occasion retained.

@@ -6,7 +6,7 @@ From E:/jashan/jashn, with Node 24 and Java available:
 3. npm.cmd run emulators (keep running)
 4. npm.cmd run dev (another terminal)
 5. npm.cmd run demo:seed (creates a synthetic accepted occasion)
-6. Open http://127.0.0.1:5173/app and sign in with demo@jashn.test / Jashn-Local-Demo-Only!
+6. Open http://127.0.0.1:5173/app and click **Enter mock workspace** (no credentials needed)
 
 These credentials are intentionally public LOCAL emulator fixtures, never cloud credentials.
 Create/edit a brief, review a mock draft, accept it, edit tasks/vendors/ideas,
