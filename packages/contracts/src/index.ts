@@ -199,6 +199,20 @@ export type ExtractionResponse = z.infer<typeof ExtractionResponseSchema>;
 export const GenerationJobSchema = z.object({ id:IdSchema,status:z.enum(['pending','running','succeeded','failed']),deadline:z.number().int(),draftId:IdSchema.nullable() }).strict();
 export const GenerationJobsResponseSchema = z.object({jobs:z.array(GenerationJobSchema).max(5)}).strict();
 
+// Phase 09: replan proposal and version history response schemas.
+export const ReplanExtractRequestSchema = z.object({ text: text(5_000), baseVersion: VersionSchema }).strict();
+export const ReplanExtractResponseSchema = z.object({ draftChanges: z.object({ budgetMinor: MoneyMinorSchema.refine(value => value > 0).optional(), localDate: LocalDateSchema.optional(), guests: z.number().int().min(1).max(100_000).optional(), hardRequirements: z.array(text()).max(20).optional() }).strict(), uncertainties: z.array(text()).max(20) }).strict();
+export const ProposalResponseSchema = z.object({ proposal: ReplanProposalSchema }).strict();
+export const ProposalListResponseSchema = z.object({ proposals: z.array(ReplanProposalSchema).max(20), nextCursor: z.string().nullable() }).strict();
+export const VersionSummarySchema = z.object({ id: IdSchema, version: VersionSchema, acceptedAt: TimestampSchema, overview: text() }).strict();
+export const VersionListResponseSchema = z.object({ versions: z.array(VersionSummarySchema).max(200), nextCursor: z.string().nullable() }).strict();
+export const VersionResponseSchema = z.object({ version: PlanVersionSchema }).strict();
+export const RestoreProposalRequestSchema = z.object({ baseVersion: VersionSchema }).strict();
+export type ReplanExtractRequest = z.infer<typeof ReplanExtractRequestSchema>;
+export type ProposalResponse = z.infer<typeof ProposalResponseSchema>;
+export type VersionListResponse = z.infer<typeof VersionListResponseSchema>;
+export type VersionResponse = z.infer<typeof VersionResponseSchema>;
+
 // Phase08 manual accepted-plan editing; server controls owner, revision and budget.
 export const SaveTaskRequestSchema = z.object({expectedVersion:VersionSchema,item:TaskSchema,reason:z.string().trim().max(500).default('')}).strict();
 export const SaveVendorRequestSchema = z.object({expectedVersion:VersionSchema,item:VendorChecklistItemSchema,reason:z.string().trim().max(500).default('')}).strict();

@@ -300,3 +300,32 @@ is auto. Hero, text and CTA remain legible. Evidence: evidence/static-desktop.pn
 - Evidence: evidence/phase-08-desktop.png and evidence/phase-08-mobile.png.
 - Scope: localhost Firebase emulators/mock provider only; zero live model calls.
   Stale manual edits are rejected; future proposal apply tests belong to Phase09.
+
+## 2026-10-31 mock prototype continuation
+User prioritizes a fast mock-only working model and screenshot submission criteria.
+Existing uncommitted Phase09 implementation preserved; fixed lint/hook failures.
+Proposal apply now revalidates against the current snapshot and synchronizes the
+event brief. Restore candidates also pass protected-state/timeline validation.
+42 existing tests and lint pass; these do not establish the new Phase09 gate.
+Phase09 integration/browser verification and export remain pending. Submission
+copy and video outline are in SUBMISSION-DRAFT.md; hosting/video/post not completed.
+
+## 2026-10-31 working mock model checkpoint
+Mock proposal generation/review/apply/discard and history are wired. Restore
+proposals reach the review controls and revalidate current financial/task locks.
+Apply synchronizes event brief, canonical snapshot, ledger and immutable version.
+Export renders current or historical version content with a print/PDF action.
+Demo account/occasion bootstrap: npm.cmd run demo:seed; see QUICK-DEMO.md.
+
+Verified: 43 unit/contract tests; 4 emulator integration scenarios; build/lint and
+web/API smoke pass. Replan test checks apply retry, stale rejection, discard,
+history and restore. Locked 20000 food/4000 photography survive 50000-to-40000;
+impossible cap is flagged. Browser generated/applied a 40000 mock cap, reloaded
+revision 2 and checked history plus export content. Screenshot:
+evidence/mock-model-export.png. Browser found ID redaction corrupting numeric UUID
+segments; structural identifiers now survive while free text remains redacted.
+Mock scaling no longer inflates flexible estimates to exhaust available budget.
+
+Local prototype checkpoint only: full release matrix, actual print pagination,
+hosted deployment, video and submission remain unverified/incomplete. No live
+model requests, external booking, payments, social post or submission performed.

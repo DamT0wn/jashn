@@ -12,7 +12,7 @@ import { aiRoutes } from './ai/routes.js';
 import type { AiConfig } from './ai/provider.js';
 
 export class ApiFailure extends Error {
-  constructor(public statusCode: number, public code: 'UNAUTHENTICATED' | 'NOT_FOUND' | 'VERSION_CONFLICT' | 'PROVIDER_UNAVAILABLE' | 'INVALID_INPUT' | 'USAGE_LIMIT' | 'INFEASIBLE', message: string) { super(message); }
+  constructor(public statusCode: number, public code: 'UNAUTHENTICATED' | 'NOT_FOUND' | 'VERSION_CONFLICT' | 'PROVIDER_UNAVAILABLE' | 'INVALID_INPUT' | 'USAGE_LIMIT' | 'INFEASIBLE' | 'PROPOSAL_EXPIRED', message: string) { super(message); }
 }
 export interface EventServices { db: Firestore; verify(token: string): Promise<string> }
 const missing = () => new ApiFailure(404, 'NOT_FOUND', 'Occasion not found.');

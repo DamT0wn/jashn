@@ -1,6 +1,6 @@
 import { DeletionResponseSchema, EventDetailResponseSchema, EventListResponseSchema, EventResponseSchema } from '@jashn/contracts';
 import type { EventBrief } from '@jashn/contracts';
-import { GenerationJobsResponseSchema, AiStatusSchema, DraftListResponseSchema, ExtractionResponseSchema, GenerationResponseSchema, ApiErrorSchema, BudgetResponseSchema } from '@jashn/contracts';
+import { GenerationJobsResponseSchema, AiStatusSchema, DraftListResponseSchema, ExtractionResponseSchema, GenerationResponseSchema, ApiErrorSchema, BudgetResponseSchema, ProposalResponseSchema, VersionListResponseSchema, VersionResponseSchema } from '@jashn/contracts';
 import type { SaveBudgetRequest } from '@jashn/contracts';
 import { auth } from '../auth/firebase';
 export class RequestError extends Error { constructor(public status: number, message: string) { super(message); } }
@@ -42,5 +42,32 @@ export const aiApi = {
 export const planningApi = {
   async save(id:string,section:'tasks'|'vendors'|'ideas',method:'POST'|'PUT'|'DELETE',itemId:string,expectedVersion:number,item:unknown,reason:string) {
     return EventDetailResponseSchema.parse(await request(`/${encodeURIComponent(id)}/plan/${section}${method==='POST'?'':'/'+encodeURIComponent(itemId)}`,method,{expectedVersion,...(method==='DELETE'?{}:{item}),reason}));
+  },
+};
+
+export const replanApi = {
+  async generate(id:string,baseVersion:number,changes:{budgetMinor?:number;localDate?:string;guests?:number;hardRequirements?:string[]}) {
+    return ProposalResponseSchema.parse(await request(`/${encodeURIComponent(id)}/replans`,'POST',{baseVersion,changes},undefined,'/v1/events',crypto.randomUUID()));
+  },
+  async get(id:string,proposalId:string,signal?:AbortSignal) {
+    return ProposalResponseSchema.parse(await request(`/${encodeURIComponent(id)}/proposals/${encodeURIComponent(proposalId)}`,'GET',undefined,signal));
+  },
+  async apply(id:string,proposalId:string,expectedVersion:number,acknowledgeInfeasible:boolean) {
+    return EventDetailResponseSchema.parse(await request(`/${encodeURIComponent(id)}/proposals/${encodeURIComponent(proposalId)}/apply`,'POST',{expectedVersion,acknowledgeInfeasible},undefined,'/v1/events',crypto.randomUUID()));
+  },
+  async discard(id:string,proposalId:string,expectedVersion:number) {
+    return request(`/${encodeURIComponent(id)}/proposals/${encodeURIComponent(proposalId)}/discard`,'POST',{expectedVersion});
+  },
+};
+
+export const versionsApi = {
+  async list(id:string,cursor?:string,signal?:AbortSignal) {
+    return VersionListResponseSchema.parse(await request(`/${encodeURIComponent(id)}/versions?limit=20${cursor?`&cursor=${encodeURIComponent(cursor)}`:''}`, 'GET', undefined, signal));
+  },
+  async get(id:string,versionId:string,signal?:AbortSignal) {
+    return VersionResponseSchema.parse(await request(`/${encodeURIComponent(id)}/versions/${encodeURIComponent(versionId)}`, 'GET', undefined, signal));
+  },
+  async restore(id:string,versionId:string,baseVersion:number) {
+    return ProposalResponseSchema.parse(await request(`/${encodeURIComponent(id)}/versions/${encodeURIComponent(versionId)}/restore-proposals`,'POST',{baseVersion}));
   },
 };

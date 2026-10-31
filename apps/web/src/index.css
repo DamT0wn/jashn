@@ -140,3 +140,14 @@ html { scroll-behavior: auto; scroll-padding-top: 24px; }
 
 /* Static by design, regardless of device motion preferences. */
 *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+
+/* Phase 09: Replan diff table and version history */
+.diff-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.75rem 0; }
+.diff-table th, .diff-table td { padding: 0.4rem 0.75rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.diff-table th { font-weight: 600; color: var(--cream); background: rgba(255,255,255,0.04); }
+.diff-table td { color: var(--muted); }
+.diff-table tr.diff-added td { background: rgba(80,160,80,0.08); }
+.diff-table tr.diff-removed td { background: rgba(200,60,60,0.08); }
+.diff-table tr.diff-changed td { background: rgba(200,150,40,0.08); }
+
+@media print { body * { visibility: hidden; } details.print-selected[open] > .print-plan, details.print-selected[open] > .print-plan * { visibility: visible; } details.print-selected[open] > .print-plan { position: absolute; inset: 0; padding: 20px; background: white; color: black; } .no-print { display: none !important; } .print-plan section { break-inside: avoid; } }

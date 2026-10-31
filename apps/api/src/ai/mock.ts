@@ -6,6 +6,37 @@ export const mockProvider: AiProvider = {
   async generate(input) {
     if (input.signal.aborted) throw new Error('Cancelled');
     const data = JSON.parse(input.data);
+    // Replan mode: currentPlan + requestedChanges provided
+    if (data.currentPlan && data.requestedChanges) {
+      const current = data.currentPlan;
+      const changes = data.requestedChanges;
+      const newBudget = changes.budgetMinor ?? current.brief.budgetMinor;
+      // Build candidate: preserve locked lines exactly; scale down unlocked estimated lines proportionally.
+      const lockedLines = current.budgetLines.filter((l: Record<string,unknown>) => l.locked || l.committedCostMinor !== null);
+      const unlocked = current.budgetLines.filter((l: Record<string,unknown>) => !l.locked && l.committedCostMinor === null);
+      const lockedTotal = lockedLines.reduce((sum: number, l: Record<string,unknown>) => sum + (l.committedCostMinor as number ?? l.estimatedCostMinor as number), 0);
+      const contingency = Math.round(newBudget * 0.08);
+      const available = Math.max(newBudget - lockedTotal - contingency, 0);
+      const unlockedTotal = unlocked.reduce((sum: number, l: Record<string,unknown>) => sum + (l.estimatedCostMinor as number), 0);
+      const scale = unlockedTotal > 0 ? Math.min(1, available / unlockedTotal) : 0;
+      const scaledUnlocked = unlocked.map((l: Record<string,unknown>) => ({ ...l, estimatedCostMinor: Math.round((l.estimatedCostMinor as number) * scale), rationale: 'Scaled to fit revised budget. This is a placeholder estimate.' }));
+      const candidateLines = [...lockedLines, ...scaledUnlocked];
+      const feasible = candidateLines.reduce((sum: number, l: Record<string,unknown>) => sum + (l.committedCostMinor as number ?? l.estimatedCostMinor as number), 0) + contingency <= newBudget;
+      const brief = { ...current.brief, ...(changes.budgetMinor ? { budgetMinor: changes.budgetMinor } : {}), ...(changes.localDate ? { localDate: changes.localDate } : {}), ...(changes.guests ? { guests: changes.guests } : {}), ...(changes.hardRequirements ? { hardRequirements: changes.hardRequirements } : {}) };
+      return { inputTokens:0, outputTokens:0, text:JSON.stringify({
+        brief, overview: `Revised mock plan reflecting your requested changes. Scaled flexible estimates; locked items unchanged. Not a real AI proposal.`,
+        assumptions: ['All scaled amounts are illustrative placeholders.','Confirm every updated estimate with real suppliers.'],
+        budgetLines: candidateLines,
+        contingencyMinor: contingency,
+        tasks: current.tasks,
+        vendorChecklist: current.vendorChecklist,
+        ideas: current.ideas,
+        warnings: ['Mock replan: no AI evaluation of suitability, vendor quotes or real cost data.'],
+        feasibility: feasible
+          ? { status:'feasible', shortfallMinor:0, reasons:[] }
+          : { status:'infeasible', shortfallMinor: Math.max(candidateLines.reduce((sum: number, l: Record<string,unknown>) => sum + (l.committedCostMinor as number ?? l.estimatedCostMinor as number), 0) + contingency - newBudget, 0), reasons:['Committed and locked costs exceed the requested budget cap.'] },
+      }) };
+    }
     if (!data.brief) return { text: JSON.stringify({
       draft: {name:null,type:null,city:null,localDate:null,timezone:null,guests:null,budgetMinor:null},
       evidence: {}, uncertainties: ['Mock mode does not interpret your text. Fill in the occasion details below.'],
