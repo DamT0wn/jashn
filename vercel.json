@@ -2,15 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "services": {
     "api": {
-      "root": "apps/api",
-      "framework": "fastify",
-      "entrypoint": "src/server.mts",
-      "functions": {
-        "src/server.mts": {
-          "includeFiles": "package.json"
-        }
-      },
-      "buildCommand": "cd ../.. && npm run build:shared && npm run build -w @jashn/api",
+      "root": ".",
+      "runtime": "container",
+      "entrypoint": "Dockerfile",
       "rewrites": [
         {
           "source": "/api/:path(.*)?",
