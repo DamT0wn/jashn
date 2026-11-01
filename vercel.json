@@ -5,7 +5,11 @@
       "root": "apps/api",
       "framework": "fastify",
       "entrypoint": "src/server.mts",
-      "includeFiles": ["package.json"],
+      "functions": {
+        "src/server.mts": {
+          "includeFiles": "package.json"
+        }
+      },
       "buildCommand": "cd ../.. && npm run build:shared && npm run build -w @jashn/api",
       "rewrites": [
         {
