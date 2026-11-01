@@ -58,6 +58,13 @@ Local prototype checkpoint only: full release matrix, actual print pagination,
 hosted deployment, video and submission remain unverified/incomplete. No live
 model requests, external booking, payments, social post or submission performed.
 
+## 2026-11-01 landing artwork refresh
+Feature cards now use local, static SVG event illustrations for the celebration
+table, event timeline and floral/party details. Removed external feature-image
+URLs and the unused media manifest. Web production build and lint pass. Local
+visual preview was blocked by sandbox localhost socket access. User requested a
+production redeploy after this checkpoint.
+
 ## One-click mock login
 Added Enter mock workspace on the local emulator login screen. Creates the local
 demo account if absent, otherwise signs into it; uses normal emulator tokens and

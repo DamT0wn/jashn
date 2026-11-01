@@ -69,3 +69,10 @@ sign-out then one-click login, with existing demo occasion retained.
 Added root vercel.json for api/web, explicit workspace builds, API prefix stripping
 and SPA deep links. No bindings: static browser calls only. See VERCEL.md. User
 confirmation of names/public paths/bindings pending; no deployment performed.
+
+## 2026-11-01 landing artwork
+Feature-card artwork is now inline/local SVG for budget table styling, day-of
+timeline and floral celebration ideas. Static only; no remote image dependency.
+Build passes. Local browser preview was unavailable because localhost:5173 refused
+the connection; sandbox socket restrictions prevented local browser access even
+after Vite reported ready. Visually inspect before publishing.

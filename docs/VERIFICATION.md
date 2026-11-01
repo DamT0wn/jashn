@@ -340,3 +340,13 @@ sign-out then one-click login, with existing demo occasion retained.
 Added root vercel.json for api/web, explicit workspace builds, API prefix stripping
 and SPA deep links. No bindings: static browser calls only. See VERCEL.md. User
 confirmation of names/public paths/bindings pending; no deployment performed.
+
+## 2026-11-01 landing artwork refresh
+- Replaced the three remote feature-card images with decorative inline SVG scenes:
+  a celebration table, event-day timeline and floral/party details.
+- `npm.cmd run build -w @jashn/web`: passed (TypeScript and Vite production build).
+- `git diff --check`: passed.
+- Browser preview: sandbox localhost socket access was blocked even though Vite
+  reported ready; visual browser inspection remains pending.
+- Automated tests were not run for this visual-only change. The commit and
+  production redeploy are handled in the user-requested release checkpoint.

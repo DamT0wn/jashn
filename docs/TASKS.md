@@ -117,6 +117,10 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 - [x] Warm festive palette, welcoming hero copy, static garland and consistent workspace accents.
 - Phase07 remains open; no live Gemini verification claimed.
 
+## 2026-11-01 visual follow-up
+- [x] Replace remote feature-card images with static local SVG event scenes; web build verified.
+- [ ] Refresh/review the landing-page visual when localhost browser access is available.
+
 ## 2026-10-25 scope decision and Phase07 checkpoint
 User explicitly requested mock placeholders now and deferred live AI until later.
 - [x] Phase07 local/mock: extraction contract, validated drafts, server totals,

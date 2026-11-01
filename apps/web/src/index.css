@@ -65,18 +65,20 @@ html { scroll-behavior: auto; scroll-padding-top: 24px; }
 .features-heading h2 { font-size: clamp(25px, 3vw, 42px); line-height: 1.25; letter-spacing: -.035em; }
 .muted-heading { color: #a5a59d; }
 .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-width: 1440px; margin: auto; position: relative; }
-.feature-card, .feature-film { min-height: 480px; border-radius: 16px; overflow: hidden; position: relative; }
+.feature-card, .feature-film { min-height: 590px; border-radius: 16px; overflow: hidden; position: relative; }
 .feature-card { background: #212121; padding: 30px 24px; display: flex; flex-direction: column; }
 .feature-top { display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: #b6b6a9; }
 .feature-icon { width: 48px; height: 48px; border: 1px solid #ffffff18; border-radius: 12px; display: grid; place-items: center; overflow: hidden; }
-.feature-icon img { width: 100%; height: 100%; object-fit: cover; }
-.feature-card h3 { font-size: 25px; line-height: 1.2; letter-spacing: -.04em; margin-top: 50px; max-width: 230px; }
+.feature-icon svg { color: #f5d2a0; }
+.feature-artwork-wrap { height: 120px; margin: 22px -12px 0; border: 1px solid #efc47e20; border-radius: 12px; overflow: hidden; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 100%, #efb55312, #211914 75%); }
+.celebration-artwork { display: block; width: 100%; height: 100%; }
+.feature-card h3 { font-size: 25px; line-height: 1.2; letter-spacing: -.04em; margin-top: 26px; max-width: 230px; }
 .feature-card ul { margin-top: 26px; margin-bottom: 30px; }
 .feature-card li { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.65; color: #b5b5ae; margin-top: 12px; }
 .feature-card li svg { flex-shrink: 0; color: #dedbc8; margin-top: 3px; }
 .feature-link { margin-top: auto; display: flex; align-items: center; justify-content: space-between; min-height: 44px; font-size: 11px; gap: 8px; border-top: 1px solid #ffffff18; padding-top: 12px; }
 .feature-film .media-control { top: 18px; right: 16px; }
-.film-caption { position: relative; pointer-events: none; z-index: 2; padding: 100px 28px 30px; display: flex; flex-direction: column; min-height: 480px; }
+.film-caption { position: relative; pointer-events: none; z-index: 2; padding: 100px 28px 30px; display: flex; flex-direction: column; min-height: 590px; }
 .film-caption .eyebrow { font-size: 9px; }
 .film-caption h3 { font-size: clamp(26px, 2.5vw, 38px); line-height: 1.12; margin-top: auto; letter-spacing: -.04em; }
 .film-caption > span:last-child { font-size: 46px; margin-top: 28px; }
@@ -99,7 +101,7 @@ html { scroll-behavior: auto; scroll-padding-top: 24px; }
   .hero-footnote { margin: 0 24px; font-size: 7px; gap: 20px; line-height: 1.6; } .hero-footnote span { max-width: 130px; }
   .about-section { padding: 64px 16px 40px; } .about-card { padding: 40px 24px 28px; } .about-card h2 { font-size: 35px; line-height: 1.12; } .about-body { font-size: 12px; }
   .steps { gap: 18px; grid-template-columns: 1fr; margin-top: 40px; } .steps > div { display: grid; grid-template-columns: 1fr 1.5fr; align-items: baseline; gap: 16px; } .steps p { margin-top: 0; }
-  .features-section { padding: 40px 16px; } .features-heading { margin-bottom: 32px; } .features-heading h2 { font-size: 27px; } .feature-grid { grid-template-columns: 1fr; } .feature-card { min-height: 440px; padding: 28px; } .feature-card h3 { font-size: 30px; margin-top: 32px; }
+  .features-section { padding: 40px 16px; } .features-heading { margin-bottom: 32px; } .features-heading h2 { font-size: 27px; } .feature-grid { grid-template-columns: 1fr; } .feature-card { min-height: 570px; padding: 28px; } .feature-card h3 { font-size: 30px; margin-top: 24px; } .feature-artwork-wrap { height: 118px; margin-top: 18px; }
   .feature-film { min-height: 420px; } .film-caption { min-height: 420px; } .landing-footer { padding: 24px; gap: 20px; } .landing-footer p { flex-basis: 100%; margin-left: 0; line-height: 1.7; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; } }

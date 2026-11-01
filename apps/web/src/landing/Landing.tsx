@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Check, CircleDollarSign, ListChecks, Menu, Sparkles, X } from 'lucide-react';
 import { BrandWord, StyledHeading, BodyCopy } from './Typography';
 import { StaticScene } from './StaticScene';
-import { media } from './media';
 import { CelebrationGarland } from './CelebrationGarland';
+import { CelebrationArtwork } from './CelebrationArtwork';
 
 const features = [
-  { title: 'A budget that adds up.', items: ['Track estimates and confirmed costs.', 'Keep your priorities protected.', 'See your remaining budget clearly.', 'Review changes before applying them.'], link: 'Explore a sample budget', tab: 'budget', icon: CircleDollarSign },
-  { title: 'Every detail, in order.', items: ['Turn your date into a practical timeline.', 'Keep tasks and vendor questions together.', 'See what needs attention next.'], link: 'Explore a sample timeline', tab: 'timeline', icon: ListChecks },
-  { title: 'Ideas that feel like you.', items: ['Explore themes for your occasion.', 'Match ideas to your preferences.', 'Adapt your plan when things change.'], link: 'Explore sample ideas', tab: 'ideas', icon: Sparkles },
+  { title: 'A budget that adds up.', items: ['Track estimates and confirmed costs.', 'Keep your priorities protected.', 'See your remaining budget clearly.', 'Review changes before applying them.'], link: 'Explore a sample budget', tab: 'budget', icon: CircleDollarSign, scene: 'budget' as const },
+  { title: 'Every detail, in order.', items: ['Turn your date into a practical timeline.', 'Keep tasks and vendor questions together.', 'See what needs attention next.'], link: 'Explore a sample timeline', tab: 'timeline', icon: ListChecks, scene: 'timeline' as const },
+  { title: 'Ideas that feel like you.', items: ['Explore themes for your occasion.', 'Match ideas to your preferences.', 'Adapt your plan when things change.'], link: 'Explore sample ideas', tab: 'ideas', icon: Sparkles, scene: 'ideas' as const },
 ];
 
 function FeatureCard({ feature, index }: { feature: typeof features[number]; index: number }) {
-  const [imageFailed, setImageFailed] = useState(false);
   const Icon = feature.icon;
   return <article className="feature-card">
-    <div className="feature-top"><span className="feature-icon">{imageFailed ? <Icon size={26} aria-hidden="true" /> : <img src={media.icons[index]} alt="" loading="lazy" onError={() => setImageFailed(true)} />}</span><span>0{index + 1}</span></div>
+    <div className="feature-top"><span className="feature-icon"><Icon size={23} aria-hidden="true" /></span><span>0{index + 1}</span></div>
+    <div className="feature-artwork-wrap"><CelebrationArtwork scene={feature.scene} /></div>
     <h3>{feature.title}</h3><ul>{feature.items.map(item => <li key={item}><Check size={15} aria-hidden="true" /><span>{item}</span></li>)}</ul>
     <Link to={`/demo?tab=${feature.tab}`} className="feature-link">{feature.link}<ArrowUpRight size={19} aria-hidden="true" /></Link>
   </article>;
