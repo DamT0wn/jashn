@@ -2,11 +2,12 @@ import { firebaseServices } from './firebase.js';
 import { buildApp } from './app.js';
 import { configuredAi } from './ai/provider.js';
 
-const port = Number(process.env.PORT || 3001);
+const isVercel = process.env.VERCEL === '1';
+const port = Number(process.env.PORT || (isVercel ? 3000 : 3001));
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PORT must be an integer from 1 to 65535');
 const app = buildApp(firebaseServices(), configuredAi(process.env));
 try {
-  await app.listen({ port, host: process.env.HOST || '127.0.0.1' });
+  await app.listen({ port, host: process.env.HOST || (isVercel ? '0.0.0.0' : '127.0.0.1') });
   console.info(`Jashn API listening on port ${port}`);
 } catch {
   console.error('API could not start. Check HOST, PORT and whether the port is in use.');
