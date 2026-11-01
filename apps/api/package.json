@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --env-file-if-exists=../../.env --import tsx --watch src/server.ts",
+    "dev": "node --env-file-if-exists=../../.env --import tsx --watch src/server.mts",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "start": "node --env-file-if-exists=../../.env dist/server.js"
+    "start": "node --env-file-if-exists=../../.env dist/server.mjs"
   },
   "dependencies": {
     "@google/genai": "2.31.0",
