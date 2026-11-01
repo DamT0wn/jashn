@@ -350,3 +350,11 @@ confirmation of names/public paths/bindings pending; no deployment performed.
   reported ready; visual browser inspection remains pending.
 - Automated tests were not run for this visual-only change. The commit and
   production redeploy are handled in the user-requested release checkpoint.
+
+## 2026-11-01 score-risk improvement
+- Replan guest counts now reject fractional, non-numeric and unsafe integer
+  inputs rather than accepting a truncated prefix.
+- `npm.cmd run build`: passed for shared packages, API and web.
+- `npm.cmd run lint`: passed.
+- Automated tests were not run. Change remains local; no push, deployment or
+  evaluator submission was made, so the recorded score is unaffected.

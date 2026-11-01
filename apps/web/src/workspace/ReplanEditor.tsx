@@ -127,8 +127,13 @@ export function ReplanEditor({
     const newBudget = rupeesToPaise(budgetInput.trim());
     if (newBudget !== null && newBudget !== plan.brief.budgetMinor) changes.budgetMinor = newBudget;
     if (dateInput.trim() && dateInput.trim() !== plan.brief.localDate) changes.localDate = dateInput.trim();
-    const g = guestsInput.trim() ? parseInt(guestsInput.trim(), 10) : null;
-    if (g !== null && !Number.isNaN(g) && g !== plan.brief.guests) changes.guests = g;
+    const rawGuests = guestsInput.trim();
+    const guests = rawGuests ? Number(rawGuests) : null;
+    if (guests !== null && !Number.isSafeInteger(guests)) {
+      setError('Enter the guest count as a whole number.');
+      return;
+    }
+    if (guests !== null && guests !== plan.brief.guests) changes.guests = guests;
     if (Object.keys(changes).length === 0) { setError('Change at least one field — budget, date or guest count.'); return; }
     setBusy(true);
     try {

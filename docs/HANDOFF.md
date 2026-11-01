@@ -76,3 +76,9 @@ timeline and floral celebration ideas. Static only; no remote image dependency.
 Build passes. Local browser preview was unavailable because localhost:5173 refused
 the connection; sandbox socket restrictions prevented local browser access even
 after Vite reported ready. Visually inspect before publishing.
+
+## 2026-11-01 score-risk improvement
+Replan guest count now rejects fractional and malformed numbers instead of
+silently truncating with parseInt. Full build and lint pass. Local only: no test,
+push, redeploy or evaluator submission. Preserve the 93.09 attempt; next review
+the Code Quality category for similarly bounded improvements.

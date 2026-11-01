@@ -65,6 +65,12 @@ URLs and the unused media manifest. Web production build and lint pass. Local
 visual preview was blocked by sandbox localhost socket access. User requested a
 production redeploy after this checkpoint.
 
+## 2026-11-01 score-risk improvement
+Replan guest-count input no longer uses parseInt, which silently truncated
+decimal or malformed values. It now accepts only safe whole numbers before the
+API validates range. Full build and lint pass; no tests, push, deployment or
+submission attempt performed. Existing evaluator score is untouched.
+
 ## One-click mock login
 Added Enter mock workspace on the local emulator login screen. Creates the local
 demo account if absent, otherwise signs into it; uses normal emulator tokens and

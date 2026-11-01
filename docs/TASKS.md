@@ -121,6 +121,10 @@ foundations and 15 tests, but no full functional acceptance story has passed. Up
 - [x] Replace remote feature-card images with static local SVG event scenes; web build verified.
 - [ ] Refresh/review the landing-page visual when localhost browser access is available.
 
+## 2026-11-01 score-risk improvement
+- [x] Prevent silent guest-count truncation during replanning; build and lint pass.
+- [ ] Inspect deeper Code Quality opportunities before a later submission; do not submit without user approval.
+
 ## 2026-10-25 scope decision and Phase07 checkpoint
 User explicitly requested mock placeholders now and deferred live AI until later.
 - [x] Phase07 local/mock: extraction contract, validated drafts, server totals,
